@@ -25,7 +25,7 @@ public interface Configurations {
     String ProspectAll="ProspectAll";
 
     String BASE_URL = getProperty("wishesURL");
-    String FM_URL = getProperty("fleetMapperURL");
+    String FM_URL = getProperty("CleanfillURL");
 
     String USER_NAME = getProperty("username");
     String PASSWORD = getProperty("password");

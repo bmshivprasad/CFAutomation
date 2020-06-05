@@ -14,7 +14,7 @@ public class batchrequest extends EnhancedBaseClass {
     }
 
     public static int getRandomIntBetweenRange(int min, int max) {
-        int x = (int) ((Math.random() * ((max - min) + 1)) + min);
+        int x = (int)((Math.random() * ((max - min) + 1)) + min);
         return x;
     }
     @Test
@@ -22,17 +22,17 @@ public class batchrequest extends EnhancedBaseClass {
 
         testCaseLog("TC01_Create_New_Batch");
 
-        cleanfill.PageObjects.LoginPage login = new cleanfill.PageObjects.LoginPage(fleetMapperDriver);
-        cleanfill.PageObjects.LandingPage lp = new cleanfill.PageObjects.LandingPage(fleetMapperDriver);
-        cleanfillPage cf = new cleanfillPage(fleetMapperDriver);
+        cleanfill.PageObjects.LoginPage login = new cleanfill.PageObjects.LoginPage(CleanFillDriver);
+        cleanfill.PageObjects.LandingPage lp = new cleanfill.PageObjects.LandingPage(CleanFillDriver);
+        cleanfillPage cf = new cleanfillPage(CleanFillDriver);
 
         //login.loginAs(USER_NAME, PASSWORD);
         cf.loginAs(USER_NAME, PASSWORD);
         cf.clickonbatche();
         // cf.dismisspopup();
         cf.clickonbatchcreate();
-        cf.enterbatchdate();
         cf.selecteststartDate();
+        // cf.enterbatchdate();
         cf.enterbatchname();
         cf.trackbyload();
         cf.trackbyweight();
@@ -41,7 +41,7 @@ public class batchrequest extends EnhancedBaseClass {
         cf.estimatedweight();
         cf.txtestimatedvol();
         cf.batchnext();
-        cf.stayonpage();
+        //cf.stayonpage();
         cf.sourcesiteopen();
         cf.sourcesite();
         cf.sourcesitetypeopen();
@@ -55,7 +55,7 @@ public class batchrequest extends EnhancedBaseClass {
         cf.qualifiedperson();
         cf.qualifiedpersonoptn();
         cf.nextssinfo();
-        cf.stayonpage();
+        //cf.stayonpage();
         cf.soildescription();
         cf.soildescriptionoptn();
         cf.soilquantity();
@@ -74,8 +74,11 @@ public class batchrequest extends EnhancedBaseClass {
         cf.analysissvoc();
         cf.analysisvoc();
         cf.analysisother();
+        cf.othertextbox();
+        cf.drprecvngsite();
+        cf.drpdwnrecvngsite();
         cf.nextsoildesc();
-        cf.stayonpage();
+        // cf.stayonpage();
         cf.UploadFile();
         cf.addlink();
         cf.pastlink();

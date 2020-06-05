@@ -37,7 +37,7 @@ import java.util.logging.Level;
 public class EnhancedBaseClass extends ExtentInitializer implements Configurations {
 
     public WebDriver wishesDriver;
-    public WebDriver fleetMapperDriver;
+    public WebDriver CleanFillDriver;
     public static Logger log4j = Logger.getLogger("EnhancedBaseClass");
     public SoftAssert sa;
     public ExcelUtils excelUtils = new ExcelUtils();
@@ -60,8 +60,8 @@ public class EnhancedBaseClass extends ExtentInitializer implements Configuratio
             wishesDriver = initiateDriver();
             wishesDriver.get(BASE_URL);
         } else {
-            fleetMapperDriver = initiateDriver();
-            fleetMapperDriver.get(FM_URL);
+            CleanFillDriver = initiateDriver();
+            CleanFillDriver.get(FM_URL);
         }
 
     }
@@ -110,7 +110,7 @@ public class EnhancedBaseClass extends ExtentInitializer implements Configuratio
                 logger.log(Status.FAIL,
                         MarkupHelper.createLabel(testResult.getThrowable() + " : FAILED", ExtentColor.RED));
                 if (methodName.contains("WS")) screenshotPath = getExtentScreenShot(wishesDriver, testName, false);
-                else screenshotPath = getExtentScreenShot(fleetMapperDriver, testName, false);
+                else screenshotPath = getExtentScreenShot(CleanFillDriver, testName, false);
                 logger.fail("Test Case Failed Snapshot is attached below");
                 logger.addScreenCaptureFromPath(screenshotPath);
                 log4j.error(testName + " : Fail");
@@ -134,7 +134,7 @@ public class EnhancedBaseClass extends ExtentInitializer implements Configuratio
         } finally {
             log4j.info("<strong>+++++++++++++++++++++++++++++++++ Closing the " + BROWSER +
                     " browser instance +++++++++++++++++++++++++++++++++</strong>");
-            cleanupDriver(fleetMapperDriver);
+            cleanupDriver(CleanFillDriver);
             cleanupDriver(wishesDriver);
         }
     }
@@ -220,7 +220,7 @@ public class EnhancedBaseClass extends ExtentInitializer implements Configuratio
     public void failure(String log) {
         sa.assertTrue(false, log);
         if (methodName.contains("WS")) getExtentScreenShot(wishesDriver, getCurrentTimeStampString(), true);
-        else getExtentScreenShot(fleetMapperDriver, getCurrentTimeStampString(), true);
+        else getExtentScreenShot(CleanFillDriver, getCurrentTimeStampString(), true);
         logger.fail(MarkupHelper.createLabel(log + " : FAIL", ExtentColor.RED));
         log4j.error(log + " : FAIL");
     }
