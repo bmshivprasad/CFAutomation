@@ -29,13 +29,13 @@ import org.testng.asserts.SoftAssert;
 import static java.lang.Double.parseDouble;
 
 
-public class cleanfillPage<result> extends batchrequest implements ExcelColumns {
+public class cleanfillPage < result > extends batchrequest implements ExcelColumns {
 
 
     private WebDriver localDriver;
     private Generics generics;
     private SoftAssert Soft_Assert;
-//public static int trucks;
+    //public static int trucks;
 
     public cleanfillPage(WebDriver baseDriver) {
         this.localDriver = baseDriver;
@@ -79,7 +79,7 @@ public class cleanfillPage<result> extends batchrequest implements ExcelColumns 
         generics.type(txtPassword, password);
         testStepsLog("Enter Password");
         generics.clickOn(btnSubmit);
-        testStepsLog("Click on SignIn button");        //generics.clickOn(btnSubmit);
+        testStepsLog("Click on SignIn button"); //generics.clickOn(btnSubmit);
 
     }
 
@@ -212,15 +212,15 @@ public class cleanfillPage<result> extends batchrequest implements ExcelColumns 
     public void numberOfTrucks() {
         intnumberOfTrucks.sendKeys("999999");
         testStepsLog("Entered Number of Trucks");
-       /* Date d1= new Date();
-        SimpleDateFormat not =new SimpleDateFormat("yyyyMM");
-        intnumberOfTrucks. sendKeys("not"); */
+  /* Date d1= new Date();
+   SimpleDateFormat not =new SimpleDateFormat("yyyyMM");
+   intnumberOfTrucks. sendKeys("not"); */
         //generics.getRandomBetween(111111,999999)
 
-        /*SecureRandom random = new SecureRandom();
-        int num = random.nextInt(100000);
-        String formatted = String.format("%05d", num);
-        intnumberOfTrucks. sendKeys("formatted");*/
+  /*SecureRandom random = new SecureRandom();
+  int num = random.nextInt(100000);
+  String formatted = String.format("%05d", num);
+  intnumberOfTrucks. sendKeys("formatted");*/
     }
 
     @FindBy(xpath = "//input[@formcontrolname='estimatedWeight']")
@@ -228,7 +228,7 @@ public class cleanfillPage<result> extends batchrequest implements ExcelColumns 
     public WebElement intestimatedweights;
 
     public void estimatedweight() {
-        intestimatedweights.sendKeys("999999");
+        intestimatedweights.sendKeys("999999.99");
         testStepsLog("Entered Estimated Loads");
     }
 
@@ -239,7 +239,7 @@ public class cleanfillPage<result> extends batchrequest implements ExcelColumns 
         SoftAssert softAssert = new SoftAssert();
         String result = (intestimatedvolume.getAttribute("value"));
         double d = parseDouble(result);
-        softAssert.assertEquals(result, "414937.34");
+        softAssert.assertEquals(result, "414937.75");
         testStepsLog("Estimated Volume verified");
         Double evolume = Double.valueOf("414937.75");
         System.out.println("Actual value is " + result);
@@ -310,7 +310,7 @@ public class cleanfillPage<result> extends batchrequest implements ExcelColumns 
         //Select selec = new Select(drpdwnsorcesiteoption);
         //selec.selectByValue("Treatment Facility");
         //drpdwnsorcesiteoption.click();
-        generics.clickOn( drpdwnsorcesiteoption);
+        generics.clickOn(drpdwnsorcesiteoption);
         testStepsLog("Source Site Type value selected");
     }
 
@@ -330,7 +330,7 @@ public class cleanfillPage<result> extends batchrequest implements ExcelColumns 
     @FindBy(xpath = "//div[contains(@role,'option')][2]/span")
     public WebElement drpdwnsorcesitehistoryoption;
 
-    public void sourcesitehstryselect() {//input[@formcontrolname='primaryContact']
+    public void sourcesitehstryselect() { //input[@formcontrolname='primaryContact']
         //drpdwnsorcesitehistoryoption.click();
         generics.clickOn(drpdwnsorcesitehistoryoption);
         testStepsLog("Source Site history selected");
@@ -400,7 +400,7 @@ public class cleanfillPage<result> extends batchrequest implements ExcelColumns 
 
     public void nextssinfo() {
         //btnnextssinfo.click();
-        generics.clickOn( btnnextssinfo);
+        generics.clickOn(btnnextssinfo);
         testStepsLog("Next button clicked in source site page");
         //h2[contains(text(),'Select a Source Type ')] */
     }
@@ -548,8 +548,7 @@ public class cleanfillPage<result> extends batchrequest implements ExcelColumns 
     @FindBy(xpath = " //input[@formcontrolname='otherAnalysisParamNum']")
 
     public WebElement txtother;
-    public void othertextbox()
-    {
+    public void othertextbox() {
         generics.clickOn(txtother);
         String other = generics.getRandomCharacters(7);
         generics.type(txtother, other);
@@ -678,7 +677,6 @@ public class cleanfillPage<result> extends batchrequest implements ExcelColumns 
         txtpastelink.sendKeys(Keys.ENTER);
         testStepsLog(" link pasted");
     }
-
     @FindBy(xpath = "//textarea[@formcontrolname='comments']")
     public WebElement txtcomment;
 
@@ -688,47 +686,56 @@ public class cleanfillPage<result> extends batchrequest implements ExcelColumns 
     }
 
     @FindBy(xpath = "//span[contains(text(), 'Submit Batch Request ')]//parent:: button [@disabled='true']")
-
     public WebElement btnsubmitbr;
     @FindBy(xpath = "//span[contains(text(), 'Submit Batch Request ')]")
     public WebElement btnsubmitbrtrue;
     public void submitbatchrequest() {
         //driver = new ChromeDriver();
-       // JavascriptExecutor js = (JavascriptExecutor) driver;
-       // js.executeScript("arguments[0].scrollIntoView();", btnsubmitbr);
-generics.pause(4);
+        // JavascriptExecutor js = (JavascriptExecutor) driver;
+        // js.executeScript("arguments[0].scrollIntoView();", btnsubmitbr);
+        generics.pause(4);
         if (generics.isPresent(btnsubmitbr)) {
 
             System.out.println("Test Failed: Submit Batch button is disabled");
 
         } else {
             System.out.println("Test Passed : Submit Batch button is enabled");
-            generics.moveTo( btnsubmitbrtrue);
+            generics.moveTo(btnsubmitbrtrue);
             generics.clickOn(btnsubmitbrtrue);
         }
-
         //String batch = generics.getRandomCharacters(7);
         //generics.type(txtbatchname, batch);
         //testStepsLog("batch name inserted : " + batch);
     }
-
-    @FindBy(xpath ="//span[contains(text(),' Stay on this page ')]")
+    @FindBy(xpath = "//span[contains(text(),' Stay on this page ')]")
     public WebElement popsave;
     public void stayonpage() {
         popsave.click();
         testStepsLog(" stay on page pop up closed ");
         generics.pause(1);
-
     }
-       /* @FindBy(xpath ="//div[@class='dismiss']")
-        public WebElement popdismiss;
-        public void dismisspopup() {
-            popdismiss.click();
-            testStepsLog("pop up dismissed ");
-        } */
+    @FindBy(xpath = "//span[text()=' Back to Batches ']")
+    public WebElement popbatch;
+    public void backtobatches() {
+        generics.clickOn(popbatch);
+        testStepsLog(" Back to batches pop up closed ");
+        generics.pause(1);
+    }
 
-//mat-radio-group[@formcontrolname='screenedToRemoveDebris']//div[contains(text(),'Yes')]
-// mat-basic-chip[contains(@class,'active') and contains(text(),'F1F4')]
+
+
+
+
+
+ /* @FindBy(xpath ="//div[@class='dismiss']")
+  public WebElement popdismiss;
+  public void dismisspopup() {
+      popdismiss.click();
+      testStepsLog("pop up dismissed ");
+  } */
+
+    //mat-radio-group[@formcontrolname='screenedToRemoveDebris']//div[contains(text(),'Yes')]
+    // mat-basic-chip[contains(@class,'active') and contains(text(),'F1F4')]
     //*[@id="mat-select-6"]]//div[@class='dismiss']
 
 

@@ -84,6 +84,8 @@ public class batchrequest extends EnhancedBaseClass {
         cf.pastlink();
         cf.comments();
         cf.submitbatchrequest();
+        cf.backtobatches();
+
         Thread.sleep(2000);
     }
 
