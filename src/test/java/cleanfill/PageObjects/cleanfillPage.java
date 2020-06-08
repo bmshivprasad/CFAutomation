@@ -108,9 +108,9 @@ public class cleanfillPage < result > extends batchrequest implements ExcelColum
         batchdate.sendKeys(dtf.format(localDate));
     }
 
-    private boolean isEnabled(WebElement btnpastdate) {
-        return false;
-    }
+    //private boolean isEnabled(WebElement btnpastdate) {
+       // return false;
+    //}
     //@FindBy(xpath = "//mat-datepicker-toggle[@class='mat-datepicker-toggle ng-tns-c111-137']")
     //@FindBy(xpath ="//button[@aria-label='Open calendar']//span")
 
@@ -126,13 +126,15 @@ public class cleanfillPage < result > extends batchrequest implements ExcelColum
         generics.clickOn(btneststartDate);
         testStepsLog("Date icon clicked ");
         generics.pause(1);
-        boolean pastdate = isEnabled(btnpastdate);
-        if (pastdate == true) {
+       // boolean pastdate = isEnabled(btnpastdate);
+        //if (pastdate == true)
+        if (generics.isPresent(btnpastdate))
+        {
 
-            System.out.println(" Test Failed:Past date is clickable");
+            System.out.println(" Test Passed :Past date are ready only ");
         } else {
 
-            System.out.println("Test Passed :Past date are ready only");
+            System.out.println(" Test Failed:Past date is clickable");
         }
         generics.clickOn(btncurrentdate);
         testStepsLog("Today's Date selected ");
@@ -147,7 +149,7 @@ public class cleanfillPage < result > extends batchrequest implements ExcelColum
     public WebElement txtsevebcharacterse;
     @FindBy(xpath = "//input[@formcontrolname='batchId']")
     public WebElement txtbatchid;
-
+    public static String batch;
 
     public void enterbatchname() {
 
@@ -168,7 +170,7 @@ public class cleanfillPage < result > extends batchrequest implements ExcelColum
             System.out.println("Test Failed: Error message not displayed");
         }
 
-        String batch = generics.getRandomCharacters(7);
+        batch = generics.getRandomCharacters(7);
         generics.type(txtbatchname, batch);
         testStepsLog("batch name inserted : " + batch);
     }
@@ -552,7 +554,7 @@ public class cleanfillPage < result > extends batchrequest implements ExcelColum
         generics.clickOn(txtother);
         String other = generics.getRandomCharacters(7);
         generics.type(txtother, other);
-        testStepsLog("batch name inserted : " + other);
+        testStepsLog("Other Description inserted : " + other);
 
     }
 
@@ -594,12 +596,13 @@ public class cleanfillPage < result > extends batchrequest implements ExcelColum
 
     public void UploadFile() {
         try {
+            generics.pause(5);
             Actions action = new Actions(localDriver);
             action.moveToElement(btnFileUpload, 20, 0).click().build().perform();
             Robot robot = new Robot();
-            generics.pause(2);
+            generics.pause(5);
             Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-            StringSelection stringSelection = new StringSelection(TEST_DATA_LOCATION + File.separator + "CYPRESS Installation Guide.docx");
+            StringSelection stringSelection = new StringSelection(TEST_DATA_LOCATION + File.separator + "WO.PNG");
             clipboard.setContents(stringSelection, null);
             robot.keyPress(KeyEvent.VK_CONTROL);
             robot.keyPress(KeyEvent.VK_V);
@@ -608,17 +611,18 @@ public class cleanfillPage < result > extends batchrequest implements ExcelColum
             robot.keyPress(KeyEvent.VK_ENTER);
             robot.keyRelease(KeyEvent.VK_ENTER);
             testStepsLog("Clicked on File Upload 1");
-            generics.pause(5);
+            //generics.pause(5);
 
 
         } catch (Exception e) {
             testStepsLog("File Not uploaded");
         }
-        try {
+       try {
+            generics.pause(5);
             Actions action = new Actions(localDriver);
             action.moveToElement(btnFileUpload, 20, 0).click().build().perform();
             Robot robot = new Robot();
-            generics.pause(2);
+            generics.pause(5);
             Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
             StringSelection stringSelection = new StringSelection(TEST_DATA_LOCATION + File.separator + "Signature.PNG");
             clipboard.setContents(stringSelection, null);
@@ -629,17 +633,18 @@ public class cleanfillPage < result > extends batchrequest implements ExcelColum
             robot.keyPress(KeyEvent.VK_ENTER);
             robot.keyRelease(KeyEvent.VK_ENTER);
             testStepsLog("Clicked on File Upload 2");
-            generics.pause(5);
+            //generics.pause(5);
 
 
         } catch (Exception e) {
             testStepsLog("File Not uploaded");
         }
         try {
+            generics.pause(5);
             Actions action = new Actions(localDriver);
             action.moveToElement(btnFileUpload, 20, 0).click().build().perform();
             Robot robot = new Robot();
-            generics.pause(2);
+            generics.pause(5);
             Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
             StringSelection stringSelection = new StringSelection(TEST_DATA_LOCATION + File.separator + "Batches.PNG");
             clipboard.setContents(stringSelection, null);
@@ -650,7 +655,7 @@ public class cleanfillPage < result > extends batchrequest implements ExcelColum
             robot.keyPress(KeyEvent.VK_ENTER);
             robot.keyRelease(KeyEvent.VK_ENTER);
             testStepsLog("Clicked on File Upload 3");
-            generics.pause(5);
+            //generics.pause(5);
         } catch (Exception e) {
             testStepsLog("File Not uploaded");
         }
@@ -673,6 +678,7 @@ public class cleanfillPage < result > extends batchrequest implements ExcelColum
 
     public void pastlink() {
         //txtpastelink.click();
+        generics.pause(3);
         txtpastelink.sendKeys("https://cleanfill-qa.azurewebsites.net/batches/create");
         txtpastelink.sendKeys(Keys.ENTER);
         testStepsLog(" link pasted");
@@ -717,26 +723,36 @@ public class cleanfillPage < result > extends batchrequest implements ExcelColum
     @FindBy(xpath = "//span[text()=' Back to Batches ']")
     public WebElement popbatch;
     public void backtobatches() {
+
         generics.clickOn(popbatch);
         testStepsLog(" Back to batches pop up closed ");
-        generics.pause(1);
+        generics.pause(5);
+        System.out.println("Batch Name is" +batch);
     }
 
+    @FindBy(xpath = "//ng-select[@attr.data-meta='SearchBatch']//input")
+    public WebElement txtsearchbatch;
+    @FindBy(xpath = "//tbody[@role='rowgroup']/tr[1]/td[3]")
+    public WebElement tblsearchbatch;
+    public static String searchedbatch;
+    public void batchsearch() {
+        generics.pause(5);
+        generics.clickOn(txtsearchbatch);
+        generics.type(txtsearchbatch, batch);
+        generics.pause(5);
+        testStepsLog("Batch Name entered on search");
+        generics.moveTo(tblsearchbatch);
+        searchedbatch=generics.getText(tblsearchbatch);
+        System.out.println(searchedbatch);
 
+        if ( searchedbatch.equals(batch)) {
 
+            System.out.println("Test Passed : New Batch created and is searchable ");
 
+        } else {
+            System.out.println("Test Passed : New Batch created and is not searchable");
+            generics.moveTo(btnsubmitbrtrue);
+            generics.clickOn(btnsubmitbrtrue);
+        }
 
-
- /* @FindBy(xpath ="//div[@class='dismiss']")
-  public WebElement popdismiss;
-  public void dismisspopup() {
-      popdismiss.click();
-      testStepsLog("pop up dismissed ");
-  } */
-
-    //mat-radio-group[@formcontrolname='screenedToRemoveDebris']//div[contains(text(),'Yes')]
-    // mat-basic-chip[contains(@class,'active') and contains(text(),'F1F4')]
-    //*[@id="mat-select-6"]]//div[@class='dismiss']
-
-
-}
+}}

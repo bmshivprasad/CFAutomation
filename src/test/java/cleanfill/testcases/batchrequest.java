@@ -13,10 +13,7 @@ public class batchrequest extends EnhancedBaseClass {
         log4j = Logger.getLogger("NEW BATCH REQUEST");
     }
 
-    public static int getRandomIntBetweenRange(int min, int max) {
-        int x = (int)((Math.random() * ((max - min) + 1)) + min);
-        return x;
-    }
+
     @Test
     public void TC01_Create_Batches() throws IOException, InterruptedException {
 
@@ -66,13 +63,13 @@ public class batchrequest extends EnhancedBaseClass {
         cf.debrisyes();
         cf.debrisno();
         cf.enterdebrisreason();
-        cf.analysisone();
-        cf.analysisinorg();
-        cf.analysismetals();
-        cf.analysispcb();
-        cf.analysispest();
-        cf.analysissvoc();
-        cf.analysisvoc();
+        //cf.analysisone();
+        //cf.analysisinorg();
+        //cf.analysismetals();
+       // cf.analysispcb();
+        //cf.analysispest();
+       // cf.analysissvoc();
+        //cf.analysisvoc();
         cf.analysisother();
         cf.othertextbox();
         cf.drprecvngsite();
@@ -85,6 +82,7 @@ public class batchrequest extends EnhancedBaseClass {
         cf.comments();
         cf.submitbatchrequest();
         cf.backtobatches();
+        cf.batchsearch();
 
         Thread.sleep(2000);
     }
