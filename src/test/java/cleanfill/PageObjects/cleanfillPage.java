@@ -83,8 +83,8 @@ public class cleanfillPage < result > extends batchrequest implements ExcelColum
 
     }
 
-    //@FindBy(xpath = "//span[text()='New Batch Request']")
-    @FindBy(xpath = "/html/body/app-root/side-nav/mat-drawer-container/mat-drawer-content/section/batches/div[1]/button")
+    @FindBy(xpath = "//span[contains(text(),'New Batch Request ')]")
+    //@FindBy(xpath = "/html/body/app-root/side-nav/mat-drawer-container/mat-drawer-content/section/batches/div[1]/button")
     WebElement btncreatebatch;
 
     public void clickonbatchcreate() {
@@ -727,7 +727,7 @@ public class cleanfillPage < result > extends batchrequest implements ExcelColum
         generics.clickOn(popbatch);
         testStepsLog(" Back to batches pop up closed ");
         generics.pause(5);
-        System.out.println("Batch Name is" +batch);
+        System.out.println("Batch Name is"  +batch);
     }
 
     @FindBy(xpath = "//ng-select[@attr.data-meta='SearchBatch']//input")
@@ -747,12 +747,45 @@ public class cleanfillPage < result > extends batchrequest implements ExcelColum
 
         if ( searchedbatch.equals(batch)) {
 
-            System.out.println("Test Passed : New Batch created and is searchable ");
+            System.out.println("Test Passed : New Batch created and is searchable under source site portal ");
 
         } else {
-            System.out.println("Test Passed : New Batch created and is not searchable");
-            generics.moveTo(btnsubmitbrtrue);
-            generics.clickOn(btnsubmitbrtrue);
+            System.out.println("Test Failed : New Batch created and is not searchable");
+
+        }
+}
+
+    //@FindBy(xpath = "//div[@class='top-nav__menu']")
+    @FindBy(xpath="//button[@class='mat-focus-indicator mat-menu-trigger portal-btn mat-button mat-button-base']")
+    public WebElement drpportal;
+    //@FindBy(xpath = "(//h4[contains(text(),'Receiving Site Portal')])[2]")
+    @FindBy(xpath ="//h4[contains(text(),'Receiving Site Portal')]")
+    public WebElement drprecievingsite;
+    public void recvngsiteportal() {
+        generics.moveTo(drpportal);
+        generics.clickOn(drpportal);
+        testStepsLog("Clicked on Portal Navigation");
+        //generics.moveTo(drprecievingsite);
+        generics.clickOn(drprecievingsite);
+        testStepsLog("Selected Recieving Site Portal");
+        generics.type(txtsearchbatch, batch);
+        generics.pause(5);
+        testStepsLog("Batch Name entered on search");
+        generics.moveTo(tblsearchbatch);
+        searchedbatch=generics.getText(tblsearchbatch);
+        System.out.println(searchedbatch);
+
+        if ( searchedbatch.equals(batch)) {
+
+            System.out.println("Test Passed : New Batch created and is searchable in receiving portal ");
+
+        } else {
+            System.out.println("Test Failed : New Batch created and is not searchable in receiving portal");
+
         }
 
-}}
+    }
+
+
+
+}

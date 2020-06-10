@@ -83,7 +83,7 @@ public class batchrequest extends EnhancedBaseClass {
         cf.submitbatchrequest();
         cf.backtobatches();
         cf.batchsearch();
-
+        cf.recvngsiteportal();
         Thread.sleep(2000);
     }
 
