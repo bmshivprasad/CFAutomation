@@ -30,6 +30,9 @@ public interface Configurations {
     String USER_NAME = getProperty("username");
     String PASSWORD = getProperty("password");
 
+    String USER_NAME1 = getProperty("username1");
+    String PASSWORD1 = getProperty("password1");
+
     String BROWSER = getProperty("browser");
     String PROJECT_DIR = getProjectDir();
 

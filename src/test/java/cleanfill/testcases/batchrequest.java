@@ -15,7 +15,7 @@ public class batchrequest extends EnhancedBaseClass {
 
 
     @Test
-    public void TC01_Create_Batches() throws IOException, InterruptedException {
+    public void TC01_Create_New_Batch() throws IOException, InterruptedException {
 
         testCaseLog("TC01_Create_New_Batch");
 

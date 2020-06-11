@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Wishes - FM">
+<suite name="CFAutomation">
 
-    <test thread-count="5" name="Wishes - FM">
+    <test thread-count="5" name="CFAutomation">
         <classes>
-            <class name="cleanfill.testcases.EndToEnd">
+
+            <class name="cleanfill.testcases.batchrequest"/>
+                <class name="cleanfill.testcases.batchindex">
                 <methods>
-<!--                    <include name="TC03FM_Create_Vehicle_Functionality"/>-->
-                    <include name="TC001WS_Verify_Create_new_Customer_Functionality"/>
-                    <include name="TC002WS_Verify_Create_Service_order_Functionality"/>
-                    <include name="TC003FM_Verify_User_can_complete_pickup_order"/>
-                    <include name="TC004WS_Verify_All_deatails_in_wishes_if_service_order_status_Change_from_FM"/>
+                 <include name="TC01_Create_New_Batch"/>
+                    <include name="TC02_Batch_Approval"/>
+
                 </methods>
             </class>
         </classes>

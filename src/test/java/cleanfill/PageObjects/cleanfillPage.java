@@ -149,7 +149,7 @@ public class cleanfillPage < result > extends batchrequest implements ExcelColum
     public WebElement txtsevebcharacterse;
     @FindBy(xpath = "//input[@formcontrolname='batchId']")
     public WebElement txtbatchid;
-    public static String batch;
+    static String batch;
 
     public void enterbatchname() {
 
@@ -727,7 +727,7 @@ public class cleanfillPage < result > extends batchrequest implements ExcelColum
         generics.clickOn(popbatch);
         testStepsLog(" Back to batches pop up closed ");
         generics.pause(5);
-        System.out.println("Batch Name is"  +batch);
+        System.out.println("Batch Name is "  +batch);
     }
 
     @FindBy(xpath = "//ng-select[@attr.data-meta='SearchBatch']//input")
