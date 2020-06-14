@@ -85,7 +85,7 @@ public class cleanfillPage < result > extends batchrequest implements ExcelColum
 
     @FindBy(xpath = "//span[contains(text(),'New Batch Request ')]")
     //@FindBy(xpath = "/html/body/app-root/side-nav/mat-drawer-container/mat-drawer-content/section/batches/div[1]/button")
-    WebElement btncreatebatch;
+            WebElement btncreatebatch;
 
     public void clickonbatchcreate() {
 
@@ -109,7 +109,7 @@ public class cleanfillPage < result > extends batchrequest implements ExcelColum
     }
 
     //private boolean isEnabled(WebElement btnpastdate) {
-       // return false;
+    // return false;
     //}
     //@FindBy(xpath = "//mat-datepicker-toggle[@class='mat-datepicker-toggle ng-tns-c111-137']")
     //@FindBy(xpath ="//button[@aria-label='Open calendar']//span")
@@ -126,10 +126,9 @@ public class cleanfillPage < result > extends batchrequest implements ExcelColum
         generics.clickOn(btneststartDate);
         testStepsLog("Date icon clicked ");
         generics.pause(1);
-       // boolean pastdate = isEnabled(btnpastdate);
+        // boolean pastdate = isEnabled(btnpastdate);
         //if (pastdate == true)
-        if (generics.isPresent(btnpastdate))
-        {
+        if (generics.isPresent(btnpastdate)) {
 
             System.out.println(" Test Passed :Past date are ready only ");
         } else {
@@ -214,15 +213,15 @@ public class cleanfillPage < result > extends batchrequest implements ExcelColum
     public void numberOfTrucks() {
         intnumberOfTrucks.sendKeys("999999");
         testStepsLog("Entered Number of Trucks");
-  /* Date d1= new Date();
-   SimpleDateFormat not =new SimpleDateFormat("yyyyMM");
-   intnumberOfTrucks. sendKeys("not"); */
+        /* Date d1= new Date();
+         SimpleDateFormat not =new SimpleDateFormat("yyyyMM");
+         intnumberOfTrucks. sendKeys("not"); */
         //generics.getRandomBetween(111111,999999)
 
-  /*SecureRandom random = new SecureRandom();
-  int num = random.nextInt(100000);
-  String formatted = String.format("%05d", num);
-  intnumberOfTrucks. sendKeys("formatted");*/
+        /*SecureRandom random = new SecureRandom();
+        int num = random.nextInt(100000);
+        String formatted = String.format("%05d", num);
+        intnumberOfTrucks. sendKeys("formatted");*/
     }
 
     @FindBy(xpath = "//input[@formcontrolname='estimatedWeight']")
@@ -617,7 +616,7 @@ public class cleanfillPage < result > extends batchrequest implements ExcelColum
         } catch (Exception e) {
             testStepsLog("File Not uploaded");
         }
-       try {
+        try {
             generics.pause(5);
             Actions action = new Actions(localDriver);
             action.moveToElement(btnFileUpload, 20, 0).click().build().perform();
@@ -727,14 +726,18 @@ public class cleanfillPage < result > extends batchrequest implements ExcelColum
         generics.clickOn(popbatch);
         testStepsLog(" Back to batches pop up closed ");
         generics.pause(5);
-        System.out.println("Batch Name is "  +batch);
+        System.out.println("Batch Name is " + batch);
     }
 
     @FindBy(xpath = "//ng-select[@attr.data-meta='SearchBatch']//input")
     public WebElement txtsearchbatch;
     @FindBy(xpath = "//tbody[@role='rowgroup']/tr[1]/td[3]")
     public WebElement tblsearchbatch;
+    @FindBy(xpath = "//tbody[@role='rowgroup']/tr[1]/td[4]")
+    public WebElement tblsearchfirststatus;
     public static String searchedbatch;
+    static String secondstatus;
+    static String secondstatusexp;
     public void batchsearch() {
         generics.pause(5);
         generics.clickOn(txtsearchbatch);
@@ -742,24 +745,26 @@ public class cleanfillPage < result > extends batchrequest implements ExcelColum
         generics.pause(5);
         testStepsLog("Batch Name entered on search");
         generics.moveTo(tblsearchbatch);
-        searchedbatch=generics.getText(tblsearchbatch);
+        searchedbatch = generics.getText(tblsearchbatch);
         System.out.println(searchedbatch);
+        generics.moveTo(tblsearchfirststatus);
+        secondstatus=generics.getText(tblsearchfirststatus);
+        secondstatusexp="Pending: Receiving Site";
+        if (searchedbatch.equals(batch)&&secondstatus.equalsIgnoreCase(secondstatusexp)) {
 
-        if ( searchedbatch.equals(batch)) {
-
-            System.out.println("Test Passed : New Batch created and is searchable under source site portal ");
+            System.out.println("Test Passed : New Batch verified,searched and status is " +secondstatus);
 
         } else {
-            System.out.println("Test Failed : New Batch created and is not searchable");
+            System.out.println("Test Failed : New Batch is not searchable");
 
         }
-}
+    }
 
     //@FindBy(xpath = "//div[@class='top-nav__menu']")
-    @FindBy(xpath="//button[@class='mat-focus-indicator mat-menu-trigger portal-btn mat-button mat-button-base']")
+    @FindBy(xpath = "//button[@class='mat-focus-indicator mat-menu-trigger portal-btn mat-button mat-button-base']")
     public WebElement drpportal;
     //@FindBy(xpath = "(//h4[contains(text(),'Receiving Site Portal')])[2]")
-    @FindBy(xpath ="//h4[contains(text(),'Receiving Site Portal')]")
+    @FindBy(xpath = "//h4[contains(text(),'Receiving Site Portal')]")
     public WebElement drprecievingsite;
     public void recvngsiteportal() {
         generics.moveTo(drpportal);
@@ -770,22 +775,19 @@ public class cleanfillPage < result > extends batchrequest implements ExcelColum
         testStepsLog("Selected Recieving Site Portal");
         generics.type(txtsearchbatch, batch);
         generics.pause(5);
-        testStepsLog("Batch Name entered on search");
+        testStepsLog("Batch Name entered on search is " +searchedbatch);
         generics.moveTo(tblsearchbatch);
-        searchedbatch=generics.getText(tblsearchbatch);
-        System.out.println(searchedbatch);
+        searchedbatch = generics.getText(tblsearchbatch);
+        //System.out.println(searchedbatch);
 
-        if ( searchedbatch.equals(batch)) {
+        if (searchedbatch.equals(batch)) {
 
-            System.out.println("Test Passed : New Batch created and is searchable in receiving portal ");
+            System.out.println("Test Passed : New Batch created ,is searchable in receiving portal and status is " +secondstatus);
 
         } else {
             System.out.println("Test Failed : New Batch created and is not searchable in receiving portal");
 
         }
-
     }
-
-
 
 }

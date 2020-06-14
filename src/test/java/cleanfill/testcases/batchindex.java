@@ -28,6 +28,19 @@ public class batchindex extends EnhancedBaseClass {
         bi.recvngsiteportal();
         bi.assignfillsiteuser();
         bi.verifymybatches();
+        bi.reviewnextload();
+        bi.reviewnextsource();
+        bi.reviewnextsoil();
+        bi.approvefillsite();
+        bi.suggestload();
+        bi.requestload();
+        //bi.invoicetype();
+        bi.priceperload();
+        bi.feeperload();
+        bi.qualifiedperson();
+        bi.submitqp();
+        bi.fsgrantedpopup();
+        bi.verifyfourthstatus();
         Thread.sleep(2000);
     }
 

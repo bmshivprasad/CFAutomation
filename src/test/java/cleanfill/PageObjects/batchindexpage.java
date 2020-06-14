@@ -119,8 +119,9 @@ static String searchfillsiteuser;
         testStepsLog("Assign user clicked ");
         generics.moveTo(txtassignusersearch);
         generics.clickOn(txtassignusersearch);
-        generics.pause(1);
+        //generics.pause(1);
         generics.type(txtassignusersearch, "Fill Site User1");
+        generics.pause(3);
         testStepsLog("Fill site user searched ");
        // generics.moveTo(ddfillsiteuser);
         generics.clickOn(ddfillsiteuser);
@@ -131,7 +132,7 @@ static String searchfillsiteuser;
         if (searchfillsiteuser.equals(fillsiteuser))
         {
             System.out.println("Test Passed : Fill Site user is assigned successfully ");
-
+            generics.pause(2);
         } else {
             System.out.println("Test Failed : Fill Site user is not assigned ");
 
@@ -139,22 +140,194 @@ static String searchfillsiteuser;
 
     @FindBy(xpath = "//li[contains(text(),'My Batches')]")
     public WebElement btnmybatches;
-
+    @FindBy(xpath = "//tbody[@role='rowgroup']/tr[1]/td[4]")
+    public WebElement tblthirdstatus;
+    static String thirdstatus;
+    static String thirdstatusexp;
     public void verifymybatches() {
         generics.moveTo(btnmybatches);
         generics.clickOn(btnmybatches);
+        testStepsLog("My Batches Clicked");
+        generics.type(txtsearchbatch, batch);
         generics.moveTo(tblsearchbatch);
         searchedbatch=generics.getText(tblsearchbatch);
         generics.moveTo(tblassignedto);
+        testStepsLog("Verified 'Assigned to' field ");
         searchfillsiteuser=generics.getText(tblassignedto);
-        if (searchfillsiteuser.equals(fillsiteuser)&&searchedbatch.equals(batch))
+        generics.moveTo(tblthirdstatus);
+        thirdstatus=generics.getText(tblthirdstatus);
+        System.out.println("Current Batch status is "  +thirdstatus);
+        thirdstatusexp="In Review: Receiving Site";
+        if (searchfillsiteuser.equals(fillsiteuser)&&searchedbatch.equals(batch)&&thirdstatus.equalsIgnoreCase(thirdstatusexp))
         {
             System.out.println("Test Passed : Fill Site user is assigned successfully in my batches section ");
-
+            generics.clickOn(tblsearchbatch);
+            testStepsLog("clicked on batch hyperlink ");
         } else {
             System.out.println("Test Failed : Fill Site user is not assigned in my bathces section");
 
-        }}}
+        }}
+    @FindBy(xpath = "//span[contains(text(),'Next')]")
+    public WebElement btnnextload;
+    public void  reviewnextload() {
+        generics.clickOn(btnnextload);
+        testStepsLog("clicked next on load page ");
+        }
+    @FindBy(xpath = "//span[contains(text(),'Next')]")
+    public WebElement btnnextsoucesite;
+    public void  reviewnextsource() {
+        generics.clickOn(btnnextsoucesite);
+        testStepsLog("clicked next on site source page ");
+
+    }
+    @FindBy(xpath = "//span[contains(text(),'Next')]")
+    public WebElement btnnextsoil;
+    public void  reviewnextsoil() {
+        generics.clickOn(btnnextsoil);
+        testStepsLog("clicked next on soil description page ");
+
+    }
+    @FindBy(xpath = "//span[contains(text(),'Approve: Forward to Qualified Persons ')]")
+    public WebElement btnfwdqp;
+    public void  approvefillsite() {
+        generics.clickOn(btnfwdqp);
+        testStepsLog("clicked on Forward to Qualified Persons "); }
+
+
+    @FindBy(xpath = "//input[@formcontrolname= 'suggestedNumOfLoads']")
+    public WebElement txtsuggstload;
+    public void  suggestload() {
+        generics.clickOn(txtsuggstload);
+        generics.type(txtsuggstload,"999999");
+        testStepsLog("Entered Suggested load ");
+
+    }
+    @FindBy(xpath = "//input[@formcontrolname= 'requestedNumOfLoads']")
+    public WebElement txtrequestload;
+    static String requestedload;
+    public void  requestload() {
+        generics.clickOn(txtrequestload);
+        requestedload=generics.getText(txtrequestload);
+        if(requestedload.equals(999999))
+        {
+            System.out.println("Test Passed : Estimated load is auto populated as Requested load ");
+
+        } else {
+            System.out.println("Test Failed : Estimated load is not auto populated as Requested load");
+            generics.type(txtrequestload,"999999");
+            testStepsLog("Entered request load ");
+        }}
+
+@FindBy(xpath = "//input[@value= 'Prepaid']")
+public WebElement radioinvtype;
+    public void  invoicetype() {
+        generics.moveTo(radioinvtype);
+        generics.clickOn(radioinvtype);
+        generics.type(txtsuggstload,"999999");
+        testStepsLog("Prepaid Invoice Selected ");
+    }
+
+    @FindBy(xpath = "//input[@formcontrolname= 'pricePerLoad']")
+    public WebElement txtprcperload;
+    public void  priceperload() {
+        generics.clickOn(txtprcperload);
+        generics.type(txtprcperload,"888888");
+        testStepsLog("Price per load entered ");
+
+    }
+    @FindBy(xpath = "//input[@formcontrolname= 'haulingFeePerLoad']")
+    public WebElement txtfeeperload;
+    public void  feeperload() {
+        generics.clickOn(txtfeeperload);
+        generics.type(txtfeeperload,"777777");
+        testStepsLog("Hauling fee per load entered ");
+
+    }
+@FindBy(xpath = "//ng-select[@formcontrolname= 'qpCompanyIdForQualityAssessment']//input")
+public WebElement drpqualifiedprsn;
+    @FindBy(xpath = "//div[contains(@role,'option')][1]/span[1]")
+    public WebElement qualifiedprsnselect;
+    public void  qualifiedperson() {
+        generics.clickOn(drpqualifiedprsn);
+        generics.pause(1);
+        generics.moveTo(qualifiedprsnselect);
+        generics.clickOn(qualifiedprsnselect);
+        testStepsLog("Qualified Person selected ");
+    }
+    @FindBy(xpath = "//span[contains(text(),' Submit to Qualified Persons ')]")
+    public WebElement btnsumitqp;
+    public void  submitqp() {
+        generics.clickOn(btnsumitqp);
+        testStepsLog("Submit to QP clicked ");
+
+    }
+    @FindBy(xpath = "//section[@class='fs-approval']//h4")
+    public WebElement popfsgranted;
+
+    @FindBy(xpath = "//section[@class='fs-approval']//p")
+    public WebElement popqpfwd;
+
+    @FindBy(xpath = "//*[@id='mat-dialog-1']/fill-site-approval-grant/section/button/span")
+    public WebElement btnbacktobatches;
+
+    static String popupfs;
+    static String popupqpfwd;
+    static String popupfsmsg;
+    static String popupqpfwdmsg;
+    public void  fsgrantedpopup() {
+        generics.clickOn(popfsgranted);
+        popupfs=generics.getText(popfsgranted);
+        generics.clickOn(popqpfwd);
+        popupqpfwd=generics.getText(popqpfwd);
+        popupfsmsg ="Receiving Site Approval Granted";
+        popupqpfwdmsg="This batch has now been forwarded to the assigned Qualified Persons for quality assessment. The unit price has also been shared with the client.";
+
+        if(popupfs.equalsIgnoreCase(popupfsmsg)&&popupqpfwd.equalsIgnoreCase(popupqpfwdmsg))
+        {
+            System.out.println("Test Passed : Fill Site Approval confirmation messages as expected ");
+            generics.moveTo(btnbacktobatches);
+            generics.clickOn( btnbacktobatches);
+            testStepsLog("Clicked on back to batches ");
+
+        } else {
+            System.out.println("Test Failed : Fill Site Approval confirmation messages are not as expected ");
+            generics.moveTo(btnbacktobatches);
+            generics.clickOn(btnbacktobatches);
+            testStepsLog("Clicked on back to batches ");
+        }}
+    @FindBy(xpath = "//tbody[@role='rowgroup']/tr[1]/td[4]")
+    public WebElement tblfourthtatus;
+    static String fourthstatus;
+    static String fourthstatusexp;
+    public void verifyfourthstatus() {
+        /*generics.moveTo(drpportal);
+        generics.pause(1);
+        generics.clickOn(drpportal);
+        generics.clickOn(drprecievingsite);
+        testStepsLog("Recieving Site Selected");
+        generics.pause(1);*/
+        generics.moveTo(btnmybatches);
+        generics.clickOn(btnmybatches);
+        generics.pause(1);
+        testStepsLog("My Batches Clicked");
+        generics.type(txtsearchbatch, batch);
+        generics.moveTo(tblsearchbatch);
+        searchedbatch=generics.getText(tblsearchbatch);
+        generics.moveTo(tblfourthtatus);
+        fourthstatus=generics.getText(tblfourthtatus);
+        fourthstatusexp="Pending: Qualified Persons";
+        if (searchedbatch.equals(batch)&&fourthstatus.equalsIgnoreCase(fourthstatusexp))
+        {
+            System.out.println("Test Passed : Current Batch status is "  +fourthstatus);
+        } else {
+            System.out.println("Test Failed : Current Batch status is "  +fourthstatus);
+
+        }}
+    }
+
+
+
+
 
 
 
