@@ -288,12 +288,14 @@ public WebElement drpqualifiedprsn;
             generics.moveTo(btnbacktobatches);
             generics.clickOn( btnbacktobatches);
             testStepsLog("Clicked on back to batches ");
+            generics.pause(1);
 
         } else {
             System.out.println("Test Failed : Fill Site Approval confirmation messages are not as expected ");
             generics.moveTo(btnbacktobatches);
             generics.clickOn(btnbacktobatches);
             testStepsLog("Clicked on back to batches ");
+            generics.pause(1);
         }}
     @FindBy(xpath = "//tbody[@role='rowgroup']/tr[1]/td[4]")
     public WebElement tblfourthtatus;
@@ -311,16 +313,18 @@ public WebElement drpqualifiedprsn;
         generics.pause(1);
         testStepsLog("My Batches Clicked");
         generics.type(txtsearchbatch, batch);
+        generics.pause(1);
         generics.moveTo(tblsearchbatch);
         searchedbatch=generics.getText(tblsearchbatch);
         generics.moveTo(tblfourthtatus);
         fourthstatus=generics.getText(tblfourthtatus);
+        testStepsLog("Batch Status is  "+fourthstatus);
         fourthstatusexp="Pending: Qualified Persons";
         if (searchedbatch.equals(batch)&&fourthstatus.equalsIgnoreCase(fourthstatusexp))
         {
             System.out.println("Test Passed : Current Batch status is "  +fourthstatus);
         } else {
-            System.out.println("Test Failed : Current Batch status is "  +fourthstatus);
+            System.out.println("Test Failed : Expected Current Batch status is  "  +fourthstatusexp );
 
         }}
     }

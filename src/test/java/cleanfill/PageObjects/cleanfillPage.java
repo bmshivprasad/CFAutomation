@@ -699,7 +699,10 @@ public class cleanfillPage < result > extends batchrequest implements ExcelColum
         // JavascriptExecutor js = (JavascriptExecutor) driver;
         // js.executeScript("arguments[0].scrollIntoView();", btnsubmitbr);
         generics.pause(4);
-        if (generics.isPresent(btnsubmitbr)) {
+        generics.moveTo(btnsubmitbrtrue);
+        generics.clickOn(btnsubmitbrtrue);
+
+       /* if (generics.isPresent(btnsubmitbr)) {
 
             System.out.println("Test Failed: Submit Batch button is disabled");
 
@@ -707,7 +710,7 @@ public class cleanfillPage < result > extends batchrequest implements ExcelColum
             System.out.println("Test Passed : Submit Batch button is enabled");
             generics.moveTo(btnsubmitbrtrue);
             generics.clickOn(btnsubmitbrtrue);
-        }
+        } */
         //String batch = generics.getRandomCharacters(7);
         //generics.type(txtbatchname, batch);
         //testStepsLog("batch name inserted : " + batch);
