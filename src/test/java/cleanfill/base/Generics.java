@@ -7,7 +7,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class Generics extends EnhancedBaseClass {
+public class Generics extends BaseClass {
 
     private final WebDriver generalDriver;
     private final WebDriverWait wait;
@@ -180,7 +180,4 @@ public class Generics extends EnhancedBaseClass {
         return result;
     }
 
-    public void openFM() {
-        generalDriver.get(FM_URL);
-    }
 }

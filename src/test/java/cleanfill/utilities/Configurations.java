@@ -1,4 +1,4 @@
-package gflwishes.utilities;
+package cleanfill.utilities;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -9,7 +9,6 @@ import java.util.Properties;
 
 public interface Configurations {
 
-
     Properties configProp = new Properties();
 
     String currentDateTime = new SimpleDateFormat("MMMddyyyy_hhmmss").format(new Date());
@@ -18,20 +17,13 @@ public interface Configurations {
 
     String configurationPath = getProjectDir() + "/Configuration/config.properties";
 
-    String END_TO_END = "EndToEnd";
+    String BASE_URL = getProperty("clean_fill_url");
 
-    String Prospect = "Prospect";
+    String SOURCE_USERNAME = getProperty("source_site_username");
+    String SOURCE_PASSWORD = getProperty("source_site_password");
 
-    String ProspectAll="ProspectAll";
-
-    String BASE_URL = getProperty("wishesURL");
-    String FM_URL = getProperty("CleanfillURL");
-
-    String USER_NAME = getProperty("username");
-    String PASSWORD = getProperty("password");
-
-    String USER_NAME1 = getProperty("username1");
-    String PASSWORD1 = getProperty("password1");
+    String RECEIVER_USERNAME = getProperty("receiving_site_username");
+    String RECEIVER_PASSWORD = getProperty("receiving_site_password");
 
     String BROWSER = getProperty("browser");
     String PROJECT_DIR = getProjectDir();

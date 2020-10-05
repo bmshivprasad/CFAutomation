@@ -8,7 +8,7 @@ import com.aventstack.extentreports.reporter.configuration.Theme;
 
 import java.io.File;
 
-public class ExtentInitializer implements gflwishes.utilities.Configurations {
+public class ExtentInitializer implements Configurations {
 
     protected static ExtentReports extent;
     protected static ExtentTest logger;
@@ -30,7 +30,7 @@ public class ExtentInitializer implements gflwishes.utilities.Configurations {
         extent.setSystemInfo("Environment", System.getProperty("os.name"));
         extent.setSystemInfo("User Name", System.getProperty("user.name"));
 
-        htmlReporter.config().setDocumentTitle("GFL");
+        htmlReporter.config().setDocumentTitle("Cleanfill");
         htmlReporter.config().setReportName("UAT Report");
         htmlReporter.config().setTestViewChartLocation(ChartLocation.TOP);
         htmlReporter.config().setTheme(Theme.DARK);

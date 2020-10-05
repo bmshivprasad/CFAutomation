@@ -1,21 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="CFAutomation">
-
-    <test thread-count="5" name="CFAutomation">
+<suite name="ClearFill Automation">
+    <test name="ClearFill Automation">
         <classes>
-
-            <class name="cleanfill.testcases.batchrequest"/>
-                <class name="cleanfill.testcases.batchindex">
-                <methods>
-                 <include name="TC01_Create_New_Batch"/>
-                    <include name="TC02_Batch_Approval"/>
-
-                </methods>
-            </class>
+            <class name="cleanfill.testcases.CreateBatch.BatchLoad"/>
+            <class name="cleanfill.testcases.CreateBatch.SoilDescriptionAnalysisParameters"/>
+            <class name="cleanfill.testcases.CreateBatch.SourceSiteBatchContacts"/>
         </classes>
     </test>
-
 </suite>
 
 

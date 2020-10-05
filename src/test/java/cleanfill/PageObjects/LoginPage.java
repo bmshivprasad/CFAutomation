@@ -1,16 +1,14 @@
 package cleanfill.PageObjects;
 
-
-import cleanfill.base.EnhancedBaseClass;
+import cleanfill.base.BaseClass;
 import cleanfill.base.Generics;
 import org.apache.log4j.Logger;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class LoginPage extends EnhancedBaseClass {
+public class LoginPage extends BaseClass {
 
     WebDriver localDriver;
     Generics generics;
@@ -23,36 +21,22 @@ public class LoginPage extends EnhancedBaseClass {
     }
 
     @FindBy(xpath = "//input[@type='email']")
-    WebElement txtUsername;
+    public WebElement txtUsername;
 
     @FindBy(xpath = "//input[@type='password']")
-    WebElement txtPassword;
+    public  WebElement txtPassword;
 
-    @FindBy(xpath = "//input[@type='submit']")
-    WebElement btnSubmit;
+    @FindBy(xpath = "//button[@type='submit']")
+    public  WebElement btnSubmit;
 
     public void loginAs(String username, String password) {
+        testStepsLog("Login with the " + username + " user email.");
         generics.type(txtUsername, username);
-        testStepsLog("Enter Username : " + username);
-        generics.pause(3);
-        generics.clickOn(btnSubmit);
-        generics.pause(3);
-        testStepsLog("Click on SignIn button");
+        generics.pause(1);
         generics.type(txtPassword, password);
-        testStepsLog("Enter Password");
+        generics.pause(1);
         generics.clickOn(btnSubmit);
-        testStepsLog("Click on SignIn button");
-        generics.clickOn(btnSubmit);
-
+        generics.pause(1);
     }
 
-    public void openFM() {
-        generics.openFM();
-    }
-
-    public void selectSignIn(String userName) {
-        testStepsLog("Click on SignIn button");
-        System.out.println("//small[text()='" + userName + "']");
-        generics.clickOn(localDriver.findElement(By.xpath("//small[text()='" + userName + "']")));
-    }
 }

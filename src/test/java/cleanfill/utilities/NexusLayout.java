@@ -10,7 +10,7 @@ import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class NexusLayout extends HTMLLayout implements gflwishes.utilities.Configurations {
+public class NexusLayout extends HTMLLayout implements Configurations {
 
     public NexusLayout() {
         super();

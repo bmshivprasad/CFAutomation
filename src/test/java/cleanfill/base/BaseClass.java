@@ -1,12 +1,12 @@
 package cleanfill.base;
 
+import cleanfill.PageObjects.FieldOR;
+import cleanfill.utilities.Configurations;
+import cleanfill.utilities.ExtentInitializer;
+import cleanfill.utilities.ZipUtils;
 import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.markuputils.ExtentColor;
 import com.aventstack.extentreports.markuputils.MarkupHelper;
-import gflwishes.utilities.Configurations;
-import cleanfill.utilities.ExcelUtils;
-import cleanfill.utilities.ExtentInitializer;
-import cleanfill.utilities.ZipUtils;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
@@ -33,13 +33,11 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
-public class EndToEndBaseClass extends ExtentInitializer implements Configurations {
+public class BaseClass extends ExtentInitializer implements Configurations, FieldOR {
 
-    public WebDriver wishesDriver;
-    public WebDriver fleetMapperDriver;
+    public WebDriver driver;
     public static Logger log4j = Logger.getLogger("EnhancedBaseClass");
     public SoftAssert sa;
-    public ExcelUtils excelUtils = new ExcelUtils();
     public static String methodName = "";
 
     @BeforeSuite(alwaysRun = true)
@@ -51,46 +49,35 @@ public class EndToEndBaseClass extends ExtentInitializer implements Configuratio
 
     @BeforeMethod(alwaysRun = true)
     public void setUp(Method method) {
-
         sa = new SoftAssert();
         methodName = method.getName();
-
-        if (methodName.contains("WS")) {
-            wishesDriver = initiateDriver(wishesDriver);
-            wishesDriver.get(BASE_URL);
-        } else {
-            fleetMapperDriver = initiateDriver(fleetMapperDriver);
-            fleetMapperDriver.get(FM_URL);
-        }
-
+        driver = initiateDriver(driver);
+        driver.get(BASE_URL);
     }
 
     private WebDriver initiateDriver(WebDriver driver) {
-
-        if (driver == null) {
-            switch (BROWSER.toLowerCase()) {
-                case "mozilla":
-                case "firefox":
-                case "mozilla firefox":
-                    WebDriverManager.firefoxdriver().setup();
-                    driver = new FirefoxDriver();
-                    break;
-                case "ie":
-                case "internet explorer":
-                case "ie11":
-                    WebDriverManager.iedriver().setup();
-                    driver = new InternetExplorerDriver();
-                    break;
-                default:
-                    WebDriverManager.chromedriver().setup();
-                    System.setProperty("webdriver.chrome.silentOutput", "true");
-                    java.util.logging.Logger.getLogger("org.openqa.selenium").setLevel(Level.OFF);
-                    driver = new ChromeDriver();
-                    break;
-            }
-            driver.manage().timeouts().implicitlyWait(Integer.parseInt(IMPLICIT_WAIT), TimeUnit.SECONDS);
-            driver.manage().window().maximize();
+        switch (BROWSER.toLowerCase()) {
+            case "mozilla":
+            case "firefox":
+            case "mozilla firefox":
+                WebDriverManager.firefoxdriver().setup();
+                driver = new FirefoxDriver();
+                break;
+            case "ie":
+            case "internet explorer":
+            case "ie11":
+                WebDriverManager.iedriver().setup();
+                driver = new InternetExplorerDriver();
+                break;
+            default:
+                WebDriverManager.chromedriver().setup();
+                System.setProperty("webdriver.chrome.silentOutput", "true");
+                java.util.logging.Logger.getLogger("org.openqa.selenium").setLevel(Level.OFF);
+                driver = new ChromeDriver();
+                break;
         }
+        driver.manage().timeouts().implicitlyWait(Integer.parseInt(IMPLICIT_WAIT), TimeUnit.SECONDS);
+        driver.manage().window().maximize();
 
         return driver;
     }
@@ -110,8 +97,7 @@ public class EndToEndBaseClass extends ExtentInitializer implements Configuratio
                 logger.log(Status.FAIL, MarkupHelper.createLabel(testName + " : FAILED", ExtentColor.RED));
                 logger.log(Status.FAIL,
                         MarkupHelper.createLabel(testResult.getThrowable() + " : FAILED", ExtentColor.RED));
-                if (methodName.contains("WS")) screenshotPath = getExtentScreenShot(wishesDriver, testName, false);
-                else screenshotPath = getExtentScreenShot(fleetMapperDriver, testName, false);
+                screenshotPath = getExtentScreenShot(driver, testName, false);
                 logger.fail("Test Case Failed Snapshot is attached below");
                 logger.addScreenCaptureFromPath(screenshotPath);
                 log4j.error(testName + " : Fail");
@@ -132,15 +118,11 @@ public class EndToEndBaseClass extends ExtentInitializer implements Configuratio
 
         } catch (Exception throwable) {
             System.err.println("Exception ::\n" + throwable);
+        } finally {
+            log4j.info("<strong>+++++++++++++++++++++++++++++++++ Closing the " + BROWSER +
+                    " browser instance +++++++++++++++++++++++++++++++++</strong>");
+            cleanupDriver(driver);
         }
-    }
-
-    @AfterClass
-    public void cleanUp() {
-        log4j.info("<strong>+++++++++++++++++++++++++++++++++ Closing the " + BROWSER +
-                " browser instance +++++++++++++++++++++++++++++++++</strong>");
-        cleanupDriver(fleetMapperDriver);
-        cleanupDriver(wishesDriver);
     }
 
     public void cleanupDriver(WebDriver driver) {
@@ -195,7 +177,7 @@ public class EndToEndBaseClass extends ExtentInitializer implements Configuratio
 
     public static void testCaseLog(String log) {
         logger = extent.createTest(log);
-        logger.assignAuthor("Chandrakant Chavda");
+        logger.assignAuthor("RahulR");
         log4j.info(log);
         log4j.info("+++++++++++++++++++++++++++++++++ Opening the " + BROWSER +
                 " browser +++++++++++++++++++++++++++++++++");
@@ -223,8 +205,7 @@ public class EndToEndBaseClass extends ExtentInitializer implements Configuratio
 
     public void failure(String log) {
         sa.assertTrue(false, log);
-        if (methodName.contains("WS")) getExtentScreenShot(wishesDriver, getCurrentTimeStampString(), true);
-        else getExtentScreenShot(fleetMapperDriver, getCurrentTimeStampString(), true);
+        getExtentScreenShot(driver, getCurrentTimeStampString(), true);
         logger.fail(MarkupHelper.createLabel(log + " : FAIL", ExtentColor.RED));
         log4j.error(log + " : FAIL");
     }

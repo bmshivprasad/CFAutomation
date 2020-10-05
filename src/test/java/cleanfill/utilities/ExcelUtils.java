@@ -14,7 +14,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 
-public class ExcelUtils implements gflwishes.utilities.Configurations {
+public class ExcelUtils implements Configurations {
 
     public static int getRowsExcel(String fileName) {
         String fileLocation = TEST_DATA_LOCATION + File.separator + fileName + ".xlsx";
@@ -135,7 +135,7 @@ public class ExcelUtils implements gflwishes.utilities.Configurations {
                 statement = connection.createStatement();
                 String UCN = excelUtils.getTestData(filename, row, 13).split(" ")[1];
                 System.out.println(UCN);
-                String updateExtIDQuery = "UPDATE dbo.Site set ExternalId = 1 WHERE CustomerId = (Select cust.id from universalcustomer as ucn inner join customer as cust on ucn.name = cust.name where ucn.id = "+UCN+");" ;
+                String updateExtIDQuery = "UPDATE dbo.Site set ExternalId = 1 WHERE CustomerId = (Select cust.id from universalcustomer as ucn inner join customer as cust on ucn.name = cust.name where ucn.id = " + UCN + ");";
                 System.out.println(updateExtIDQuery);
                 statement.executeUpdate(updateExtIDQuery);
             } catch (Exception e) {

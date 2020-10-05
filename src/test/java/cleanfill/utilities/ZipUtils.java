@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-public class ZipUtils implements gflwishes.utilities.Configurations {
+public class ZipUtils implements Configurations {
 
     private final List<String> fileList;
     private static String SOURCE_FOLDER = "";
