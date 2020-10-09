@@ -23,7 +23,7 @@ public class ZipUtils implements Configurations {
         SOURCE_FOLDER = sourceFolder;
         appZip.generateFileList(new File(SOURCE_FOLDER));
         String OUTPUT_FOLDER = PROJECT_DIR + File.separator + "ExtentReports" + File.separator + "Report_" +
-                currentDateTime + ".zip";
+                CURRENT_DATE_TIME + ".zip";
         appZip.zipIt(OUTPUT_FOLDER);
     }
 

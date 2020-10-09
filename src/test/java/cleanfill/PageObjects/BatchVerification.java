@@ -17,6 +17,7 @@ public class BatchVerification extends BaseClass implements Validations, FieldOR
 
     WebDriver localDriver;
     Generics generics;
+    public static List<String> receivingSite = new LinkedList<>();
 
     public BatchVerification(WebDriver baseDriver) {
         this.localDriver = baseDriver;
@@ -136,6 +137,60 @@ public class BatchVerification extends BaseClass implements Validations, FieldOR
     @FindBy(xpath = "//common-dropdown[contains(@class,'batch-soilQuality-Type')]//ng-select//span[contains(@class,'ng-value-label')]")
     public WebElement lblSelectedSoilQuality;
 
+    @FindBy(xpath = "//input[@formcontrolname='analysisParameter']")
+    public WebElement lblSoilAnalysisParameter;
+
+    @FindBy(xpath = "//input[@formcontrolname='count']")
+    public WebElement txtNumberOfSampleCount;
+
+    @FindBy(xpath = "//input[@formcontrolname='otherAnalysisParamNum']")
+    public WebElement txtOtherAnalysis;
+
+    @FindBy(xpath = "//mat-checkbox[@formcontrolname='isTCPL']//input")
+    public WebElement chkTCLP;
+
+    @FindBy(xpath = "//file-upload")
+    public WebElement btnUploadDoc;
+
+    @FindBy(xpath = "//mat-form-field//input")
+    public WebElement txtLink;
+
+    @FindBy(xpath = "//mat-form-field//button")
+    public WebElement btnAddLink;
+
+    @FindBy(xpath = "//textarea[@formcontrolname='comments']")
+    public WebElement txtComments;
+
+    @FindBy(xpath = "//link-preview//div[contains(@class,'link-url-txt')]")
+    public List<WebElement> lstLinks;
+
+    @FindBy(xpath = "//file-preview//h4")
+    public List<WebElement> lstFiles;
+
+    @FindBy(xpath = "//common-confirm//h3[not(text()='  ')]")
+    public WebElement lblDeleteConfirmation;
+
+    @FindBy(xpath = "//common-confirm//button//span")
+    public List<WebElement> lstPopupButtons;
+
+    @FindBy(xpath = "//link-preview//button")
+    public WebElement btnDeleteLink;
+
+    @FindBy(xpath = "//common-error//div[@class='message']")
+    public WebElement lblError;
+
+    @FindBy(xpath = "//batch-request-submission//h2")
+    public WebElement lblSuccessfulSubmitBatchRequest;
+
+    @FindBy(xpath = "//batch-request-submission//button")
+    public WebElement btnBackToBatches;
+
+    @FindBy(xpath = "//p[@class='batch-identifiers__name']")
+    public WebElement lblBatchRequestName;
+
+    @FindBy(xpath = "//td[contains(@class,'mat-column-status')]")
+    public WebElement lblBatchStatus;
+
     public WebElement getFieldElement(String fieldName) {
         WebElement element = null;
         if (fieldName.equalsIgnoreCase(ESTIMATED_LOADS)) element = txtEstLoads;
@@ -162,6 +217,8 @@ public class BatchVerification extends BaseClass implements Validations, FieldOR
         else if (fieldName.equalsIgnoreCase(SELECTED_SOIL_DESCRIPTION)) element = lblSelectedSoilDescription;
         else if (fieldName.equalsIgnoreCase(SOIL_QUALITY)) element = selectSoilQuality;
         else if (fieldName.equalsIgnoreCase(SELECTED_SOIL_QUALITY)) element = lblSelectedSoilQuality;
+        else if (fieldName.equalsIgnoreCase(OTHER_SOIL_ANALYSIS)) element = txtOtherAnalysis;
+        else if (fieldName.equalsIgnoreCase(COMMENTS)) element = txtComments;
         else if (fieldName.contains("Panel"))
             element = lstBatchPanels.get(Integer.parseInt(fieldName.split(" ")[1]) - 1);
         return element;
@@ -236,8 +293,7 @@ public class BatchVerification extends BaseClass implements Validations, FieldOR
     }
 
     public boolean verifyBatchIdGenerated() {
-        return generics.getValue(txtBatchId).length() == 7 &&
-                generics.getValue(txtBatchId).contains("[a-zA-Z]+");
+        return generics.getValue(txtBatchId).length() == 7;
     }
 
     public boolean verifyMaxSixDigitsAccepted(String fieldName) {
@@ -280,8 +336,6 @@ public class BatchVerification extends BaseClass implements Validations, FieldOR
     }
 
     public boolean verifySelectedValueDisplayOnDropdown(String fieldName) {
-        System.out.println(generics.getText(getFieldElement(fieldName)));
-        System.out.println(BatchPage._selectedValue);
         return generics.getText(getFieldElement(fieldName)).equals(BatchPage._selectedValue);
     }
 
@@ -356,5 +410,101 @@ public class BatchVerification extends BaseClass implements Validations, FieldOR
                 dropdownValues.contains(SOIL_QTY_OREG406_T6_1) && dropdownValues.contains(SOIL_QTY_OREG406_T7_1) &&
                 dropdownValues.contains(SOIL_QTY_OREG406_T8_1) && dropdownValues.contains(SOIL_QTY_OREG406_T9_1) &&
                 dropdownValues.contains(SOIL_QTY_ALL_SOIL_TYPES);
+    }
+
+    public boolean verifyAnalysisParametersDisplay() {
+        List<String> optionValue = new LinkedList<>();
+        soilParameters.forEach((option) -> optionValue.add(generics.getText(option)));
+        return optionValue.contains(F1F4) && optionValue.contains(VOC) && optionValue.contains(SVOC) &&
+                optionValue.contains(METALS) && optionValue.contains(INORGS) && optionValue.contains(PCB) &&
+                optionValue.contains(PEST) && optionValue.contains(OTHER);
+    }
+
+    public boolean verifyTCLPAndSampleDetailDisplay() {
+        return generics.getValue(lblSoilAnalysisParameter).equals(BatchPage._selectedValue) &&
+                generics.isPresent(txtNumberOfSampleCount) && generics.isPresent(chkTCLP);
+    }
+
+    public boolean verifyTCLPAndSampleDetailDisappear() {
+        return !generics.isPresent(txtNumberOfSampleCount) && !generics.isPresent(chkTCLP);
+    }
+
+    public boolean verifyOtherSelectDetails() {
+        return generics.getValue(lblSoilAnalysisParameter).equals(BatchPage._selectedValue) &&
+                generics.isPresent(txtNumberOfSampleCount) && generics.isPresent(chkTCLP);
+    }
+
+    public boolean verifyReceivingSiteInfo() {
+        lstDropdownValues.forEach((option) -> receivingSite.add(generics.getText(option)));
+        testStepsLog("Receiving Sites - " + receivingSite);
+        return !receivingSite.isEmpty();
+    }
+
+    public boolean verifyReceivingSiteUpdated() {
+        List<String> dropdownValues = new LinkedList<>();
+        lstDropdownValues.forEach((option) -> dropdownValues.add(generics.getText(option)));
+        testStepsLog("Receiving Sites - " + receivingSite);
+        return !receivingSite.equals(dropdownValues);
+    }
+
+    public boolean verifyPanelFourDisplay() {
+        return generics.isPresent(txtComments) && generics.isPresent(txtLink) &&
+                generics.isPresent(btnUploadDoc) && generics.isPresent(btnAddLink);
+    }
+
+    public boolean verifyLinkAddedSuccessfully() {
+        List<String> links = new LinkedList<>();
+        lstLinks.forEach((option) -> links.add(generics.getText(option)));
+        return links.equals(BatchPage._links);
+    }
+
+    public boolean verifyDeleteActionButtons() {
+        testStepsLog(generics.getText(lblDeleteConfirmation));
+        return generics.getText(lblDeleteConfirmation).equalsIgnoreCase(DELETE_LINK_MESSAGE) &&
+                generics.getText(lstPopupButtons.get(0)).contains(DELETE_YES) &&
+                generics.getText(lstPopupButtons.get(1)).contains(DELETE_NO);
+    }
+
+    public boolean verifyLinkDeleted() {
+        return lstLinks.isEmpty() && !generics.isPresent(btnDeleteLink);
+    }
+
+    public boolean verifyMaxLinkValidation() {
+        testStepsLog(generics.getText(lblError));
+        return generics.getText(lblError).equals(LINKS_MORE_THAN_3);
+    }
+
+    public boolean verifyFileUploadedSuccessfully() {
+        List<String> files = new LinkedList<>();
+        lstFiles.forEach((option) -> files.add(generics.getText(option)));
+        return files.equals(BatchPage._files);
+    }
+
+    public boolean verifyFileDeleted() {
+        return lstFiles.isEmpty() && !generics.isPresent(btnDeleteLink);
+    }
+
+    public boolean verifyMaxSizeFileValidation() {
+        testStepsLog(generics.getText(lblError));
+        return generics.getText(lblError).equals(FILE_MORE_THAN_10MB);
+    }
+
+    public boolean verifyMaxFileUploadValidation() {
+        testStepsLog(generics.getText(lblDeleteConfirmation));
+        boolean bool = generics.getText(lblDeleteConfirmation).equals(FILES_MORE_THAN_5);
+        generics.clickOn(lstPopupButtons.get(0));
+        return bool;
+    }
+
+    public boolean verifyBatchCreatedSuccessfully() {
+        testStepsLog(generics.getText(lblSuccessfulSubmitBatchRequest));
+        boolean bool = generics.getText(lblSuccessfulSubmitBatchRequest).equals(BATCH_REQUEST_SUCCESS);
+        generics.clickOn(btnBackToBatches);
+        return bool;
+    }
+
+    public boolean verifyCreatedBatchDisplayWithStatus() {
+        return BatchPage._batchName.equalsIgnoreCase(generics.getText(lblBatchRequestName)) &&
+                generics.getText(lblBatchStatus).equalsIgnoreCase(STATUS_PENDING_RECEIVING_SITE);
     }
 }

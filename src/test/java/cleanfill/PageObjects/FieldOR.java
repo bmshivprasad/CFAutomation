@@ -74,4 +74,32 @@ public interface FieldOR {
     String SOIL_QTY_OREG406_T9_1 = "O.Reg 406 Table 9.1";
     String SOIL_QTY_ALL_SOIL_TYPES = "All Soil Types";
     String SOIL_TYPE_SELECTED = "Soil Type(s) Selected";
+
+    String F1F4 = "F1F4";
+    String VOC = "VOC";
+    String SVOC = "SVOC";
+    String METALS = "Metals";
+    String INORGS = "Inorg";
+    String PCB = "PCB";
+    String PEST = "Pest";
+    String OTHER_SOIL_ANALYSIS = "Other";
+
+    String ADD_LINK = "Add Link";
+    String CHOOSE_FILE = "Choose File";
+    String DELETE_LINK = "Delete Link";
+    String DELETE_FILE = "Delete File";
+    String DELETE_YES = "Yes";
+    String DELETE_NO = "No";
+    String FILE_TYPE_JPEG = "JPEG";
+    String FILE_TYPE_PNG = "PNG";
+    String FILE_TYPE_DOC = "DOC";
+    String FILE_TYPE_PDF = "PDF";
+    String FILE_TYPE_MAX = "MAX";
+    String FILE_TYPE_EXTRA = "Extra";
+
+    String COMMENTS = "Comments";
+    String SUBMIT_REQUEST = "Submit Batch Request";
+
+    String BATCH_SEARCH = "Search";
+
 }

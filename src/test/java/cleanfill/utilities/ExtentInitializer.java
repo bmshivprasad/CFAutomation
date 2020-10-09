@@ -16,7 +16,7 @@ public class ExtentInitializer implements Configurations {
     protected static void initializeReport(String suiteName) {
 
         File directory = new File(PROJECT_DIR + File.separator + "ExtentReports" + File.separator + "Report_" +
-                currentDateTime);
+                CURRENT_DATE_TIME);
         if (!directory.exists()) directory.mkdir();
 
         ExtentHtmlReporter htmlReporter;
@@ -30,7 +30,7 @@ public class ExtentInitializer implements Configurations {
         extent.setSystemInfo("Environment", System.getProperty("os.name"));
         extent.setSystemInfo("User Name", System.getProperty("user.name"));
 
-        htmlReporter.config().setDocumentTitle("Cleanfill");
+        htmlReporter.config().setDocumentTitle("PATH");
         htmlReporter.config().setReportName("UAT Report");
         htmlReporter.config().setTestViewChartLocation(ChartLocation.TOP);
         htmlReporter.config().setTheme(Theme.DARK);

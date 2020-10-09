@@ -121,6 +121,8 @@ public class BaseClass extends ExtentInitializer implements Configurations, Fiel
         } finally {
             log4j.info("<strong>+++++++++++++++++++++++++++++++++ Closing the " + BROWSER +
                     " browser instance +++++++++++++++++++++++++++++++++</strong>");
+            log4j.info("");
+            log4j.info("");
             cleanupDriver(driver);
         }
     }
@@ -137,7 +139,7 @@ public class BaseClass extends ExtentInitializer implements Configurations, Fiel
     public void endReport() {
         ExtentInitializer.flushReport();
         ZipUtils.zipFolder(PROJECT_DIR + File.separator + "ExtentReports" + File.separator +
-                "Report_" + currentDateTime);
+                "Report_" + CURRENT_DATE_TIME);
     }
 
     public static String getExtentScreenShot(WebDriver driver, String screenshot_name, boolean isStepFailure) {
@@ -147,10 +149,10 @@ public class BaseClass extends ExtentInitializer implements Configurations, Fiel
             File source = ts.getScreenshotAs(OutputType.FILE);
 
             File directory = new File(PROJECT_DIR + File.separator + "ExtentReports" + File.separator +
-                    "Report_" + currentDateTime + File.separator + "Screenshots");
+                    "Report_" + CURRENT_DATE_TIME + File.separator + "Screenshots");
             if (!directory.exists()) directory.mkdir();
 
-            File finalDestination = new File(directory + File.separator + screenshot_name + currentDateTime + ".png");
+            File finalDestination = new File(directory + File.separator + screenshot_name + CURRENT_DATE_TIME + ".png");
 
             FileUtils.copyFile(source, finalDestination);
         } catch (IOException e) {
@@ -159,7 +161,7 @@ public class BaseClass extends ExtentInitializer implements Configurations, Fiel
 
         if (isStepFailure)
             testStepsLog("Step Failure<br>Please check attached screenshot : <br><br>" + getScreenshotLink(screenshot_name +
-                    currentDateTime + ".png"));
+                    CURRENT_DATE_TIME + ".png"));
 
         return destination;
     }
@@ -211,7 +213,7 @@ public class BaseClass extends ExtentInitializer implements Configurations, Fiel
     }
 
     public static String getScreenshotLink(String screenshot_name) {
-        return "<img src='../Report_" + currentDateTime + "/Screenshots/" + screenshot_name + "' width='683' height='384'/>";
+        return "<img src='../Report_" + CURRENT_DATE_TIME + "/Screenshots/" + screenshot_name + "' width='683' height='384'/>";
     }
 
     public static void getShortException(IResultMap tests) {
