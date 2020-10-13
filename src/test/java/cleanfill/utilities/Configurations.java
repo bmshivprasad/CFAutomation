@@ -11,22 +11,24 @@ import java.util.Properties;
 public interface Configurations {
 
     Properties configProp = new Properties();
+    ExcelUtils excelUtils = new ExcelUtils();
 
     String CURRENT_DATE_TIME = new SimpleDateFormat("MMMddyyyy_hhmmss").format(new Date());
 
     String TEST_DATA_LOCATION = getProjectDir() + File.separator + "Resources";
     String TEST_DATA = "CFL_Data";
     String CREATE_BATCH = "Create Batch";
+    String CREDENTIALS = "Credentials";
     String FILE_LOCATION = getProjectDir() + File.separator + "Resources" + File.separator + "Files";
     String CONFIGURATION_PATH = getProjectDir() + File.separator + "Configuration" + File.separator + "config.properties";
 
     String BASE_URL = getProperty("clean_fill_url");
 
-    String SOURCE_USERNAME = getProperty("source_site_username");
-    String SOURCE_PASSWORD = getProperty("source_site_password");
+    String SOURCE_USERNAME = excelUtils.getTestData(TEST_DATA, CREDENTIALS, ExcelColumns.SOURCE_SITE_USERNAME, 1);
+    String SOURCE_PASSWORD = excelUtils.getTestData(TEST_DATA, CREDENTIALS, ExcelColumns.SOURCE_SITE_PASSWORD, 1);
 
-    String RECEIVER_USERNAME = getProperty("receiving_site_username");
-    String RECEIVER_PASSWORD = getProperty("receiving_site_password");
+    String RECEIVER_USERNAME = excelUtils.getTestData(TEST_DATA, CREDENTIALS, ExcelColumns.RECEIVING_SITE_USERNAME, 1);
+    String RECEIVER_PASSWORD = excelUtils.getTestData(TEST_DATA, CREDENTIALS, ExcelColumns.RECEIVING_TYPE_PASSWORD, 1);
 
     String FILE_JPEG = FILE_LOCATION + File.separator + "QA_JPEG.jpg";
     String FILE_PNG = FILE_LOCATION + File.separator + "QA_PNG.png";

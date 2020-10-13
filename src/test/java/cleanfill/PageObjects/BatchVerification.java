@@ -11,18 +11,22 @@ import org.openqa.selenium.support.PageFactory;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
 public class BatchVerification extends BaseClass implements Validations, FieldOR {
 
     WebDriver localDriver;
     Generics generics;
+    BatchPage batch;
     public static List<String> receivingSite = new LinkedList<>();
 
     public BatchVerification(WebDriver baseDriver) {
         this.localDriver = baseDriver;
         PageFactory.initElements(baseDriver, this);
         generics = new Generics(baseDriver);
+        batch = new BatchPage(baseDriver);
         log4j = Logger.getLogger("BatchVerification");
     }
 
@@ -52,9 +56,6 @@ public class BatchVerification extends BaseClass implements Validations, FieldOR
 
     @FindBy(xpath = "//mat-calendar")
     public WebElement popupCalender;
-
-    @FindBy(xpath = "//div[@id='spinner']")
-    public WebElement spinner;
 
     @FindBy(xpath = "//button[@aria-label='Open calendar']")
     public WebElement btnCalender;
@@ -238,18 +239,14 @@ public class BatchVerification extends BaseClass implements Validations, FieldOR
         return "//h2[contains(text(),'" + fieldName + "')]" + "//following-sibling::mat-form-field//mat-error";
     }
 
-    public void waitTillPageLoad() {
-        while (generics.isPresent(spinner)) generics.pause(1);
-    }
-
     public boolean verifyBatchesScreen() {
-        waitTillPageLoad();
+        batch.waitTillPageLoad();
         return generics.isPresent(btnNewBatchRequest) && generics.isPresent(lblTotalBatches) &&
                 generics.isPresent(txtSearch);
     }
 
     public boolean verifyCreateNewBatchScreen() {
-        waitTillPageLoad();
+        batch.waitTillPageLoad();
         return generics.isPresent(btnSave) && lstBatchPanels.size() == 4;
     }
 
@@ -320,7 +317,7 @@ public class BatchVerification extends BaseClass implements Validations, FieldOR
     }
 
     public boolean verifyPanelTwoDisplay() {
-        waitTillPageLoad();
+        batch.waitTillPageLoad();
         return generics.isPresent(txtPresentUse) && selectSiteInformation.size() == 5;
     }
 
@@ -382,7 +379,7 @@ public class BatchVerification extends BaseClass implements Validations, FieldOR
     }
 
     public boolean verifyPanelThreeDisplay() {
-        waitTillPageLoad();
+        batch.waitTillPageLoad();
         return soilParameters.size() == 8 && selectSiteInformation.size() == 3;
     }
 

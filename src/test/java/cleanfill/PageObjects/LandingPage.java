@@ -42,7 +42,6 @@ public class LandingPage extends BaseClass {
         testStepsLog("Click on Batches from left panel");
         generics.mouseHover(btnBatches);
         generics.clickOn(btnBatches);
-        generics.pause(1);
         new WebDriverWait(localDriver, Integer.parseInt(WEBDRIVER_WAIT)).
                 until(ExpectedConditions.visibilityOfAllElements(btnBatches, btnDashboard,
                         btnHaulerManagement, btnSupport));

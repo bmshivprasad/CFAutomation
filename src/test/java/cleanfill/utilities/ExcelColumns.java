@@ -2,6 +2,13 @@ package cleanfill.utilities;
 
 public interface ExcelColumns {
 
+    //Credentials
+    int SOURCE_SITE_USERNAME = 0;
+    int SOURCE_SITE_PASSWORD = 1;
+    int RECEIVING_SITE_USERNAME = 3;
+    int RECEIVING_TYPE_PASSWORD = 4;
+
+    // Create Batch
     int EST_START_DATE = 1;
     int BATCH_NAME = 2;
     int TRACK_BY = 3;

@@ -244,25 +244,23 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
     }
 
     public void waitTillPageLoad() {
-        while (generics.isPresent(spinner)) generics.pause(1);
+        while (generics.isPresent(spinner))
+            generics.pause(1);
     }
 
     public void clickOnNewBatchRequest() {
         testStepsLog("Click on New Batch Request button.");
         generics.clickOn(btnNewBatchRequest);
-        generics.pause(1);
     }
 
     public void clickOnField(String fieldName) {
         testStepsLog("Click on " + fieldName);
         generics.clickOn(getFieldElement(fieldName));
-        generics.pause(1);
     }
 
     public void clickOnPanel(int count) {
         testStepsLog("Click on Panel " + count);
         generics.clickOn(getPanel(count));
-        generics.pause(1);
     }
 
     public void selectPastDate() {
@@ -271,7 +269,6 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
         testStepsLog("Enter estimated date : " + pastDate);
         txtEstDate.clear();
         generics.type(txtEstDate, pastDate);
-        generics.pause(1);
     }
 
     public void enterInvalidFormatDate() {
@@ -280,7 +277,6 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
         testStepsLog("Enter estimated date : " + invalidDate);
         txtEstDate.clear();
         generics.type(txtEstDate, invalidDate);
-        generics.pause(1);
     }
 
     public void selectDate() {
@@ -289,7 +285,6 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
         WebElement btnTomorrowDate = localDriver.findElement(By.xpath("//td[@aria-label='" + todayDate + "']"));
         testStepsLog("Select Est Date - " + todayDate);
         generics.clickOn(btnTomorrowDate);
-        generics.pause(1);
     }
 
     public void clickOnEscape() {
@@ -302,13 +297,11 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
         String data = generics.getRandomCharacters(number + generics.getRandomBetween(1, 9));
         testStepsLog("Enter " + fieldName + " : " + data);
         generics.type(getFieldElement(fieldName), data);
-        generics.pause(1);
     }
 
     public void enterDuplicateBatchName() {
         testStepsLog("Enter Batch Name : " + _batchName);
         generics.type(txtBatchName, _batchName);
-        generics.pause(1);
     }
 
     public void getAlreadyCreatedBatchName() {
@@ -331,14 +324,12 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
             testStepsLog("Click on " + generics.getText(lstRadioLabel.get(1)));
             generics.clickOnJS(lstRadioLabel.get(1));
         }
-        generics.pause(1);
     }
 
     public void enterMoreDigitsThan(String fieldName, double number) {
         int data = generics.getRandomBetween(((int) Math.pow(10, number)) + 1, ((int) Math.pow(10, number + 1)) - 1);
         testStepsLog("Enter " + fieldName + " : " + data);
         generics.type(getFieldElement(fieldName), String.valueOf(data));
-        generics.pause(1);
     }
 
     public void enterMoreDecimalThan(String fieldName, double number) {
@@ -347,19 +338,16 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
                         ((int) Math.pow(10, number + 1)) - 1);
         testStepsLog("Enter " + fieldName + " : " + data);
         generics.type(getFieldElement(fieldName), data);
-        generics.pause(1);
     }
 
     public void enterInvalidValue(String fieldName, String value) {
         testStepsLog("Enter " + fieldName + " : " + value);
         generics.type(getFieldElement(fieldName), value);
-        generics.pause(1);
     }
 
     public void enterValidValue(String fieldName, String value) {
         testStepsLog("Enter " + fieldName + " : " + value);
         generics.type(getFieldElement(fieldName), value);
-        generics.pause(1);
     }
 
     public void enterPanelOneInformation() {
@@ -376,7 +364,6 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
         _batchName = generics.getRandomCharacters(10).toUpperCase() + generics.getRandomBetween(10000, 99999);
         testStepsLog("Enter Batch Name : " + _batchName);
         generics.type(txtBatchName, _batchName);
-        generics.pause(1);
     }
 
     public void selectAnOption() {
@@ -384,7 +371,6 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
         _selectedValue = generics.getText(selectedValue);
         testStepsLog("Click on " + _selectedValue);
         generics.clickOn(selectedValue);
-        generics.pause(3);
     }
 
     public void selectOtherAsType() {
@@ -392,7 +378,6 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
         _selectedValue = generics.getText(selectedValue);
         testStepsLog("Click on " + _selectedValue);
         generics.clickOn(selectedValue);
-        generics.pause(3);
     }
 
     public boolean isDropdownValuesAvailable() {
@@ -426,7 +411,6 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
             _selectedValue = generics.getText(selectedValue);
             testStepsLog("Click on " + _selectedValue);
             generics.clickOn(selectedValue);
-            generics.pause(2);
             if (count > 1) _selectedValue = count + " " + SOIL_TYPE_SELECTED;
             num--;
         }
@@ -437,7 +421,6 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
         _selectedValue = generics.getText(selectedElement);
         testStepsLog("Click on " + _selectedValue);
         generics.clickOn(selectedElement);
-        generics.pause(3);
     }
 
     public void selectSoilAnalysisAsOther() {
@@ -445,14 +428,12 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
         _selectedValue = generics.getText(selectedElement);
         testStepsLog("Click on " + _selectedValue);
         generics.clickOn(selectedElement);
-        generics.pause(3);
     }
 
     public void uncheckSelectedChoice() {
         _selectedValue = generics.getText(selectedElement);
         testStepsLog("Click on " + _selectedValue);
         generics.clickOn(selectedElement);
-        generics.pause(3);
     }
 
 
@@ -475,7 +456,6 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
             generics.type(txtLink, linkName);
             clickOnField(ADD_LINK);
             _links.add(linkName);
-            generics.pause(2);
             link--;
         }
     }
@@ -499,48 +479,40 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
         return temp;
     }
 
-    public void enterPanelFourInformation() {
-        enterLinks(1);
-        uploadFile(FILE_TYPE_JPEG);
-        enterValidValue(COMMENTS, generics.getRandomCharacters(100));
-    }
-
     public void searchCreatedBatch() {
         enterValidValue(BATCH_SEARCH, _batchName);
-        generics.pause(2);
     }
 
     public void enterBatchLoadInformation(int count) {
         String date = excelUtils.getTestData(TEST_DATA, CREATE_BATCH, count, EST_START_DATE);
-        generics.type(txtEstDate, date);
         testStepsLog("Select Est Date - " + date);
-        generics.pause(1);
+        generics.type(txtEstDate, date);
 
         _batchName = excelUtils.getTestData(TEST_DATA, CREATE_BATCH, count, ExcelColumns.BATCH_NAME);
-        generics.type(txtBatchName, _batchName);
         testStepsLog("Enter Batch Name - " + _batchName);
+        generics.type(txtBatchName, _batchName);
 
         String trackBy = excelUtils.getTestData(TEST_DATA, CREATE_BATCH, count, TRACK_BY);
         if (trackBy.equalsIgnoreCase("Load")) {
+            testStepsLog("Select Measurement Settings - Track by Load");
             generics.scrollToElement(lstRadioLabel.get(0));
             generics.clickOn(lstRadioLabel.get(0));
-            testStepsLog("Select Measurement Settings - Track by Load");
         } else {
+            testStepsLog("Select Measurement Settings - Track by Weight");
             generics.scrollToElement(lstRadioLabel.get(1));
             generics.clickOnJS(lstRadioLabel.get(1));
-            testStepsLog("Select Measurement Settings - Track by Weight");
         }
 
-        int estLoads = Integer.parseInt(excelUtils.getTestData(TEST_DATA, CREATE_BATCH, count, EST_LOADS));
+        double estLoads = Double.parseDouble(excelUtils.getTestData(TEST_DATA, CREATE_BATCH, count, EST_LOADS));
         double estWeight = Double.parseDouble(excelUtils.getTestData(TEST_DATA, CREATE_BATCH, count, EST_WEIGHT));
         double estVolume = Double.parseDouble(excelUtils.getTestData(TEST_DATA, CREATE_BATCH, count, EST_VOLUME));
 
-        generics.type(txtEstLoads, String.valueOf(estLoads));
         testStepsLog("Enter Est Loads - " + estLoads);
-        generics.type(txtEstWeight, String.valueOf(estWeight));
+        generics.type(txtEstLoads, String.valueOf(estLoads));
         testStepsLog("Enter Est Weight - " + estWeight);
-        generics.type(txtEstVolume, String.valueOf(estVolume));
+        generics.type(txtEstWeight, String.valueOf(estWeight));
         testStepsLog("Enter Est Volume - " + estVolume);
+        generics.type(txtEstVolume, String.valueOf(estVolume));
 
         clickOnField(NEXT_STEP_1);
 
@@ -559,16 +531,16 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
         String siteHistory = excelUtils.getTestData(TEST_DATA, CREATE_BATCH, count, SOURCE_SITE_HISTORY);
         WebElement element = localDriver.findElement(By.xpath("//ng-dropdown-panel//div[contains(@class,'ng-option')]" +
                 "//span[text()='" + siteHistory + "']"));
-        generics.clickOn(element);
         testStepsLog("Click on - " + siteHistory);
+        generics.clickOn(element);
         if (siteHistory.equalsIgnoreCase(OTHER)) {
             String otherHistory = excelUtils.getTestData(TEST_DATA, CREATE_BATCH, count, SOURCE_SITE_HISTORY_OTHER);
-            generics.type(txtSiteHistoryOther, otherHistory);
             testStepsLog("Enter Site History - " + otherHistory);
+            generics.type(txtSiteHistoryOther, otherHistory);
         }
         String presentUse = excelUtils.getTestData(TEST_DATA, CREATE_BATCH, count, ExcelColumns.PRESENT_USE);
-        generics.type(txtPresentUse, presentUse);
         testStepsLog("Enter Present Use - " + presentUse);
+        generics.type(txtPresentUse, presentUse);
 
         clickOnField(PRIMARY_CONTACT);
         if (lstDropdownValues.isEmpty()) testStepsLog("No Primary Contact display to select.");
@@ -586,8 +558,8 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
         String soilDesc = excelUtils.getTestData(TEST_DATA, CREATE_BATCH, count, ExcelColumns.SOIL_DESCRIPTION);
         WebElement element = localDriver.findElement(By.xpath("//ng-dropdown-panel//div[contains(@class,'ng-option')]" +
                 "//span[text()='" + soilDesc + "']"));
-        generics.clickOn(element);
         testStepsLog("Click on - " + soilDesc);
+        generics.clickOn(element);
 
         clickOnField(SOIL_QUALITY);
         selectSoilQuality(1);
@@ -595,12 +567,12 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
 
         String soilQty = excelUtils.getTestData(TEST_DATA, CREATE_BATCH, count, SOIL_PARAMETERS);
         element = localDriver.findElement(By.xpath("//mat-basic-chip[contains(text(),'" + soilQty + "')]"));
-        generics.clickOn(element);
         testStepsLog("Click on - " + soilQty);
+        generics.clickOn(element);
         if (soilQty.equalsIgnoreCase(OTHER)) {
             String otherQty = excelUtils.getTestData(TEST_DATA, CREATE_BATCH, count, SOIL_PARAMETERS_OTHER);
-            generics.type(txtOtherAnalysis, otherQty);
             testStepsLog("Enter Parameters - " + otherQty);
+            generics.type(txtOtherAnalysis, otherQty);
         }
 
         clickOnField(RECEIVING_SITE);
@@ -616,16 +588,15 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
             testStepsLog("Enter link - " + linkName.split(",")[link].trim());
             generics.type(txtLink, linkName.split(",")[link].trim());
             clickOnField(ADD_LINK);
-            generics.pause(2);
         }
 
         String fileName = excelUtils.getTestData(TEST_DATA, CREATE_BATCH, count, FILE_UPLOAD);
         for (int file = 0; file < fileName.split(",").length; file++) {
             testStepsLog("Enter File - " + fileName.split(",")[file].trim());
             getFieldElement(CHOOSE_FILE).sendKeys(fileName.split(",")[file].trim());
-            generics.pause(2);
         }
 
-        enterValidValue(COMMENTS, generics.getRandomCharacters(100));
+        String comment = excelUtils.getTestData(TEST_DATA, CREATE_BATCH, count, COMMENT);
+        enterValidValue(COMMENTS, comment);
     }
 }

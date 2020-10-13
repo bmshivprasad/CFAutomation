@@ -24,19 +24,16 @@ public class LoginPage extends BaseClass {
     public WebElement txtUsername;
 
     @FindBy(xpath = "//input[@type='password']")
-    public  WebElement txtPassword;
+    public WebElement txtPassword;
 
     @FindBy(xpath = "//button[@type='submit']")
-    public  WebElement btnSubmit;
+    public WebElement btnSubmit;
 
     public void loginAs(String username, String password) {
         testStepsLog("Login with the " + username + " user email.");
         generics.type(txtUsername, username);
-        generics.pause(1);
         generics.type(txtPassword, password);
-        generics.pause(1);
         generics.clickOn(btnSubmit);
-        generics.pause(1);
     }
 
 }
