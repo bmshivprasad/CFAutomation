@@ -251,7 +251,7 @@ public class SoilDescriptionAnalysisParameters extends BaseClass {
 
         batch.clickOnField(SOIL_QUALITY);
         batch.selectSoilQuality(1);
-        batch.clickOnField(RECEIVING_SITE);
+        batch.clickOnField(RECEIVING_SITE, 2);
 
         if (verification.verifyReceivingSiteInfo()) {
             success("User can see the Receiving Site based on selected Site Quality.");
@@ -261,7 +261,7 @@ public class SoilDescriptionAnalysisParameters extends BaseClass {
 
         batch.clickOnField(SOIL_QUALITY);
         batch.selectSoilQuality(1);
-        batch.clickOnField(RECEIVING_SITE);
+        batch.clickOnField(RECEIVING_SITE, 2);
 
         if (verification.verifyReceivingSiteUpdated()) {
             success("Receiving Site change based on the changes in the Site Quality.");

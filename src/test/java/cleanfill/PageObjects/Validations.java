@@ -16,8 +16,10 @@ public interface Validations {
     String FILES_MORE_THAN_5 = "Cannot upload more than 5 documents";
 
     String BATCH_REQUEST_SUCCESS = "Batch Request Submitted!";
+    String BATCH_REQUEST_SAVED = "Batch Request Saved!";
 
     String STATUS_PENDING_RECEIVING_SITE = "Pending: Receiving Site";
+    String STATUS_DRAFT = "Draft";
 
     default String duplicateBatchName(String batchName) {
         return "Batch name '" + batchName + "' is already taken";

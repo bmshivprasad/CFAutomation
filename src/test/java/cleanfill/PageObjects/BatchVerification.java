@@ -54,6 +54,9 @@ public class BatchVerification extends BaseClass implements Validations, FieldOR
     @FindBy(xpath = "//panels//div[contains(@class,'panel-menu__option')]")
     public List<WebElement> lstBatchPanels;
 
+    @FindBy(xpath = "//mat-radio-button")
+    public List<WebElement> lstRadioButtons;
+
     @FindBy(xpath = "//mat-calendar")
     public WebElement popupCalender;
 
@@ -500,8 +503,20 @@ public class BatchVerification extends BaseClass implements Validations, FieldOR
         return bool;
     }
 
-    public boolean verifyCreatedBatchDisplayWithStatus() {
+    public boolean verifyCreatedBatchDisplayWithStatus(String status) {
         return BatchPage._batchName.equalsIgnoreCase(generics.getText(lblBatchRequestName)) &&
-                generics.getText(lblBatchStatus).equalsIgnoreCase(STATUS_PENDING_RECEIVING_SITE);
+                generics.getText(lblBatchStatus).equalsIgnoreCase(status);
+    }
+
+    public boolean verifyBatchRequestSaved() {
+        testStepsLog(generics.getText(lblSuccessfulSubmitBatchRequest));
+        boolean bool = generics.getText(lblSuccessfulSubmitBatchRequest).equals(BATCH_REQUEST_SAVED);
+        generics.clickOn(btnBackToBatches);
+        return bool;
+    }
+
+    public boolean verifyMeasurementDisplaySelected() {
+        return lstRadioButtons.get(0).getAttribute("class").contains("mat-radio-checked") ||
+                lstRadioButtons.get(1).getAttribute("class").contains("mat-radio-checked");
     }
 }

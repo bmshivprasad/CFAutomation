@@ -15,14 +15,16 @@ public interface ExcelColumns {
     int EST_LOADS = 4;
     int EST_WEIGHT = 5;
     int EST_VOLUME = 6;
-    int SOURCE_SITE_HISTORY = 7;
-    int SOURCE_SITE_HISTORY_OTHER = 8;
-    int PRESENT_USE = 9;
-    int SOIL_DESCRIPTION = 10;
-    int SOIL_PARAMETERS = 11;
-    int SOIL_PARAMETERS_OTHER = 12;
-    int FILE_UPLOAD = 13;
-    int FILE_LINK = 14;
-    int COMMENT = 15;
+    int OTHER_SOURCE_TYPE = 7;
+    int SOURCE_TYPE_OTHERS = 8;
+    int SOURCE_SITE_HISTORY = 9;
+    int SOURCE_SITE_HISTORY_OTHER = 10;
+    int PRESENT_USE = 11;
+    int SOIL_DESCRIPTION = 12;
+    int SOIL_PARAMETERS = 13;
+    int SOIL_PARAMETERS_OTHER = 14;
+    int FILE_UPLOAD = 15;
+    int FILE_LINK = 16;
+    int COMMENT = 17;
 
 }

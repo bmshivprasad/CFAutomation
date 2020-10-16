@@ -145,6 +145,9 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
     @FindBy(xpath = "//common-search-bar//input")
     public WebElement txtSearchBatch;
 
+    @FindBy(xpath = "//div[contains(@class,'saveButtonRow')]//button")
+    public WebElement btnSave;
+
     public WebElement getPanel(int count) {
         return lstBatchPanels.get(count - 1);
     }
@@ -239,6 +242,9 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
             case BATCH_SEARCH:
                 element = txtSearchBatch;
                 break;
+            case SAVE_BUTTON:
+                element = btnSave;
+                break;
         }
         return element;
     }
@@ -253,7 +259,8 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
         generics.clickOn(btnNewBatchRequest);
     }
 
-    public void clickOnField(String fieldName) {
+    public void clickOnField(String fieldName, int... wait) {
+        if (wait.length != 0) generics.pause(wait[0]);
         testStepsLog("Click on " + fieldName);
         generics.clickOn(getFieldElement(fieldName));
     }
@@ -280,7 +287,7 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
     }
 
     public void selectDate() {
-        clickOnField("Calender");
+        clickOnField("Calender", 2);
         String todayDate = LocalDate.now().plusDays(1).format(DateTimeFormatter.ofPattern("MMMM d, yyyy"));
         WebElement btnTomorrowDate = localDriver.findElement(By.xpath("//td[@aria-label='" + todayDate + "']"));
         testStepsLog("Select Est Date - " + todayDate);
@@ -392,9 +399,10 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
     }
 
     public void enterPanelTwoInformation() {
-        clickOnField(SOURCE_SITE);
+        waitTillPageLoad();
+        clickOnField(SOURCE_SITE, 1);
         selectAnOption();
-        clickOnField(SOURCE_TYPE);
+        clickOnField(SOURCE_TYPE, 1);
         selectAnOption();
         clickOnField(SITE_HISTORY);
         selectAnOption();
@@ -438,6 +446,7 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
 
 
     public void enterPanelThreeInformation() {
+        waitTillPageLoad();
         clickOnField(FieldOR.SOIL_DESCRIPTION);
         selectAnOption();
         clickOnField(SOIL_QUALITY);
@@ -503,7 +512,7 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
             generics.clickOnJS(lstRadioLabel.get(1));
         }
 
-        double estLoads = Double.parseDouble(excelUtils.getTestData(TEST_DATA, CREATE_BATCH, count, EST_LOADS));
+        int estLoads = Integer.parseInt(excelUtils.getTestData(TEST_DATA, CREATE_BATCH, count, EST_LOADS));
         double estWeight = Double.parseDouble(excelUtils.getTestData(TEST_DATA, CREATE_BATCH, count, EST_WEIGHT));
         double estVolume = Double.parseDouble(excelUtils.getTestData(TEST_DATA, CREATE_BATCH, count, EST_VOLUME));
 
@@ -523,13 +532,23 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
     }
 
     public void enterSourceSiteDetails(int count) {
-        clickOnField(SOURCE_SITE);
+        waitTillPageLoad();
+        clickOnField(SOURCE_SITE, 1);
         selectAnOption();
-        clickOnField(SOURCE_TYPE);
-        selectAnOption();
-        clickOnField(SITE_HISTORY);
-        String siteHistory = excelUtils.getTestData(TEST_DATA, CREATE_BATCH, count, SOURCE_SITE_HISTORY);
+        clickOnField(SOURCE_TYPE, 1);
+        String sourceType = excelUtils.getTestData(TEST_DATA, CREATE_BATCH, count, OTHER_SOURCE_TYPE);
         WebElement element = localDriver.findElement(By.xpath("//ng-dropdown-panel//div[contains(@class,'ng-option')]" +
+                "//span[text()='" + sourceType + "']"));
+        testStepsLog("Click on - " + sourceType);
+        generics.clickOn(element);
+        if (sourceType.equalsIgnoreCase(OTHER)) {
+            String otherSourceType = excelUtils.getTestData(TEST_DATA, CREATE_BATCH, count, SOURCE_TYPE_OTHERS);
+            testStepsLog("Enter Source Type - " + otherSourceType);
+            generics.type(txtSourceTypeOther, otherSourceType);
+        }
+        clickOnField(SITE_HISTORY, 1);
+        String siteHistory = excelUtils.getTestData(TEST_DATA, CREATE_BATCH, count, SOURCE_SITE_HISTORY);
+        element = localDriver.findElement(By.xpath("//ng-dropdown-panel//div[contains(@class,'ng-option')]" +
                 "//span[text()='" + siteHistory + "']"));
         testStepsLog("Click on - " + siteHistory);
         generics.clickOn(element);
@@ -554,6 +573,7 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
     }
 
     public void enterSoilDescriptionParameters(int count) {
+        waitTillPageLoad();
         clickOnField(FieldOR.SOIL_DESCRIPTION);
         String soilDesc = excelUtils.getTestData(TEST_DATA, CREATE_BATCH, count, ExcelColumns.SOIL_DESCRIPTION);
         WebElement element = localDriver.findElement(By.xpath("//ng-dropdown-panel//div[contains(@class,'ng-option')]" +
@@ -583,6 +603,7 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
     }
 
     public void enterAttachments(int count) {
+        waitTillPageLoad();
         String linkName = excelUtils.getTestData(TEST_DATA, CREATE_BATCH, count, FILE_LINK);
         for (int link = 0; link < linkName.split(",").length; link++) {
             testStepsLog("Enter link - " + linkName.split(",")[link].trim());
@@ -598,5 +619,16 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
 
         String comment = excelUtils.getTestData(TEST_DATA, CREATE_BATCH, count, COMMENT);
         enterValidValue(COMMENTS, comment);
+    }
+
+    public void openBatch() {
+        testStepsLog("Open Batch : " + _batchName);
+        generics.scrollToElement(lblBatchName);
+        generics.clickOnJS(lblBatchName);
+    }
+
+    public void removeText(String fieldName) {
+        testStepsLog("Clear " + fieldName + " field.");
+        generics.clear(getFieldElement(fieldName));
     }
 }

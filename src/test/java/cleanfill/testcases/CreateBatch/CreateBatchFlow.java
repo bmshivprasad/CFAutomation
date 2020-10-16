@@ -1,9 +1,6 @@
 package cleanfill.testcases.CreateBatch;
 
-import cleanfill.PageObjects.BatchPage;
-import cleanfill.PageObjects.BatchVerification;
-import cleanfill.PageObjects.LandingPage;
-import cleanfill.PageObjects.LoginPage;
+import cleanfill.PageObjects.*;
 import cleanfill.base.BaseClass;
 import org.apache.log4j.Logger;
 import org.testng.annotations.Test;
@@ -57,7 +54,7 @@ public class CreateBatchFlow extends BaseClass {
 
             batch.searchCreatedBatch();
 
-            if (verification.verifyCreatedBatchDisplayWithStatus()) {
+            if (verification.verifyCreatedBatchDisplayWithStatus(Validations.STATUS_PENDING_RECEIVING_SITE)) {
                 success("Verify Batch Request display on the table.");
             } else {
                 failure("ERROR : Verify Batch Request display on the table.");

@@ -97,6 +97,8 @@ public interface FieldOR {
     String FILE_TYPE_MAX = "MAX";
     String FILE_TYPE_EXTRA = "Extra";
 
+    String SAVE_BUTTON = "Save";
+
     String COMMENTS = "Comments";
     String SUBMIT_REQUEST = "Submit Batch Request";
 
