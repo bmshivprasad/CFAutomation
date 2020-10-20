@@ -5,16 +5,16 @@ import cleanfill.base.BaseClass;
 import org.apache.log4j.Logger;
 import org.testng.annotations.Test;
 
-public class BatchLoad extends BaseClass {
+public class SourceSiteBatchContacts extends BaseClass {
 
-    public BatchLoad() {
+    public SourceSiteBatchContacts() {
         log4j = Logger.getLogger(this.getClass().getName());
     }
 
     @Test
-    public void verify_batch_load_information_stored_after_save() {
+    public void verify_source_site_information_stored_after_save() {
 
-        testCaseLog("Verify Batch Load Information saved after clicking on Save button.");
+        testCaseLog("Verify Source Site Information saved after clicking on Save button.");
 
         LoginPage login = new LoginPage(driver);
         LandingPage landingPage = new LandingPage(driver);
@@ -39,6 +39,7 @@ public class BatchLoad extends BaseClass {
         }
 
         batch.enterPanelOneInformation();
+        batch.enterPanelTwoInformation();
 
         batch.clickOnField(SAVE_BUTTON);
 
@@ -57,11 +58,12 @@ public class BatchLoad extends BaseClass {
         }
 
         batch.openBatch();
+        batch.clickOnPanel(2);
 
-        if (verification.verifyPanelOneInformationDisplay()) {
-            success("Verify Batch Load information display same as before saved.");
+        if (verification.verifyPanelTwoInformationDisplay()) {
+            success("Verify Source Site information display same as before saved.");
         } else {
-            failure("ERROR : Verify Batch Load information display same as before saved.");
+            failure("ERROR : Verify Source Site information display same as before saved.");
         }
 
         sa.assertAll();
@@ -69,9 +71,9 @@ public class BatchLoad extends BaseClass {
     }
 
     @Test
-    public void verify_batch_name_validations_in_batch_information_on_edit() {
+    public void verify_source_site_information_validations_in_source_site_information_on_edit() {
 
-        testCaseLog("Verify Batch Name validations in the Batch Information section after Edit.");
+        testCaseLog("Verify Source Site Information validations in the Source Information section On Edit.");
 
         LoginPage login = new LoginPage(driver);
         LandingPage landingPage = new LandingPage(driver);
@@ -87,9 +89,6 @@ public class BatchLoad extends BaseClass {
             failure("ERROR : Batches page is not display.");
         }
 
-        if (batch.isBatchListAvailable())
-            batch.getAlreadyCreatedBatchName();
-
         batch.clickOnNewBatchRequest();
 
         if (verification.verifyCreateNewBatchScreen()) {
@@ -99,6 +98,7 @@ public class BatchLoad extends BaseClass {
         }
 
         batch.enterPanelOneInformation();
+        batch.enterPanelTwoInformation();
 
         batch.clickOnField(SAVE_BUTTON);
 
@@ -111,381 +111,378 @@ public class BatchLoad extends BaseClass {
         batch.searchCreatedBatch();
         batch.openBatch();
 
-        batch.removeText(BATCH_NAME);
-        batch.clickOnField(BATCH_ID);
+        batch.clickOnPanel(2);
 
-        batch.enterMoreCharactersThan(BATCH_NAME, 25);
+        batch.clickOnField(SOURCE_SITE);
 
-        if (verification.verifyMaxCharacter(BATCH_NAME, 25)) {
-            success("Batch Name can have max 25 characters");
+        if (verification.verifyAllOptionDisplayAlphabetically()) {
+            success("Select a Source Site values are in alphabetical order.");
         } else {
-            failure("ERROR : Batch Name can have max 25 characters");
+            failure("ERROR : Select a Source Site values are in alphabetical order.");
         }
 
-        if (!batch.isBatchNameEmpty()) {
-            batch.enterDuplicateBatchName();
+        batch.selectAnOption();
 
-            if (verification.verifyValidationMessageForDuplicateBatchName(BATCH_NAME)) {
-                success("Duplicate Batch Name should not allow.");
+        if (verification.verifySelectedValueDisplayOnDropdown(SELECTED_SOURCE_SITE)) {
+            success("Selected dropdown value should display on the field.");
+        } else {
+            failure("ERROR : Selected dropdown value should display on the field.");
+        }
+
+        sa.assertAll();
+
+    }
+
+    @Test
+    public void verify_source_type_information_validations_in_source_site_information_on_edit() {
+
+        testCaseLog("Verify Source Type Information validations in the Source Information section On Edit.");
+
+        LoginPage login = new LoginPage(driver);
+        LandingPage landingPage = new LandingPage(driver);
+        BatchPage batch = new BatchPage(driver);
+        BatchVerification verification = new BatchVerification(driver);
+
+        login.loginAs(SOURCE_USERNAME, SOURCE_PASSWORD);
+        landingPage.clickOnBatches();
+
+        if (verification.verifyBatchesScreen()) {
+            success("User can see the Batches page.");
+        } else {
+            failure("ERROR : Batches page is not display.");
+        }
+
+        batch.clickOnNewBatchRequest();
+
+        if (verification.verifyCreateNewBatchScreen()) {
+            success("User can see the Create New Batch screen.");
+        } else {
+            failure("ERROR : Create New Batch screen not display");
+        }
+
+        batch.enterPanelOneInformation();
+        batch.enterPanelTwoInformation();
+
+        batch.clickOnField(SAVE_BUTTON);
+
+        if (verification.verifyBatchRequestSaved()) {
+            success("Verify Batch Request Save Successfully.");
+        } else {
+            failure("ERROR : Verify Batch Request Save Successfully.");
+        }
+
+        batch.searchCreatedBatch();
+        batch.openBatch();
+
+        batch.clickOnPanel(2);
+
+        batch.clickOnField(SOURCE_TYPE);
+
+        if (verification.verifySourceTypeOptionDisplay()) {
+            success("Select a Source Type values are display.");
+        } else {
+            failure("ERROR : Select a Source Type values are display.");
+        }
+
+        batch.selectOtherAsType();
+
+        if (verification.verifyOtherOptionDisplayTextField(SOURCE_TYPE_OTHER)) {
+            success("Text field display while selecting the Other as option.");
+        } else {
+            failure("ERROR : Text field display while selecting the Other as option.");
+        }
+
+        batch.enterMoreCharactersThan(SOURCE_TYPE_OTHER, 25);
+
+        if (verification.verifyMaxCharacter(SOURCE_TYPE_OTHER, 25)) {
+            success("Other can have max 25 characters");
+        } else {
+            failure("ERROR : Other can have max 25 characters");
+        }
+
+        sa.assertAll();
+
+    }
+
+    @Test
+    public void verify_source_history_information_validations_in_source_site_information_on_edit() {
+
+        testCaseLog("Verify Source Site History Information validations in the Source Information section.");
+
+        LoginPage login = new LoginPage(driver);
+        LandingPage landingPage = new LandingPage(driver);
+        BatchPage batch = new BatchPage(driver);
+        BatchVerification verification = new BatchVerification(driver);
+
+        login.loginAs(SOURCE_USERNAME, SOURCE_PASSWORD);
+        landingPage.clickOnBatches();
+
+        if (verification.verifyBatchesScreen()) {
+            success("User can see the Batches page.");
+        } else {
+            failure("ERROR : Batches page is not display.");
+        }
+
+        batch.clickOnNewBatchRequest();
+
+        if (verification.verifyCreateNewBatchScreen()) {
+            success("User can see the Create New Batch screen.");
+        } else {
+            failure("ERROR : Create New Batch screen not display");
+        }
+
+        batch.enterPanelOneInformation();
+        batch.enterPanelTwoInformation();
+
+        batch.clickOnField(SAVE_BUTTON);
+
+        if (verification.verifyBatchRequestSaved()) {
+            success("Verify Batch Request Save Successfully.");
+        } else {
+            failure("ERROR : Verify Batch Request Save Successfully.");
+        }
+
+        batch.searchCreatedBatch();
+        batch.openBatch();
+
+        batch.clickOnPanel(2);
+
+        batch.clickOnField(SITE_HISTORY);
+
+        if (verification.verifySiteHistoryOptionDisplay()) {
+            success("Select a Site History values are display.");
+        } else {
+            failure("ERROR : Select a Site History values are display.");
+        }
+
+        batch.selectOtherAsType();
+
+        if (verification.verifyOtherOptionDisplayTextField(SITE_HISTORY_OTHER)) {
+            success("Text field display while selecting the Other as option.");
+        } else {
+            failure("ERROR : Text field display while selecting the Other as option.");
+        }
+
+        batch.enterMoreCharactersThan(SITE_HISTORY_OTHER, 25);
+
+        if (verification.verifyMaxCharacter(SITE_HISTORY_OTHER, 25)) {
+            success("Other can have max 25 characters");
+        } else {
+            failure("ERROR : Other can have max 25 characters");
+        }
+
+        sa.assertAll();
+
+    }
+
+    @Test
+    public void verify_present_use_information_validations_in_source_site_information_on_edit() {
+
+        testCaseLog("Verify Present Use Information validations in the Source Information section.");
+
+        LoginPage login = new LoginPage(driver);
+        LandingPage landingPage = new LandingPage(driver);
+        BatchPage batch = new BatchPage(driver);
+        BatchVerification verification = new BatchVerification(driver);
+
+        login.loginAs(SOURCE_USERNAME, SOURCE_PASSWORD);
+        landingPage.clickOnBatches();
+
+        if (verification.verifyBatchesScreen()) {
+            success("User can see the Batches page.");
+        } else {
+            failure("ERROR : Batches page is not display.");
+        }
+
+        batch.clickOnNewBatchRequest();
+
+        if (verification.verifyCreateNewBatchScreen()) {
+            success("User can see the Create New Batch screen.");
+        } else {
+            failure("ERROR : Create New Batch screen not display");
+        }
+
+        batch.enterPanelOneInformation();
+        batch.enterPanelTwoInformation();
+
+        batch.clickOnField(SAVE_BUTTON);
+
+        if (verification.verifyBatchRequestSaved()) {
+            success("Verify Batch Request Save Successfully.");
+        } else {
+            failure("ERROR : Verify Batch Request Save Successfully.");
+        }
+
+        batch.searchCreatedBatch();
+        batch.openBatch();
+
+        batch.clickOnPanel(2);
+
+        batch.clickOnField(PRESENT_USE);
+        batch.enterMoreCharactersThan(PRESENT_USE, 50);
+
+        if (verification.verifyValidationMessageForMoreChars(PRESENT_USE)) {
+            success("Present Use can have max 50 characters");
+        } else {
+            failure("ERROR : Present Use can have max 50 characters");
+        }
+
+        sa.assertAll();
+
+    }
+
+    @Test
+    public void verify_primary_contact_information_validations_in_source_site_information_on_edit() {
+
+        testCaseLog("Verify Primary Contact Information validations in the Source Information section.");
+
+        LoginPage login = new LoginPage(driver);
+        LandingPage landingPage = new LandingPage(driver);
+        BatchPage batch = new BatchPage(driver);
+        BatchVerification verification = new BatchVerification(driver);
+
+        login.loginAs(SOURCE_USERNAME, SOURCE_PASSWORD);
+        landingPage.clickOnBatches();
+
+        if (verification.verifyBatchesScreen()) {
+            success("User can see the Batches page.");
+        } else {
+            failure("ERROR : Batches page is not display.");
+        }
+
+        batch.clickOnNewBatchRequest();
+
+        if (verification.verifyCreateNewBatchScreen()) {
+            success("User can see the Create New Batch screen.");
+        } else {
+            failure("ERROR : Create New Batch screen not display");
+        }
+
+        batch.enterPanelOneInformation();
+        batch.enterPanelTwoInformation();
+
+        batch.clickOnField(SAVE_BUTTON);
+
+        if (verification.verifyBatchRequestSaved()) {
+            success("Verify Batch Request Save Successfully.");
+        } else {
+            failure("ERROR : Verify Batch Request Save Successfully.");
+        }
+
+        batch.searchCreatedBatch();
+        batch.openBatch();
+
+        batch.clickOnPanel(2);
+
+        batch.clickOnField(PRIMARY_CONTACT);
+
+        if (batch.isDropdownValuesAvailable()) {
+            if (verification.verifyContactListDisplay()) {
+                success("Primary Contact values display in the drop down.");
             } else {
-                failure("ERROR : Duplicate Batch Name should not allow.");
+                failure("ERROR : Primary Contact values display in the drop down.");
+            }
+
+            batch.typeOptionFromList(PRIMARY_CONTACT);
+
+            if (verification.verifyListOfContactDisplayByText()) {
+                success("List of contact display based on entered text.");
+            } else {
+                failure("ERROR : List of contact display based on entered text.");
+            }
+
+            batch.selectAnOption();
+
+            if (verification.verifyContactDetailsDisplay()) {
+                success("Selected contact email and phone number should display.");
+            } else {
+                failure("ERROR : Selected contact email and phone number should display.");
+            }
+
+        } else {
+            testWarningLog("No Primary Contact display on the field, Test can't be completed.");
+        }
+
+        sa.assertAll();
+
+    }
+
+    @Test
+    public void verify_qualified_person_information_validations_in_source_site_information_on_edit() {
+
+        testCaseLog("Verify Qualified Person Information validations in the Source Information section.");
+
+        LoginPage login = new LoginPage(driver);
+        LandingPage landingPage = new LandingPage(driver);
+        BatchPage batch = new BatchPage(driver);
+        BatchVerification verification = new BatchVerification(driver);
+
+        login.loginAs(SOURCE_USERNAME, SOURCE_PASSWORD);
+        landingPage.clickOnBatches();
+
+        if (verification.verifyBatchesScreen()) {
+            success("User can see the Batches page.");
+        } else {
+            failure("ERROR : Batches page is not display.");
+        }
+
+        batch.clickOnNewBatchRequest();
+
+        if (verification.verifyCreateNewBatchScreen()) {
+            success("User can see the Create New Batch screen.");
+        } else {
+            failure("ERROR : Create New Batch screen not display");
+        }
+
+        batch.enterPanelOneInformation();
+        batch.waitTillPageLoad();
+        batch.clickOnField(SOURCE_SITE, 1);
+        batch.selectAnOption();
+        batch.clickOnField(SOURCE_TYPE, 1);
+        batch.selectAnOption();
+        batch.clickOnField(SITE_HISTORY);
+        batch.selectAnOption();
+        batch.enterValidValue(FieldOR.PRESENT_USE, SITE_HISTORY_RESIDENTIAL);
+        batch.clickOnField(PRIMARY_CONTACT);
+        batch.selectAnOption();
+        batch.clickOnField(QUALIFIED_PERSON);
+
+        if (batch.isDropdownValuesAvailable()) {
+
+            batch.selectAnOption();
+
+            batch.clickOnField(SAVE_BUTTON);
+
+            if (verification.verifyBatchRequestSaved()) {
+                success("Verify Batch Request Save Successfully.");
+            } else {
+                failure("ERROR : Verify Batch Request Save Successfully.");
+            }
+
+            batch.searchCreatedBatch();
+            batch.openBatch();
+
+            batch.clickOnPanel(2);
+            batch.clickOnField(QUALIFIED_PERSON);
+
+            if (verification.verifyContactListDisplay()) {
+                success("Qualified Person display in the drop down.");
+            } else {
+                failure("ERROR : Qualified Person display in the drop down.");
+            }
+
+            batch.typeOptionFromList(QUALIFIED_PERSON);
+
+            if (verification.verifyListOfContactDisplayByText()) {
+                success("List of contact display based on entered text.");
+            } else {
+                failure("ERROR : List of contact display based on entered text.");
             }
         } else {
-            testWarningLog("ERROR : Duplicate Batch Name can't be verified as no already create batch found.");
+            testWarningLog("No Qualified Person display on the field, Test can't be completed.");
         }
 
         sa.assertAll();
 
     }
-
-    @Test
-    public void verify_batch_id_validations_in_batch_information() {
-
-        testCaseLog("Verify Batch Id validations in the Batch Information section.");
-
-        LoginPage login = new LoginPage(driver);
-        LandingPage landingPage = new LandingPage(driver);
-        BatchPage batch = new BatchPage(driver);
-        BatchVerification verification = new BatchVerification(driver);
-
-        login.loginAs(SOURCE_USERNAME, SOURCE_PASSWORD);
-        landingPage.clickOnBatches();
-
-        if (verification.verifyBatchesScreen()) {
-            success("User can see the Batches page.");
-        } else {
-            failure("ERROR : Batches page is not display.");
-        }
-
-        batch.clickOnNewBatchRequest();
-
-        if (verification.verifyCreateNewBatchScreen()) {
-            success("User can see the Create New Batch screen.");
-        } else {
-            failure("ERROR : Create New Batch screen not display");
-        }
-
-        batch.enterPanelOneInformation();
-
-        batch.clickOnField(SAVE_BUTTON);
-
-        if (verification.verifyBatchRequestSaved()) {
-            success("Verify Batch Request Save Successfully.");
-        } else {
-            failure("ERROR : Verify Batch Request Save Successfully.");
-        }
-
-        batch.searchCreatedBatch();
-        batch.openBatch();
-
-        if (verification.verifyBatchIdGenerated()) {
-            success("Batch ID should be generated automatically and of 7 digits.");
-        } else {
-            failure("ERROR : Batch ID should be generated automatically and of 7 digits.");
-        }
-
-        sa.assertAll();
-
-    }
-
-    @Test
-    public void verify_measurement_settings_display_selected_after_opening_draft() {
-
-        testCaseLog("Verify Measurement Settings display selected after opening draft.");
-
-        LoginPage login = new LoginPage(driver);
-        LandingPage landingPage = new LandingPage(driver);
-        BatchPage batch = new BatchPage(driver);
-        BatchVerification verification = new BatchVerification(driver);
-
-        login.loginAs(SOURCE_USERNAME, SOURCE_PASSWORD);
-        landingPage.clickOnBatches();
-
-        if (verification.verifyBatchesScreen()) {
-            success("User can see the Batches page.");
-        } else {
-            failure("ERROR : Batches page is not display.");
-        }
-
-        batch.clickOnNewBatchRequest();
-
-        if (verification.verifyCreateNewBatchScreen()) {
-            success("User can see the Create New Batch screen.");
-        } else {
-            failure("ERROR : Create New Batch screen not display");
-        }
-
-        batch.enterPanelOneInformation();
-
-        batch.clickOnField(SAVE_BUTTON);
-
-        if (verification.verifyBatchRequestSaved()) {
-            success("Verify Batch Request Save Successfully.");
-        } else {
-            failure("ERROR : Verify Batch Request Save Successfully.");
-        }
-
-        batch.searchCreatedBatch();
-        batch.openBatch();
-
-        if (verification.verifyMeasurementDisplaySelected()) {
-            success("Measurement Setting radios should be mandatory.");
-        } else {
-            failure("ERROR : Measurement Setting radios field should be mandatory.");
-        }
-
-        sa.assertAll();
-
-    }
-
-    @Test
-    public void verify_estimation_loads_validations_in_load_information_after_edit() {
-
-        testCaseLog("Verify Estimation Loads validations in the Load Information section after edit.");
-
-        LoginPage login = new LoginPage(driver);
-        LandingPage landingPage = new LandingPage(driver);
-        BatchPage batch = new BatchPage(driver);
-        BatchVerification verification = new BatchVerification(driver);
-
-        login.loginAs(SOURCE_USERNAME, SOURCE_PASSWORD);
-        landingPage.clickOnBatches();
-
-        if (verification.verifyBatchesScreen()) {
-            success("User can see the Batches page.");
-        } else {
-            failure("ERROR : Batches page is not display.");
-        }
-
-        batch.clickOnNewBatchRequest();
-
-        if (verification.verifyCreateNewBatchScreen()) {
-            success("User can see the Create New Batch screen.");
-        } else {
-            failure("ERROR : Create New Batch screen not display");
-        }
-
-        batch.enterPanelOneInformation();
-
-        batch.clickOnField(SAVE_BUTTON);
-
-        if (verification.verifyBatchRequestSaved()) {
-            success("Verify Batch Request Save Successfully.");
-        } else {
-            failure("ERROR : Verify Batch Request Save Successfully.");
-        }
-
-        batch.searchCreatedBatch();
-        batch.openBatch();
-
-        batch.removeText(ESTIMATED_LOADS);
-
-        batch.enterMoreDigitsThan(ESTIMATED_LOADS, 6);
-
-        if (verification.verifyMaxSixDigitsAccepted(ESTIMATED_LOADS)) {
-            success("Estimated Loads field should accept 6 digits maximum.");
-        } else {
-            failure("ERROR : Estimated Loads field should accept 6 digits maximum.");
-        }
-
-        batch.enterInvalidValue(ESTIMATED_LOADS, "0");
-
-        if (verification.verifyValidationMessageForInvalidField(ESTIMATED_LOADS)) {
-            success("Estimated Loads field should accept more than 1 as value.");
-        } else {
-            failure("ERROR : Estimated Loads field should accept more than 1 as value.");
-        }
-
-        batch.enterInvalidValue(ESTIMATED_LOADS, "-100");
-
-        if (verification.verifyValidationMessageForInvalidField(ESTIMATED_LOADS)) {
-            success("Estimated Loads field should accept more than 1 as value.");
-        } else {
-            failure("ERROR : Estimated Loads field should accept more than 1 as value.");
-        }
-
-        batch.enterInvalidValue(ESTIMATED_LOADS, "abcd");
-
-        if (verification.verifyValidationMessageForInvalidField(ESTIMATED_LOADS)) {
-            success("Estimated Loads field should numeric value.");
-        } else {
-            failure("ERROR : Estimated Loads field should numeric value.");
-        }
-
-        sa.assertAll();
-
-    }
-
-    @Test
-    public void verify_estimation_weight_validations_in_load_information_on_edit() {
-
-        testCaseLog("Verify Estimation Weight validations in the Load Information section on edit.");
-
-        LoginPage login = new LoginPage(driver);
-        LandingPage landingPage = new LandingPage(driver);
-        BatchPage batch = new BatchPage(driver);
-        BatchVerification verification = new BatchVerification(driver);
-
-        login.loginAs(SOURCE_USERNAME, SOURCE_PASSWORD);
-        landingPage.clickOnBatches();
-
-        if (verification.verifyBatchesScreen()) {
-            success("User can see the Batches page.");
-        } else {
-            failure("ERROR : Batches page is not display.");
-        }
-
-        batch.clickOnNewBatchRequest();
-
-        if (verification.verifyCreateNewBatchScreen()) {
-            success("User can see the Create New Batch screen.");
-        } else {
-            failure("ERROR : Create New Batch screen not display");
-        }
-
-        batch.enterPanelOneInformation();
-
-        batch.clickOnField(SAVE_BUTTON);
-
-        if (verification.verifyBatchRequestSaved()) {
-            success("Verify Batch Request Save Successfully.");
-        } else {
-            failure("ERROR : Verify Batch Request Save Successfully.");
-        }
-
-        batch.searchCreatedBatch();
-        batch.openBatch();
-
-        batch.removeText(ESTIMATED_WEIGHT);
-
-        batch.enterMoreDigitsThan(ESTIMATED_WEIGHT, 6);
-
-        if (verification.verifyMaxSixDigitsAccepted(ESTIMATED_WEIGHT)) {
-            success("Estimated Weight field should accept 6 digits maximum.");
-        } else {
-            failure("ERROR : Estimated Weight field should accept 6 digits maximum.");
-        }
-
-        batch.enterMoreDecimalThan(ESTIMATED_WEIGHT, 2);
-
-        if (verification.verifyMaxTwoDecimalAccepted(ESTIMATED_WEIGHT)) {
-            success("Estimated Weight field should accept 2 decimal maximum.");
-        } else {
-            failure("ERROR : Estimated Weight field should accept 2 decimal maximum.");
-        }
-
-        batch.enterInvalidValue(ESTIMATED_WEIGHT, "0.00");
-
-        if (verification.verifyValidationMessageForInvalidField(ESTIMATED_WEIGHT)) {
-            success("Estimated Weight field should accept more than 1 as value.");
-        } else {
-            failure("ERROR : Estimated Weight field should accept more than 1 as value.");
-        }
-
-        batch.enterInvalidValue(ESTIMATED_WEIGHT, "-100.00");
-
-        if (verification.verifyNegativeValueNotAccepted(ESTIMATED_WEIGHT)) {
-            success("Estimated Weight field should accept more than 1 as value.");
-        } else {
-            failure("ERROR : Estimated Weight field should accept more than 1 as value.");
-        }
-
-        batch.enterInvalidValue(ESTIMATED_WEIGHT, "abcd");
-
-        if (verification.verifyValidationMessageForInvalidField(ESTIMATED_WEIGHT)) {
-            success("Estimated Weight field should numeric value.");
-        } else {
-            failure("ERROR : Estimated Weight field should numeric value.");
-        }
-
-        sa.assertAll();
-
-    }
-
-    @Test
-    public void verify_estimation_volume_validations_in_load_information_on_edit() {
-
-        testCaseLog("Verify Estimation Volume validations in the Load Information section on edit.");
-
-        LoginPage login = new LoginPage(driver);
-        LandingPage landingPage = new LandingPage(driver);
-        BatchPage batch = new BatchPage(driver);
-        BatchVerification verification = new BatchVerification(driver);
-
-        login.loginAs(SOURCE_USERNAME, SOURCE_PASSWORD);
-        landingPage.clickOnBatches();
-
-        if (verification.verifyBatchesScreen()) {
-            success("User can see the Batches page.");
-        } else {
-            failure("ERROR : Batches page is not display.");
-        }
-
-        batch.clickOnNewBatchRequest();
-
-        if (verification.verifyCreateNewBatchScreen()) {
-            success("User can see the Create New Batch screen.");
-        } else {
-            failure("ERROR : Create New Batch screen not display");
-        }
-
-        batch.enterPanelOneInformation();
-
-        batch.clickOnField(SAVE_BUTTON);
-
-        if (verification.verifyBatchRequestSaved()) {
-            success("Verify Batch Request Save Successfully.");
-        } else {
-            failure("ERROR : Verify Batch Request Save Successfully.");
-        }
-
-        batch.searchCreatedBatch();
-        batch.openBatch();
-
-        batch.removeText(ESTIMATED_VOLUME);
-
-        batch.enterMoreDigitsThan(ESTIMATED_VOLUME, 6);
-
-        if (verification.verifyMaxSixDigitsAccepted(ESTIMATED_VOLUME)) {
-            success("Estimated Volume field should accept 6 digits maximum.");
-        } else {
-            failure("ERROR : Estimated Volume field should accept 6 digits maximum.");
-        }
-
-        batch.enterMoreDecimalThan(ESTIMATED_VOLUME, 2);
-
-        if (verification.verifyMaxTwoDecimalAccepted(ESTIMATED_VOLUME)) {
-            success("Estimated Volume field should accept 2 decimal maximum.");
-        } else {
-            failure("ERROR : Estimated Volume field should accept 2 decimal maximum.");
-        }
-
-        batch.enterInvalidValue(ESTIMATED_VOLUME, "0.00");
-
-        if (verification.verifyValidationMessageForInvalidField(ESTIMATED_VOLUME)) {
-            success("Estimated Volume field should accept more than 1 as value.");
-        } else {
-            failure("ERROR : Estimated Volume field should accept more than 1 as value.");
-        }
-
-        batch.enterInvalidValue(ESTIMATED_VOLUME, "-100.00");
-
-        if (verification.verifyNegativeValueNotAccepted(ESTIMATED_VOLUME)) {
-            success("Estimated Volume field should accept more than 1 as value.");
-        } else {
-            failure("ERROR : Estimated Volume field should accept more than 1 as value.");
-        }
-
-        batch.enterInvalidValue(ESTIMATED_VOLUME, "abcd");
-
-        if (verification.verifyValidationMessageForInvalidField(ESTIMATED_VOLUME)) {
-            success("Estimated Volume field should numeric value.");
-        } else {
-            failure("ERROR : Estimated Volume field should numeric value.");
-        }
-
-        sa.assertAll();
-
-    }
-
 }

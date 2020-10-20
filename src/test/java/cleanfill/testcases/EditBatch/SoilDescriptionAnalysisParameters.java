@@ -1,4 +1,4 @@
-package cleanfill.testcases.CreateBatch;
+package cleanfill.testcases.EditBatch;
 
 import cleanfill.PageObjects.*;
 import cleanfill.base.BaseClass;
@@ -12,7 +12,67 @@ public class SoilDescriptionAnalysisParameters extends BaseClass {
     }
 
     @Test
-    public void verify_soil_description_information_validations_in_soil_description() {
+    public void verify_soil_description_information_stored_after_save() {
+
+        testCaseLog("Verify Soil Description Information saved after clicking on Save button.");
+
+        LoginPage login = new LoginPage(driver);
+        LandingPage landingPage = new LandingPage(driver);
+        BatchPage batch = new BatchPage(driver);
+        BatchVerification verification = new BatchVerification(driver);
+
+        login.loginAs(SOURCE_USERNAME, SOURCE_PASSWORD);
+        landingPage.clickOnBatches();
+
+        if (verification.verifyBatchesScreen()) {
+            success("User can see the Batches page.");
+        } else {
+            failure("ERROR : Batches page is not display.");
+        }
+
+        batch.clickOnNewBatchRequest();
+
+        if (verification.verifyCreateNewBatchScreen()) {
+            success("User can see the Create New Batch screen.");
+        } else {
+            failure("ERROR : Create New Batch screen not display");
+        }
+
+        batch.enterPanelOneInformation();
+        batch.enterPanelTwoInformation();
+        batch.enterPanelThreeInformation();
+
+        batch.clickOnField(SAVE_BUTTON);
+
+        if (verification.verifyBatchRequestSaved()) {
+            success("Verify Batch Request Save Successfully.");
+        } else {
+            failure("ERROR : Verify Batch Request Save Successfully.");
+        }
+
+        batch.searchCreatedBatch();
+
+        if (verification.verifyCreatedBatchDisplayWithStatus(Validations.STATUS_DRAFT)) {
+            success("Verify Batch Request display on the table with Draft.");
+        } else {
+            failure("ERROR : Verify Batch Request display on the table with Draft.");
+        }
+
+        batch.openBatch();
+        batch.clickOnPanel(3);
+
+        if (verification.verifyPanelThreeInformationDisplay()) {
+            success("Verify Soil Description information display same as before saved.");
+        } else {
+            failure("ERROR : Verify Soil Description information display same as before saved.");
+        }
+
+        sa.assertAll();
+
+    }
+
+    @Test
+    public void verify_soil_description_information_validations_in_soil_description_on_edit() {
 
         testCaseLog("Verify Soil Description validations in the Soil Description section.");
 
@@ -40,18 +100,20 @@ public class SoilDescriptionAnalysisParameters extends BaseClass {
 
         batch.enterPanelOneInformation();
         batch.enterPanelTwoInformation();
+        batch.enterPanelThreeInformation();
 
-        if (verification.verifyPanelThreeDisplay()) {
-            success("User can see the Panel 3 Screen to enter Site Information.");
+        batch.clickOnField(SAVE_BUTTON);
+
+        if (verification.verifyBatchRequestSaved()) {
+            success("Verify Batch Request Save Successfully.");
         } else {
-            failure("ERROR : User can see the Panel 3 Screen to enter Site Information.");
+            failure("ERROR : Verify Batch Request Save Successfully.");
         }
 
-        if (verification.verifyFieldIsMandatory(SOIL_DESCRIPTION)) {
-            success("Select a Soil Description should be mandatory.");
-        } else {
-            failure("ERROR : Select a Soil Description should be mandatory.");
-        }
+        batch.searchCreatedBatch();
+        batch.openBatch();
+
+        batch.clickOnPanel(3);
 
         batch.clickOnField(SOIL_DESCRIPTION);
 
@@ -74,7 +136,7 @@ public class SoilDescriptionAnalysisParameters extends BaseClass {
     }
 
     @Test
-    public void verify_soil_quality_information_validations_in_soil_description() {
+    public void verify_soil_quality_information_validations_in_soil_description_on_edit() {
 
         testCaseLog("Verify Soil Quality validations in the Soil Description section.");
 
@@ -102,18 +164,20 @@ public class SoilDescriptionAnalysisParameters extends BaseClass {
 
         batch.enterPanelOneInformation();
         batch.enterPanelTwoInformation();
+        batch.enterPanelThreeInformation();
 
-        if (verification.verifyPanelThreeDisplay()) {
-            success("User can see the Panel 3 Screen to enter Site Information.");
+        batch.clickOnField(SAVE_BUTTON);
+
+        if (verification.verifyBatchRequestSaved()) {
+            success("Verify Batch Request Save Successfully.");
         } else {
-            failure("ERROR : User can see the Panel 3 Screen to enter Site Information.");
+            failure("ERROR : Verify Batch Request Save Successfully.");
         }
 
-        if (verification.verifyFieldIsMandatory(SOIL_QUALITY)) {
-            success("Select a Soil Quality should be mandatory.");
-        } else {
-            failure("ERROR : Select a Soil Quality should be mandatory.");
-        }
+        batch.searchCreatedBatch();
+        batch.openBatch();
+
+        batch.clickOnPanel(3);
 
         batch.clickOnField(SOIL_QUALITY);
 
@@ -136,7 +200,7 @@ public class SoilDescriptionAnalysisParameters extends BaseClass {
     }
 
     @Test
-    public void verify_analysis_parameter_information_validations_in_soil_description() {
+    public void verify_analysis_parameter_information_validations_in_soil_description_on_edit() {
 
         testCaseLog("Verify Analysis Parameter validations in the Soil Description section.");
 
@@ -164,19 +228,22 @@ public class SoilDescriptionAnalysisParameters extends BaseClass {
 
         batch.enterPanelOneInformation();
         batch.enterPanelTwoInformation();
+        batch.enterPanelThreeInformation();
 
-        if (verification.verifyPanelThreeDisplay()) {
-            success("User can see the Panel 3 Screen to enter Site Information.");
+        batch.clickOnField(SAVE_BUTTON);
+
+        if (verification.verifyBatchRequestSaved()) {
+            success("Verify Batch Request Save Successfully.");
         } else {
-            failure("ERROR : User can see the Panel 3 Screen to enter Site Information.");
+            failure("ERROR : Verify Batch Request Save Successfully.");
         }
 
-        if (verification.verifyAnalysisParametersDisplay()) {
-            success("Verify All Soil Analysis options display.");
-        } else {
-            failure("ERROR : Verify All Soil Analysis options display.");
-        }
+        batch.searchCreatedBatch();
+        batch.openBatch();
 
+        batch.clickOnPanel(3);
+
+        batch.uncheckSelectedChoice();
         batch.selectSoilAnalysis();
 
         if (verification.verifyTCLPAndSampleDetailDisplay()) {
@@ -214,7 +281,7 @@ public class SoilDescriptionAnalysisParameters extends BaseClass {
     }
 
     @Test
-    public void verify_receiving_site_information_validations_in_soil_description() {
+    public void verify_receiving_site_information_validations_in_soil_description_on_edit() {
 
         testCaseLog("Verify Receiving Site validations in the Soil Description section.");
 
@@ -242,15 +309,21 @@ public class SoilDescriptionAnalysisParameters extends BaseClass {
 
         batch.enterPanelOneInformation();
         batch.enterPanelTwoInformation();
+        batch.enterPanelThreeInformation();
 
-        if (verification.verifyPanelThreeDisplay()) {
-            success("User can see the Panel 3 Screen to enter Site Information.");
+        batch.clickOnField(SAVE_BUTTON);
+
+        if (verification.verifyBatchRequestSaved()) {
+            success("Verify Batch Request Save Successfully.");
         } else {
-            failure("ERROR : User can see the Panel 3 Screen to enter Site Information.");
+            failure("ERROR : Verify Batch Request Save Successfully.");
         }
 
-        batch.clickOnField(SOIL_QUALITY);
-        batch.selectSoilQuality(1);
+        batch.searchCreatedBatch();
+        batch.openBatch();
+
+        batch.clickOnPanel(3);
+
         batch.clickOnField(RECEIVING_SITE, 2);
 
         if (verification.verifyModelWindowOpens()) {
@@ -259,31 +332,12 @@ public class SoilDescriptionAnalysisParameters extends BaseClass {
             failure("ERROR : Verify Model Window opens to select receiving site.");
         }
 
-        if (batch.isReceivingSiteAvailable()) {
+        batch.selectAnyReceivingSite();
 
-            if (verification.verifyReceivingSiteNameAndAddressDisplay()) {
-                success("Verify Source Site user can see the Receiving Site Name and Address.");
-            } else {
-                failure("ERROR : Verify Source Site user can see the Receiving Site Name and Address.");
-            }
-
-            batch.searchReceivingSite();
-
-            if (verification.verifyReceivingSiteSearchedSuccessfully()) {
-                success("Verify Receiving Site searched successfully.");
-            } else {
-                failure("ERROR : Verify Receiving Site searched successfully.");
-            }
-
-            batch.selectAnyReceivingSite();
-
-            if (verification.verifyReceivingSiteSelected()) {
-                success("Verify Receiving Site selected successfully.");
-            } else {
-                failure("ERROR : Verify Receiving Site selected successfully.");
-            }
+        if (verification.verifyReceivingSiteSelected()) {
+            success("Verify Receiving Site selected successfully.");
         } else {
-            testWarningLog("No Receiving Site display for the selected Site, please re run test to get list of receiving sites.");
+            failure("ERROR : Verify Receiving Site selected successfully.");
         }
 
         sa.assertAll();

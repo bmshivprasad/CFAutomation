@@ -24,11 +24,33 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
     Generics generics;
     ExcelUtils excelUtils = new ExcelUtils();
 
+    public static int _index;
+
     public static String _batchName = "";
+    public static String _duplicateBatchName = "";
     public static String _selectedValue = "";
-    public static WebElement selectedElement;
+    public static String _estDate = "";
+    public static String _batchId = "";
+    public static String _estLoads = "";
+    public static String _estWeight = "";
+    public static String _estVolume = "";
+    public static String _sourceSite = "";
+    public static String _sourceType = "";
+    public static String _siteHistory = "";
+    public static String _presentUse = "";
+    public static String _primaryContact = "";
+    public static String _qualifiedPerson = "";
+    public static String _receivingSite = "";
+    public static String _receivingSiteAddress = "";
+    public static String _soilDescription = "";
+    public static String _analysisParams = "";
+    public static String _soilQuality = "";
+    public static int _soilQualityCount;
+
     public static List<String> _links = new LinkedList<>();
     public static List<String> _files = new LinkedList<>();
+
+    public static WebElement selectedElement;
 
     public BatchPage(WebDriver baseDriver) {
         this.localDriver = baseDriver;
@@ -63,6 +85,9 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
 
     @FindBy(xpath = "//mat-radio-group//label")
     public List<WebElement> lstRadioLabel;
+
+    @FindBy(xpath = "//mat-radio-button//input")
+    public List<WebElement> lstReceivingSiteSelect;
 
     @FindBy(xpath = "//input[@formcontrolname='estimatedLoads']")
     public WebElement txtEstLoads;
@@ -106,6 +131,9 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
     @FindBy(xpath = "//ng-select[@formcontrolname='soilDescription']//input")
     public WebElement selectSoilDescription;
 
+    @FindBy(xpath = "//ng-select//input")
+    public WebElement selectBatchStatus;
+
     @FindBy(xpath = "//common-dropdown[contains(@class,'batch-soilQuality-Type')]//ng-select//input")
     public WebElement selectSoilQuality;
 
@@ -115,7 +143,7 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
     @FindBy(xpath = "//input[@formcontrolname='otherAnalysisParamNum']")
     public WebElement txtOtherAnalysis;
 
-    @FindBy(xpath = "//fill-site-input//ng-select//input")
+    @FindBy(xpath = "//fill-site-input//button")
     public WebElement selectReceivingSite;
 
     @FindBy(xpath = "//file-upload//input")
@@ -147,6 +175,18 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
 
     @FindBy(xpath = "//div[contains(@class,'saveButtonRow')]//button")
     public WebElement btnSave;
+
+    @FindBy(xpath = "//td//a[contains(@class,'user__name')]")
+    public List<WebElement> lstReceivingSiteName;
+
+    @FindBy(xpath = "//common-search-bar//input")
+    public WebElement txtSearchReceivingSite;
+
+    @FindBy(xpath = "//td[contains(@class,'mat-column-address')]")
+    public List<WebElement> lstReceivingSiteAddress;
+
+    @FindBy(xpath = "//div[@class='sendContainer']//button")
+    public WebElement btnSelectSite;
 
     public WebElement getPanel(int count) {
         return lstBatchPanels.get(count - 1);
@@ -266,6 +306,7 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
     }
 
     public void clickOnPanel(int count) {
+        waitTillPageLoad();
         testStepsLog("Click on Panel " + count);
         generics.clickOn(getPanel(count));
     }
@@ -288,9 +329,10 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
 
     public void selectDate() {
         clickOnField("Calender", 2);
-        String todayDate = LocalDate.now().plusDays(1).format(DateTimeFormatter.ofPattern("MMMM d, yyyy"));
-        WebElement btnTomorrowDate = localDriver.findElement(By.xpath("//td[@aria-label='" + todayDate + "']"));
-        testStepsLog("Select Est Date - " + todayDate);
+        _estDate = LocalDate.now().plusDays(1).format(DateTimeFormatter.ofPattern("MMMM d, yyyy"));
+        WebElement btnTomorrowDate = localDriver.findElement(By.xpath("//td[@aria-label='" + _estDate + "']"));
+        testStepsLog("Select Est Date - " + _estDate);
+        _estDate = LocalDate.now().plusDays(1).format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
         generics.clickOn(btnTomorrowDate);
     }
 
@@ -307,12 +349,16 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
     }
 
     public void enterDuplicateBatchName() {
-        testStepsLog("Enter Batch Name : " + _batchName);
-        generics.type(txtBatchName, _batchName);
+        testStepsLog("Enter Batch Name : " + _duplicateBatchName);
+        generics.type(txtBatchName, _duplicateBatchName);
     }
 
     public void getAlreadyCreatedBatchName() {
-        _batchName = generics.getText(lblBatchName);
+        generics.clickOn(selectBatchStatus);
+        List<WebElement> lstList = localDriver.findElements(By.xpath("//ng-dropdown-panel//div[contains(@class,'ng-option')]//span[contains(text(),'Rece')]"));
+        lstList.forEach((option) -> generics.clickOnJS(option));
+        waitTillPageLoad();
+        _duplicateBatchName = generics.getText(lblBatchName);
     }
 
     public boolean isBatchListAvailable() {
@@ -355,15 +401,20 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
     public void enterValidValue(String fieldName, String value) {
         testStepsLog("Enter " + fieldName + " : " + value);
         generics.type(getFieldElement(fieldName), value);
+        _selectedValue = value;
     }
 
     public void enterPanelOneInformation() {
         selectDate();
         enterBatchName();
+        _batchId = generics.getValue(txtBatchId);
         selectAnyMeasurementSetting();
         enterValidValue(ESTIMATED_LOADS, String.valueOf(generics.getRandomBetween(100, 999)));
+        _estLoads = _selectedValue;
         enterValidValue(ESTIMATED_WEIGHT, String.valueOf(generics.getRandomBetween(100, 999)));
+        _estWeight = _selectedValue;
         enterValidValue(ESTIMATED_VOLUME, String.valueOf(generics.getRandomBetween(1000, 9999)));
+        _estVolume = _selectedValue;
         clickOnField(NEXT_STEP_1);
     }
 
@@ -402,17 +453,23 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
         waitTillPageLoad();
         clickOnField(SOURCE_SITE, 1);
         selectAnOption();
+        _sourceSite = _selectedValue;
         clickOnField(SOURCE_TYPE, 1);
         selectAnOption();
+        _sourceType = _selectedValue;
         clickOnField(SITE_HISTORY);
         selectAnOption();
+        _siteHistory = _selectedValue;
         enterValidValue(FieldOR.PRESENT_USE, SITE_HISTORY_RESIDENTIAL);
+        _presentUse = _selectedValue;
         clickOnField(PRIMARY_CONTACT);
         selectAnOption();
+        _primaryContact = _selectedValue;
         clickOnField(NEXT_STEP_1);
     }
 
     public void selectSoilQuality(int num) {
+        _soilQualityCount = _soilQualityCount + num;
         int count = num;
         while (num > 0) {
             WebElement selectedValue = lstDropdownValues.get(generics.getRandomBetween(0, lstDropdownValues.size() - 1));
@@ -422,10 +479,12 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
             if (count > 1) _selectedValue = count + " " + SOIL_TYPE_SELECTED;
             num--;
         }
+        generics.pause(3);
     }
 
     public void selectSoilAnalysis() {
-        selectedElement = soilParameters.get(generics.getRandomBetween(0, soilParameters.size() - 2));
+        _index = generics.getRandomBetween(0, soilParameters.size() - 2);
+        selectedElement = soilParameters.get(_index);
         _selectedValue = generics.getText(selectedElement);
         testStepsLog("Click on " + _selectedValue);
         generics.clickOn(selectedElement);
@@ -439,6 +498,7 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
     }
 
     public void uncheckSelectedChoice() {
+        selectedElement = soilParameters.get(_index);
         _selectedValue = generics.getText(selectedElement);
         testStepsLog("Click on " + _selectedValue);
         generics.clickOn(selectedElement);
@@ -449,12 +509,16 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
         waitTillPageLoad();
         clickOnField(FieldOR.SOIL_DESCRIPTION);
         selectAnOption();
+        _soilDescription = _selectedValue;
         clickOnField(SOIL_QUALITY);
         selectSoilQuality(3);
         clickOnPanel(3);
+        _soilQuality = _selectedValue;
+        System.out.println(_soilQuality);
         selectSoilAnalysis();
         clickOnField(RECEIVING_SITE);
-        selectAnOption();
+        _analysisParams = _selectedValue;
+        selectAnyReceivingSite();
         clickOnField(NEXT_STEP_1);
     }
 
@@ -625,10 +689,42 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
         testStepsLog("Open Batch : " + _batchName);
         generics.scrollToElement(lblBatchName);
         generics.clickOnJS(lblBatchName);
+        waitTillPageLoad();
     }
 
     public void removeText(String fieldName) {
         testStepsLog("Clear " + fieldName + " field.");
         generics.clear(getFieldElement(fieldName));
+    }
+
+    public void searchReceivingSite() {
+        List<String> siteName = new LinkedList<>();
+        lstReceivingSiteName.forEach((option) -> siteName.add(generics.getText(option)));
+        _receivingSite = siteName.get(generics.getRandomBetween(0, siteName.size() - 1));
+        testStepsLog("Enter Receiving Site - " + _receivingSite);
+        generics.type(txtSearchReceivingSite, _receivingSite);
+        waitTillPageLoad();
+    }
+
+    public void selectAnyReceivingSite() {
+        generics.clear(txtSearchReceivingSite);
+        waitTillPageLoad();
+        int index = generics.getRandomBetween(0, lstReceivingSiteSelect.size() - 1);
+        WebElement element = lstReceivingSiteSelect.get(index);
+        _receivingSite = lstReceivingSiteName.get(index).getText();
+        _receivingSiteAddress = lstReceivingSiteAddress.get(index).getText();
+        testStepsLog("Select Receiving Site - " + _receivingSite);
+        generics.clickOnJS(element);
+        generics.clickOnJS(btnSelectSite);
+    }
+
+    public void enterPanelFourInformation() {
+        enterLinks(1);
+        uploadFile(FILE_TYPE_JPEG);
+        enterValidValue(COMMENTS, generics.getRandomCharacters(100));
+    }
+
+    public boolean isReceivingSiteAvailable() {
+        return !lstReceivingSiteName.isEmpty();
     }
 }

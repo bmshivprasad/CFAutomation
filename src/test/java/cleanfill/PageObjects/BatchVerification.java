@@ -96,13 +96,13 @@ public class BatchVerification extends BaseClass implements Validations, FieldOR
     @FindBy(xpath = "//ng-select[@attr.data-meta='SourceTypeDD']//input")
     public WebElement selectSourceType;
 
-    @FindBy(xpath = "//ng-select[@formcontrolname='SourceTypeDD']//span[contains(@class,'ng-value-label')]")
+    @FindBy(xpath = "//ng-select[@attr.data-meta='SourceTypeDD']//span[contains(@class,'ng-value-label')]")
     public WebElement lblSelectedSourceType;
 
     @FindBy(xpath = "//ng-select[@attr.data-meta='SourceSiteHistoryDD']//input")
     public WebElement selectSiteHistory;
 
-    @FindBy(xpath = "//ng-select[@formcontrolname='SourceSiteHistoryDD']//span[contains(@class,'ng-value-label')]")
+    @FindBy(xpath = "//ng-select[@attr.data-meta='SourceSiteHistoryDD']//span[contains(@class,'ng-value-label')]")
     public WebElement lblSelectedSiteHistory;
 
     @FindBy(xpath = "//ng-select[@formcontrolname='primaryContact']//input")
@@ -180,6 +180,9 @@ public class BatchVerification extends BaseClass implements Validations, FieldOR
     @FindBy(xpath = "//link-preview//button")
     public WebElement btnDeleteLink;
 
+    @FindBy(xpath = "//common-file-upload-list//button[contains(@class,'prev-fil-del')]")
+    public WebElement btnDeleteFile;
+
     @FindBy(xpath = "//common-error//div[@class='message']")
     public WebElement lblError;
 
@@ -194,6 +197,22 @@ public class BatchVerification extends BaseClass implements Validations, FieldOR
 
     @FindBy(xpath = "//td[contains(@class,'mat-column-status')]")
     public WebElement lblBatchStatus;
+
+    @FindBy(xpath = "//app-fill-site-select")
+    public WebElement siteSelectContainer;
+
+    @FindBy(xpath = "//td//a[contains(@class,'user__name')]")
+    public List<WebElement> lstReceivingSiteName;
+
+    @FindBy(xpath = "//td[contains(@class,'mat-column-address ')]")
+    public List<WebElement> lstReceivingSiteAddress;
+
+    @FindBy(xpath = "//fill-site-input//h2")
+    public List<WebElement> lstReceivingSiteDetails;
+
+    @FindBy(xpath = "//fill-site-input//button")
+    public WebElement selectReceivingSite;
+
 
     public WebElement getFieldElement(String fieldName) {
         WebElement element = null;
@@ -223,6 +242,7 @@ public class BatchVerification extends BaseClass implements Validations, FieldOR
         else if (fieldName.equalsIgnoreCase(SELECTED_SOIL_QUALITY)) element = lblSelectedSoilQuality;
         else if (fieldName.equalsIgnoreCase(OTHER_SOIL_ANALYSIS)) element = txtOtherAnalysis;
         else if (fieldName.equalsIgnoreCase(COMMENTS)) element = txtComments;
+        else if (fieldName.equalsIgnoreCase(RECEIVING_SITE)) element = siteSelectContainer;
         else if (fieldName.contains("Panel"))
             element = lstBatchPanels.get(Integer.parseInt(fieldName.split(" ")[1]) - 1);
         return element;
@@ -289,7 +309,7 @@ public class BatchVerification extends BaseClass implements Validations, FieldOR
 
     public boolean verifyValidationMessageForDuplicateBatchName(String fieldName) {
         testStepsLog(generics.getText(lblErrorMessage(fieldName)));
-        return generics.getText(lblErrorMessage(fieldName)).equals(duplicateBatchName(BatchPage._batchName));
+        return generics.getText(lblErrorMessage(fieldName)).equals(duplicateBatchName(BatchPage._duplicateBatchName));
     }
 
     public boolean verifyBatchIdGenerated() {
@@ -336,7 +356,8 @@ public class BatchVerification extends BaseClass implements Validations, FieldOR
     }
 
     public boolean verifySelectedValueDisplayOnDropdown(String fieldName) {
-        return generics.getText(getFieldElement(fieldName)).equals(BatchPage._selectedValue);
+        return generics.getText(getFieldElement(fieldName)).equals(BatchPage._soilQualityCount +
+                " " + SOIL_TYPE_SELECTED);
     }
 
     public boolean verifySourceTypeOptionDisplay() {
@@ -383,7 +404,8 @@ public class BatchVerification extends BaseClass implements Validations, FieldOR
 
     public boolean verifyPanelThreeDisplay() {
         batch.waitTillPageLoad();
-        return soilParameters.size() == 8 && selectSiteInformation.size() == 3;
+        return soilParameters.size() == 8 && selectSiteInformation.size() == 2 &&
+                generics.isPresent(selectReceivingSite);
     }
 
     public boolean verifyAllSoilDescriptionOptionDisplay() {
@@ -434,10 +456,8 @@ public class BatchVerification extends BaseClass implements Validations, FieldOR
                 generics.isPresent(txtNumberOfSampleCount) && generics.isPresent(chkTCLP);
     }
 
-    public boolean verifyReceivingSiteInfo() {
-        lstDropdownValues.forEach((option) -> receivingSite.add(generics.getText(option)));
-        testStepsLog("Receiving Sites - " + receivingSite);
-        return !receivingSite.isEmpty();
+    public boolean verifyModelWindowOpens() {
+        return generics.isPresent(getFieldElement(RECEIVING_SITE));
     }
 
     public boolean verifyReceivingSiteUpdated() {
@@ -455,7 +475,7 @@ public class BatchVerification extends BaseClass implements Validations, FieldOR
     public boolean verifyLinkAddedSuccessfully() {
         List<String> links = new LinkedList<>();
         lstLinks.forEach((option) -> links.add(generics.getText(option)));
-        return links.equals(BatchPage._links);
+        return links.contains(BatchPage._links);
     }
 
     public boolean verifyDeleteActionButtons() {
@@ -481,7 +501,7 @@ public class BatchVerification extends BaseClass implements Validations, FieldOR
     }
 
     public boolean verifyFileDeleted() {
-        return lstFiles.isEmpty() && !generics.isPresent(btnDeleteLink);
+        return lstFiles.isEmpty() && !generics.isPresent(btnDeleteFile);
     }
 
     public boolean verifyMaxSizeFileValidation() {
@@ -518,5 +538,59 @@ public class BatchVerification extends BaseClass implements Validations, FieldOR
     public boolean verifyMeasurementDisplaySelected() {
         return lstRadioButtons.get(0).getAttribute("class").contains("mat-radio-checked") ||
                 lstRadioButtons.get(1).getAttribute("class").contains("mat-radio-checked");
+    }
+
+    public boolean verifyPanelOneInformationDisplay() {
+        return generics.getValue(txtEstDate).equalsIgnoreCase(BatchPage._estDate) &&
+                generics.getValue(txtBatchName).equalsIgnoreCase(BatchPage._batchName) &&
+                generics.getValue(txtBatchId).equalsIgnoreCase(BatchPage._batchId) &&
+                generics.getValue(txtEstLoads).equalsIgnoreCase(BatchPage._estLoads) &&
+                generics.getValue(txtEstWeight).equalsIgnoreCase(BatchPage._estWeight) &&
+                generics.getValue(txtEstVolume).equalsIgnoreCase(BatchPage._estVolume);
+    }
+
+    public boolean verifyPanelTwoInformationDisplay() {
+        boolean bool = true;
+        if (!BatchPage._sourceType.equalsIgnoreCase(OTHER))
+            bool = generics.getText(lblSelectedSourceType).equalsIgnoreCase(BatchPage._sourceType);
+        if (!BatchPage._siteHistory.equalsIgnoreCase(OTHER))
+            bool = bool && generics.getText(lblSelectedSiteHistory).equalsIgnoreCase(BatchPage._siteHistory);
+        return generics.getText(lblSelectedSourceSite).equalsIgnoreCase(BatchPage._sourceSite) && bool &&
+                generics.getText(lblSelectedPrimaryContact).equalsIgnoreCase(BatchPage._primaryContact) &&
+                generics.getValue(txtPresentUse).equalsIgnoreCase(BatchPage._presentUse);
+    }
+
+    public boolean verifyReceivingSiteNameAndAddressDisplay() {
+        List<String> siteName = new LinkedList<>();
+        List<String> siteAddress = new LinkedList<>();
+        lstReceivingSiteName.forEach((option) -> siteName.add(generics.getText(option)));
+        lstReceivingSiteAddress.forEach((option) -> siteAddress.add(generics.getText(option)));
+        return !siteName.isEmpty() && !siteAddress.isEmpty();
+    }
+
+    public boolean verifyReceivingSiteSearchedSuccessfully() {
+        List<String> siteName = new LinkedList<>();
+        lstReceivingSiteName.forEach((option) -> siteName.add(generics.getText(option)));
+        boolean bool = true;
+        for (String option : siteName) {
+            if (!option.equalsIgnoreCase(BatchPage._receivingSite)) {
+                bool = false;
+                break;
+            }
+        }
+        return bool;
+    }
+
+    public boolean verifyReceivingSiteSelected() {
+        return lstReceivingSiteDetails.get(0).getText().equalsIgnoreCase(BatchPage._receivingSite) &&
+                lstReceivingSiteDetails.get(1).getText().equalsIgnoreCase(BatchPage._receivingSiteAddress);
+    }
+
+    public boolean verifyPanelThreeInformationDisplay() {
+        return generics.getText(lblSelectedSoilDescription).equalsIgnoreCase(BatchPage._soilDescription) &&
+                generics.getText(lblSelectedSoilQuality).equalsIgnoreCase(BatchPage._soilQuality) &&
+                generics.getValue(lblSoilAnalysisParameter).equalsIgnoreCase(BatchPage._analysisParams) &&
+                lstReceivingSiteDetails.get(0).getText().equalsIgnoreCase(BatchPage._receivingSite) &&
+                lstReceivingSiteDetails.get(1).getText().equalsIgnoreCase(BatchPage._receivingSiteAddress);
     }
 }
