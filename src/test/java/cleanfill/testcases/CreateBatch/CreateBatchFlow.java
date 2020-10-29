@@ -39,8 +39,8 @@ public class CreateBatchFlow extends BaseClass {
                 failure("ERROR : Create New Batch screen not display");
             }
 
-            batch.enterBatchLoadInformation(i);
             batch.enterSourceSiteDetails(i);
+            batch.enterBatchLoadInformation(i);
             batch.enterSoilDescriptionParameters(i);
             batch.enterAttachments(i);
 

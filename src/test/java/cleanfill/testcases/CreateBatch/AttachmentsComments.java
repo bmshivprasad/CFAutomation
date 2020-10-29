@@ -38,8 +38,8 @@ public class AttachmentsComments extends BaseClass {
             failure("ERROR : Create New Batch screen not display");
         }
 
-        batch.enterPanelOneInformation();
         batch.enterPanelTwoInformation();
+        batch.enterPanelOneInformation();
         batch.enterPanelThreeInformation();
 
         if (verification.verifyPanelFourDisplay()) {
@@ -120,8 +120,8 @@ public class AttachmentsComments extends BaseClass {
             failure("ERROR : Create New Batch screen not display");
         }
 
-        batch.enterPanelOneInformation();
         batch.enterPanelTwoInformation();
+        batch.enterPanelOneInformation();
         batch.enterPanelThreeInformation();
 
         if (verification.verifyPanelFourDisplay()) {
@@ -176,7 +176,7 @@ public class AttachmentsComments extends BaseClass {
         batch.uploadFile(FieldOR.FILE_TYPE_DOC);
         batch.uploadFile(FieldOR.FILE_TYPE_PDF);
         batch.uploadFile(FieldOR.FILE_TYPE_EXTRA);
-        batch.uploadFile(FieldOR.FILE_TYPE_MAX);
+        batch.uploadFile(FieldOR.FILE_TYPE_EXTRA_2);
 
         if (verification.verifyMaxFileUploadValidation()) {
             success("Verify user can upload maximum 5 files for the batch.");
@@ -215,8 +215,8 @@ public class AttachmentsComments extends BaseClass {
             failure("ERROR : Create New Batch screen not display");
         }
 
-        batch.enterPanelOneInformation();
         batch.enterPanelTwoInformation();
+        batch.enterPanelOneInformation();
         batch.enterPanelThreeInformation();
 
         if (verification.verifyPanelFourDisplay()) {

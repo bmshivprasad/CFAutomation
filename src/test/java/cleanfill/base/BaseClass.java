@@ -15,6 +15,7 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.testng.IResultMap;
@@ -73,7 +74,10 @@ public class BaseClass extends ExtentInitializer implements Configurations, Fiel
                 WebDriverManager.chromedriver().setup();
                 System.setProperty("webdriver.chrome.silentOutput", "true");
                 java.util.logging.Logger.getLogger("org.openqa.selenium").setLevel(Level.OFF);
-                driver = new ChromeDriver();
+                ChromeOptions options = new ChromeOptions();
+                options.addArguments("--start-maximized");
+                options.addArguments("--enable-strict-powerful-feature-restrictions");
+                driver = new ChromeDriver(options);
                 break;
         }
         driver.manage().timeouts().implicitlyWait(Integer.parseInt(IMPLICIT_WAIT), TimeUnit.SECONDS);

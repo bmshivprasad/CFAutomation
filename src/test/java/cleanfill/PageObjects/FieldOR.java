@@ -2,6 +2,12 @@ package cleanfill.PageObjects;
 
 public interface FieldOR {
 
+    int BATCH_LOAD = 2;
+    int SOURCE_SITE_BATCH_CONTACT = 1;
+    int SOIL_DESC_ANALYSIS_PARAM = 3;
+    int ADD_DOCS_COMMENTS = 4;
+
+
     String ESTIMATED_LOADS = "Estimated Loads";
     String ESTIMATED_WEIGHT = "Estimated Weight";
     String ESTIMATED_VOLUME = "Estimated Volume";
@@ -22,8 +28,9 @@ public interface FieldOR {
     String SELECTED_SITE_HISTORY = "Selected Source Site History";
     String SELECTED_PRIMARY_CONTACT = "Selected Primary Contact";
     String SELECTED_QUALIFIED_PERSON = "Selected Qualified Person";
-    String SOURCE_TYPE_EX_SITE = "Ex Situ Excavation";
-    String SOURCE_TYPE_IN_SITE = "In Situ Excavation";
+    String SOURCE_TYPE_STOCKPILE = "Stockpile";
+    String SOURCE_TYPE_EXCAVATION = "Excavation";
+    String SOURCE_TYPE_DRILL_SPOILS = "Drill Spoils";
     String SOURCE_TYPE_OTHER = "Source Type - Other";
     String SITE_HISTORY_INDUSTRIAL = "Industrial Commercial";
     String SITE_HISTORY_RESIDENTIAL = "Residential";
@@ -35,7 +42,7 @@ public interface FieldOR {
     String OTHER = "Other";
 
     String SOIL_DESCRIPTION = "Soil Description";
-    String SOIL_QUALITY = "Soil Quality";
+    String SOIL_QUALITY = "Soil Criteria compared to";
     String RECEIVING_SITE = "Select The Receiving Site";
 
     String SELECTED_SOIL_DESCRIPTION = "Selected Soil Description";
@@ -96,6 +103,7 @@ public interface FieldOR {
     String FILE_TYPE_PDF = "PDF";
     String FILE_TYPE_MAX = "MAX";
     String FILE_TYPE_EXTRA = "Extra";
+    String FILE_TYPE_EXTRA_2 = "Extra_2";
 
     String SAVE_BUTTON = "Save";
 

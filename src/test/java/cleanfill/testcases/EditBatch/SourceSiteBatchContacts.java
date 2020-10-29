@@ -38,8 +38,8 @@ public class SourceSiteBatchContacts extends BaseClass {
             failure("ERROR : Create New Batch screen not display");
         }
 
-        batch.enterPanelOneInformation();
         batch.enterPanelTwoInformation();
+        batch.enterPanelOneInformation();
 
         batch.clickOnField(SAVE_BUTTON);
 
@@ -58,7 +58,7 @@ public class SourceSiteBatchContacts extends BaseClass {
         }
 
         batch.openBatch();
-        batch.clickOnPanel(2);
+        batch.clickOnPanel(SOURCE_SITE_BATCH_CONTACT);
 
         if (verification.verifyPanelTwoInformationDisplay()) {
             success("Verify Source Site information display same as before saved.");
@@ -97,8 +97,8 @@ public class SourceSiteBatchContacts extends BaseClass {
             failure("ERROR : Create New Batch screen not display");
         }
 
-        batch.enterPanelOneInformation();
         batch.enterPanelTwoInformation();
+        batch.enterPanelOneInformation();
 
         batch.clickOnField(SAVE_BUTTON);
 
@@ -111,7 +111,7 @@ public class SourceSiteBatchContacts extends BaseClass {
         batch.searchCreatedBatch();
         batch.openBatch();
 
-        batch.clickOnPanel(2);
+        batch.clickOnPanel(SOURCE_SITE_BATCH_CONTACT);
 
         batch.clickOnField(SOURCE_SITE);
 
@@ -160,8 +160,8 @@ public class SourceSiteBatchContacts extends BaseClass {
             failure("ERROR : Create New Batch screen not display");
         }
 
-        batch.enterPanelOneInformation();
         batch.enterPanelTwoInformation();
+        batch.enterPanelOneInformation();
 
         batch.clickOnField(SAVE_BUTTON);
 
@@ -174,7 +174,7 @@ public class SourceSiteBatchContacts extends BaseClass {
         batch.searchCreatedBatch();
         batch.openBatch();
 
-        batch.clickOnPanel(2);
+        batch.clickOnPanel(SOURCE_SITE_BATCH_CONTACT);
 
         batch.clickOnField(SOURCE_TYPE);
 
@@ -231,8 +231,8 @@ public class SourceSiteBatchContacts extends BaseClass {
             failure("ERROR : Create New Batch screen not display");
         }
 
-        batch.enterPanelOneInformation();
         batch.enterPanelTwoInformation();
+        batch.enterPanelOneInformation();
 
         batch.clickOnField(SAVE_BUTTON);
 
@@ -245,7 +245,7 @@ public class SourceSiteBatchContacts extends BaseClass {
         batch.searchCreatedBatch();
         batch.openBatch();
 
-        batch.clickOnPanel(2);
+        batch.clickOnPanel(SOURCE_SITE_BATCH_CONTACT);
 
         batch.clickOnField(SITE_HISTORY);
 
@@ -302,8 +302,8 @@ public class SourceSiteBatchContacts extends BaseClass {
             failure("ERROR : Create New Batch screen not display");
         }
 
-        batch.enterPanelOneInformation();
         batch.enterPanelTwoInformation();
+        batch.enterPanelOneInformation();
 
         batch.clickOnField(SAVE_BUTTON);
 
@@ -316,7 +316,7 @@ public class SourceSiteBatchContacts extends BaseClass {
         batch.searchCreatedBatch();
         batch.openBatch();
 
-        batch.clickOnPanel(2);
+        batch.clickOnPanel(SOURCE_SITE_BATCH_CONTACT);
 
         batch.clickOnField(PRESENT_USE);
         batch.enterMoreCharactersThan(PRESENT_USE, 50);
@@ -358,8 +358,8 @@ public class SourceSiteBatchContacts extends BaseClass {
             failure("ERROR : Create New Batch screen not display");
         }
 
-        batch.enterPanelOneInformation();
         batch.enterPanelTwoInformation();
+        batch.enterPanelOneInformation();
 
         batch.clickOnField(SAVE_BUTTON);
 
@@ -372,7 +372,7 @@ public class SourceSiteBatchContacts extends BaseClass {
         batch.searchCreatedBatch();
         batch.openBatch();
 
-        batch.clickOnPanel(2);
+        batch.clickOnPanel(SOURCE_SITE_BATCH_CONTACT);
 
         batch.clickOnField(PRIMARY_CONTACT);
 
@@ -434,7 +434,6 @@ public class SourceSiteBatchContacts extends BaseClass {
             failure("ERROR : Create New Batch screen not display");
         }
 
-        batch.enterPanelOneInformation();
         batch.waitTillPageLoad();
         batch.clickOnField(SOURCE_SITE, 1);
         batch.selectAnOption();
@@ -462,7 +461,7 @@ public class SourceSiteBatchContacts extends BaseClass {
             batch.searchCreatedBatch();
             batch.openBatch();
 
-            batch.clickOnPanel(2);
+            batch.clickOnPanel(SOURCE_SITE_BATCH_CONTACT);
             batch.clickOnField(QUALIFIED_PERSON);
 
             if (verification.verifyContactListDisplay()) {

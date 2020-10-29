@@ -276,10 +276,12 @@ public class BatchVerification extends BaseClass implements Validations, FieldOR
     public boolean verifyFieldIsMandatory(String fieldName) {
         try {
             testStepsLog(generics.getText(lblErrorMessage(fieldName)));
-            return generics.getText(lblErrorMessage(fieldName)).equals(REQUIRED);
+            return generics.getText(lblErrorMessage(fieldName)).equals(REQUIRED) ||
+                    generics.getText(lblErrorMessage(fieldName)).equals(ESTIMATED_WEIGHT_VOLUME_MANDATORY);
         } catch (Exception e) {
             testStepsLog(generics.getText(getRadioErrorMessage(fieldName)));
-            return generics.getText(getRadioErrorMessage(fieldName)).equals(REQUIRED);
+            return generics.getText(getRadioErrorMessage(fieldName)).equals(REQUIRED) ||
+                    generics.getText(lblErrorMessage(fieldName)).equals(ESTIMATED_WEIGHT_VOLUME_MANDATORY);
         }
     }
 
@@ -325,9 +327,12 @@ public class BatchVerification extends BaseClass implements Validations, FieldOR
     }
 
     public boolean verifyValidationMessageForInvalidField(String fieldName) {
-        testStepsLog(generics.getText(lblErrorMessage(fieldName)));
-        return generics.getText(lblErrorMessage(fieldName)).equals(VALUE_MORE_THAN_1) ||
-                generics.getValue(getFieldElement(fieldName)).isEmpty();
+        if (!generics.getValue(getFieldElement(fieldName)).isEmpty()) {
+            testStepsLog(generics.getText(lblErrorMessage(fieldName)));
+            return generics.getText(lblErrorMessage(fieldName)).equals(VALUE_MORE_THAN_1);
+        } else {
+            return generics.getValue(getFieldElement(fieldName)).isEmpty();
+        }
     }
 
     public boolean verifyValidationMessageForMoreChars(String fieldName) {
@@ -336,7 +341,8 @@ public class BatchVerification extends BaseClass implements Validations, FieldOR
     }
 
     public boolean verifyNegativeValueNotAccepted(String fieldName) {
-        return !generics.isPresent(getErrorMessageLocator(fieldName));
+        testStepsLog(generics.getText(lblErrorMessage(fieldName)));
+        return generics.getText(lblErrorMessage(fieldName)).equals(ESTIMATED_WEIGHT_VOLUME_MANDATORY);
     }
 
     public boolean verifyPanelTwoDisplay() {
@@ -357,14 +363,15 @@ public class BatchVerification extends BaseClass implements Validations, FieldOR
 
     public boolean verifySelectedValueDisplayOnDropdown(String fieldName) {
         return generics.getText(getFieldElement(fieldName)).equals(BatchPage._soilQualityCount +
-                " " + SOIL_TYPE_SELECTED);
+                " " + SOIL_TYPE_SELECTED) || generics.getText(getFieldElement(fieldName)).
+                equals(BatchPage._selectedValue);
     }
 
     public boolean verifySourceTypeOptionDisplay() {
         List<String> dropdownValues = new LinkedList<>();
         lstDropdownValues.forEach((option) -> dropdownValues.add(generics.getText(option)));
-        return dropdownValues.contains(SOURCE_TYPE_EX_SITE) && dropdownValues.contains(SOURCE_TYPE_IN_SITE) &&
-                dropdownValues.contains(OTHER);
+        return dropdownValues.contains(SOURCE_TYPE_STOCKPILE) && dropdownValues.contains(SOURCE_TYPE_EXCAVATION) &&
+                dropdownValues.contains(OTHER) && dropdownValues.contains(SOURCE_TYPE_DRILL_SPOILS);
     }
 
     public boolean verifyOtherOptionDisplayTextField(String fieldName) {
@@ -475,7 +482,7 @@ public class BatchVerification extends BaseClass implements Validations, FieldOR
     public boolean verifyLinkAddedSuccessfully() {
         List<String> links = new LinkedList<>();
         lstLinks.forEach((option) -> links.add(generics.getText(option)));
-        return links.contains(BatchPage._links);
+        return links.containsAll(BatchPage._links);
     }
 
     public boolean verifyDeleteActionButtons() {
@@ -497,7 +504,7 @@ public class BatchVerification extends BaseClass implements Validations, FieldOR
     public boolean verifyFileUploadedSuccessfully() {
         List<String> files = new LinkedList<>();
         lstFiles.forEach((option) -> files.add(generics.getText(option)));
-        return files.equals(BatchPage._files);
+        return files.equals(BatchPage._files) || files.get(0).equals(BatchPage._files.get(0));
     }
 
     public boolean verifyFileDeleted() {
@@ -505,8 +512,10 @@ public class BatchVerification extends BaseClass implements Validations, FieldOR
     }
 
     public boolean verifyMaxSizeFileValidation() {
-        testStepsLog(generics.getText(lblError));
-        return generics.getText(lblError).equals(FILE_MORE_THAN_10MB);
+        testStepsLog(generics.getText(lblDeleteConfirmation));
+        boolean bool = generics.getText(lblDeleteConfirmation).equals(FILE_MORE_THAN_10MB);
+        generics.clickOn(lstPopupButtons.get(0));
+        return bool;
     }
 
     public boolean verifyMaxFileUploadValidation() {
@@ -593,4 +602,5 @@ public class BatchVerification extends BaseClass implements Validations, FieldOR
                 lstReceivingSiteDetails.get(0).getText().equalsIgnoreCase(BatchPage._receivingSite) &&
                 lstReceivingSiteDetails.get(1).getText().equalsIgnoreCase(BatchPage._receivingSiteAddress);
     }
+
 }

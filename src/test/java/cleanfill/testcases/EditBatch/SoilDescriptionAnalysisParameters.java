@@ -38,8 +38,8 @@ public class SoilDescriptionAnalysisParameters extends BaseClass {
             failure("ERROR : Create New Batch screen not display");
         }
 
-        batch.enterPanelOneInformation();
         batch.enterPanelTwoInformation();
+        batch.enterPanelOneInformation();
         batch.enterPanelThreeInformation();
 
         batch.clickOnField(SAVE_BUTTON);
@@ -59,7 +59,7 @@ public class SoilDescriptionAnalysisParameters extends BaseClass {
         }
 
         batch.openBatch();
-        batch.clickOnPanel(3);
+        batch.clickOnPanel(SOIL_DESC_ANALYSIS_PARAM);
 
         if (verification.verifyPanelThreeInformationDisplay()) {
             success("Verify Soil Description information display same as before saved.");
@@ -98,8 +98,8 @@ public class SoilDescriptionAnalysisParameters extends BaseClass {
             failure("ERROR : Create New Batch screen not display");
         }
 
-        batch.enterPanelOneInformation();
         batch.enterPanelTwoInformation();
+        batch.enterPanelOneInformation();
         batch.enterPanelThreeInformation();
 
         batch.clickOnField(SAVE_BUTTON);
@@ -112,8 +112,7 @@ public class SoilDescriptionAnalysisParameters extends BaseClass {
 
         batch.searchCreatedBatch();
         batch.openBatch();
-
-        batch.clickOnPanel(3);
+        batch.clickOnPanel(SOIL_DESC_ANALYSIS_PARAM);
 
         batch.clickOnField(SOIL_DESCRIPTION);
 
@@ -162,8 +161,8 @@ public class SoilDescriptionAnalysisParameters extends BaseClass {
             failure("ERROR : Create New Batch screen not display");
         }
 
-        batch.enterPanelOneInformation();
         batch.enterPanelTwoInformation();
+        batch.enterPanelOneInformation();
         batch.enterPanelThreeInformation();
 
         batch.clickOnField(SAVE_BUTTON);
@@ -176,8 +175,7 @@ public class SoilDescriptionAnalysisParameters extends BaseClass {
 
         batch.searchCreatedBatch();
         batch.openBatch();
-
-        batch.clickOnPanel(3);
+        batch.clickOnPanel(SOIL_DESC_ANALYSIS_PARAM);
 
         batch.clickOnField(SOIL_QUALITY);
 
@@ -226,8 +224,8 @@ public class SoilDescriptionAnalysisParameters extends BaseClass {
             failure("ERROR : Create New Batch screen not display");
         }
 
-        batch.enterPanelOneInformation();
         batch.enterPanelTwoInformation();
+        batch.enterPanelOneInformation();
         batch.enterPanelThreeInformation();
 
         batch.clickOnField(SAVE_BUTTON);
@@ -240,8 +238,7 @@ public class SoilDescriptionAnalysisParameters extends BaseClass {
 
         batch.searchCreatedBatch();
         batch.openBatch();
-
-        batch.clickOnPanel(3);
+        batch.clickOnPanel(SOIL_DESC_ANALYSIS_PARAM);
 
         batch.uncheckSelectedChoice();
         batch.selectSoilAnalysis();
@@ -307,8 +304,8 @@ public class SoilDescriptionAnalysisParameters extends BaseClass {
             failure("ERROR : Create New Batch screen not display");
         }
 
-        batch.enterPanelOneInformation();
         batch.enterPanelTwoInformation();
+        batch.enterPanelOneInformation();
         batch.enterPanelThreeInformation();
 
         batch.clickOnField(SAVE_BUTTON);
@@ -321,8 +318,7 @@ public class SoilDescriptionAnalysisParameters extends BaseClass {
 
         batch.searchCreatedBatch();
         batch.openBatch();
-
-        batch.clickOnPanel(3);
+        batch.clickOnPanel(SOIL_DESC_ANALYSIS_PARAM);
 
         batch.clickOnField(RECEIVING_SITE, 2);
 

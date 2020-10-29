@@ -41,8 +41,6 @@ public class SourceSiteBatchContacts extends BaseClass {
             failure("ERROR : Create New Batch screen not display");
         }
 
-        batch.enterPanelOneInformation();
-
         if (verification.verifyPanelTwoDisplay()) {
             success("User can see the Panel 2 Screen to enter Site Information.");
         } else {
@@ -101,8 +99,6 @@ public class SourceSiteBatchContacts extends BaseClass {
         } else {
             failure("ERROR : Create New Batch screen not display");
         }
-
-        batch.enterPanelOneInformation();
 
         if (verification.verifyPanelTwoDisplay()) {
             success("User can see the Panel 2 Screen to enter Site Information.");
@@ -171,8 +167,6 @@ public class SourceSiteBatchContacts extends BaseClass {
             failure("ERROR : Create New Batch screen not display");
         }
 
-        batch.enterPanelOneInformation();
-
         if (verification.verifyPanelTwoDisplay()) {
             success("User can see the Panel 2 Screen to enter Site Information.");
         } else {
@@ -240,8 +234,6 @@ public class SourceSiteBatchContacts extends BaseClass {
             failure("ERROR : Create New Batch screen not display");
         }
 
-        batch.enterPanelOneInformation();
-
         if (verification.verifyPanelTwoDisplay()) {
             success("User can see the Panel 2 Screen to enter Site Information.");
         } else {
@@ -249,7 +241,7 @@ public class SourceSiteBatchContacts extends BaseClass {
         }
 
         batch.clickOnField(PRESENT_USE);
-        batch.clickOnPanel(2);
+        batch.clickOnPanel(SOURCE_SITE_BATCH_CONTACT);
 
         if (verification.verifyFieldIsMandatory(PRESENT_USE)) {
             success("Select a Present Use should be mandatory.");
@@ -295,8 +287,6 @@ public class SourceSiteBatchContacts extends BaseClass {
         } else {
             failure("ERROR : Create New Batch screen not display");
         }
-
-        batch.enterPanelOneInformation();
 
         if (verification.verifyPanelTwoDisplay()) {
             success("User can see the Panel 2 Screen to enter Site Information.");
@@ -369,8 +359,6 @@ public class SourceSiteBatchContacts extends BaseClass {
         } else {
             failure("ERROR : Create New Batch screen not display");
         }
-
-        batch.enterPanelOneInformation();
 
         if (verification.verifyPanelTwoDisplay()) {
             success("User can see the Panel 2 Screen to enter Site Information.");

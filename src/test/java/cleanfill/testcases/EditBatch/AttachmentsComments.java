@@ -38,8 +38,8 @@ public class AttachmentsComments extends BaseClass {
             failure("ERROR : Create New Batch screen not display");
         }
 
-        batch.enterPanelOneInformation();
         batch.enterPanelTwoInformation();
+        batch.enterPanelOneInformation();
         batch.enterPanelThreeInformation();
         batch.enterPanelFourInformation();
 
@@ -53,8 +53,7 @@ public class AttachmentsComments extends BaseClass {
 
         batch.searchCreatedBatch();
         batch.openBatch();
-
-        batch.clickOnPanel(4);
+        batch.clickOnPanel(ADD_DOCS_COMMENTS);
 
         batch.clickOnField(DELETE_LINK);
 
@@ -120,8 +119,8 @@ public class AttachmentsComments extends BaseClass {
             failure("ERROR : Create New Batch screen not display");
         }
 
-        batch.enterPanelOneInformation();
         batch.enterPanelTwoInformation();
+        batch.enterPanelOneInformation();
         batch.enterPanelThreeInformation();
         batch.enterPanelFourInformation();
 
@@ -136,7 +135,7 @@ public class AttachmentsComments extends BaseClass {
         batch.searchCreatedBatch();
         batch.openBatch();
 
-        batch.clickOnPanel(4);
+        batch.clickOnPanel(ADD_DOCS_COMMENTS);
 
         batch.clickOnField(DELETE_FILE);
 
@@ -215,8 +214,8 @@ public class AttachmentsComments extends BaseClass {
             failure("ERROR : Create New Batch screen not display");
         }
 
-        batch.enterPanelOneInformation();
         batch.enterPanelTwoInformation();
+        batch.enterPanelOneInformation();
         batch.enterPanelThreeInformation();
         batch.enterPanelFourInformation();
 
@@ -230,8 +229,7 @@ public class AttachmentsComments extends BaseClass {
 
         batch.searchCreatedBatch();
         batch.openBatch();
-
-        batch.clickOnPanel(4);
+        batch.clickOnPanel(ADD_DOCS_COMMENTS);
 
         batch.enterMoreCharactersThan(COMMENTS, 500);
 

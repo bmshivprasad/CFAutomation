@@ -100,10 +100,8 @@ public class Generics extends BaseClass {
     }
 
     public void scrollToBottom() {
-        WebElement element = generalDriver.findElement(By.tagName("body"));
-        element.sendKeys(Keys.PAGE_DOWN);
-        element.sendKeys(Keys.PAGE_DOWN);
-        element.sendKeys(Keys.PAGE_DOWN);
+        JavascriptExecutor js = ((JavascriptExecutor) generalDriver);
+        js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
     }
 
     public void switchToWindow() {
@@ -150,8 +148,12 @@ public class Generics extends BaseClass {
     }
 
     public String getAttribute(WebElement element, String attribute) {
+        String value;
         wait.until(ExpectedConditions.visibilityOfAllElements(element));
-        return element.getAttribute(attribute);
+        value = element.getAttribute(attribute);
+        if (value == null)
+            value = "";
+        return value;
     }
 
     public String getOrdinal(int number) {

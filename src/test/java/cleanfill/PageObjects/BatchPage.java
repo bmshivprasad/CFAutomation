@@ -11,12 +11,15 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.FluentWait;
 
 import java.io.File;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelColumns {
 
@@ -142,6 +145,9 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
 
     @FindBy(xpath = "//input[@formcontrolname='otherAnalysisParamNum']")
     public WebElement txtOtherAnalysis;
+
+    @FindBy(xpath = "//input[@formcontrolname='soilAnalysisNotDone']")
+    public WebElement chkNoAnalysis;
 
     @FindBy(xpath = "//fill-site-input//button")
     public WebElement selectReceivingSite;
@@ -290,8 +296,11 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
     }
 
     public void waitTillPageLoad() {
-        while (generics.isPresent(spinner))
-            generics.pause(1);
+        new FluentWait<>(localDriver)
+                .withTimeout(Duration.ofSeconds(20))
+                .pollingEvery(Duration.ofMillis(500))
+                .ignoring(NoSuchElementException.class)
+                .until(driver -> driver.findElements(By.id("spinner")).isEmpty());
     }
 
     public void clickOnNewBatchRequest() {
@@ -408,7 +417,7 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
         selectDate();
         enterBatchName();
         _batchId = generics.getValue(txtBatchId);
-        selectAnyMeasurementSetting();
+        // selectAnyMeasurementSetting();
         enterValidValue(ESTIMATED_LOADS, String.valueOf(generics.getRandomBetween(100, 999)));
         _estLoads = _selectedValue;
         enterValidValue(ESTIMATED_WEIGHT, String.valueOf(generics.getRandomBetween(100, 999)));
@@ -478,6 +487,7 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
             generics.clickOn(selectedValue);
             if (count > 1) _selectedValue = count + " " + SOIL_TYPE_SELECTED;
             num--;
+            generics.pause(2);
         }
         generics.pause(3);
     }
@@ -512,7 +522,7 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
         _soilDescription = _selectedValue;
         clickOnField(SOIL_QUALITY);
         selectSoilQuality(3);
-        clickOnPanel(3);
+        clickOnPanel(SOIL_DESC_ANALYSIS_PARAM);
         _soilQuality = _selectedValue;
         System.out.println(_soilQuality);
         selectSoilAnalysis();
@@ -549,6 +559,7 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
         else if (fileType.equalsIgnoreCase(FILE_TYPE_PDF)) temp = FILE_PDF;
         else if (fileType.equalsIgnoreCase(FILE_TYPE_MAX)) temp = FILE_10MB;
         else if (fileType.equalsIgnoreCase(FILE_TYPE_EXTRA)) temp = FILE_EXTRA;
+        else if (fileType.equalsIgnoreCase(FILE_TYPE_EXTRA_2)) temp = FILE_EXTRA_2;
         return temp;
     }
 
@@ -565,20 +576,20 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
         testStepsLog("Enter Batch Name - " + _batchName);
         generics.type(txtBatchName, _batchName);
 
-        String trackBy = excelUtils.getTestData(TEST_DATA, CREATE_BATCH, count, TRACK_BY);
-        if (trackBy.equalsIgnoreCase("Load")) {
-            testStepsLog("Select Measurement Settings - Track by Load");
-            generics.scrollToElement(lstRadioLabel.get(0));
-            generics.clickOn(lstRadioLabel.get(0));
-        } else {
-            testStepsLog("Select Measurement Settings - Track by Weight");
-            generics.scrollToElement(lstRadioLabel.get(1));
-            generics.clickOnJS(lstRadioLabel.get(1));
-        }
+//        String trackBy = excelUtils.getTestData(TEST_DATA, CREATE_BATCH, count, TRACK_BY);
+//        if (trackBy.equalsIgnoreCase("Load")) {
+//            testStepsLog("Select Measurement Settings - Track by Load");
+//            generics.scrollToElement(lstRadioLabel.get(0));
+//            generics.clickOn(lstRadioLabel.get(0));
+//        } else {
+//            testStepsLog("Select Measurement Settings - Track by Weight");
+//            generics.scrollToElement(lstRadioLabel.get(1));
+//            generics.clickOnJS(lstRadioLabel.get(1));
+//        }
 
         int estLoads = Integer.parseInt(excelUtils.getTestData(TEST_DATA, CREATE_BATCH, count, EST_LOADS));
         double estWeight = Double.parseDouble(excelUtils.getTestData(TEST_DATA, CREATE_BATCH, count, EST_WEIGHT));
-        double estVolume = Double.parseDouble(excelUtils.getTestData(TEST_DATA, CREATE_BATCH, count, EST_VOLUME));
+        int estVolume = Integer.parseInt(excelUtils.getTestData(TEST_DATA, CREATE_BATCH, count, EST_VOLUME));
 
         testStepsLog("Enter Est Loads - " + estLoads);
         generics.type(txtEstLoads, String.valueOf(estLoads));
@@ -647,7 +658,7 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
 
         clickOnField(SOIL_QUALITY);
         selectSoilQuality(1);
-        clickOnPanel(3);
+        clickOnPanel(SOIL_DESC_ANALYSIS_PARAM);
 
         String soilQty = excelUtils.getTestData(TEST_DATA, CREATE_BATCH, count, SOIL_PARAMETERS);
         element = localDriver.findElement(By.xpath("//mat-basic-chip[contains(text(),'" + soilQty + "')]"));
@@ -660,8 +671,7 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
         }
 
         clickOnField(RECEIVING_SITE);
-        if (lstDropdownValues.isEmpty()) testStepsLog("No Receiving Site display to select.");
-        else selectAnOption();
+        selectAnyReceivingSite();
 
         clickOnField(NEXT_STEP_1);
     }
@@ -726,5 +736,10 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
 
     public boolean isReceivingSiteAvailable() {
         return !lstReceivingSiteName.isEmpty();
+    }
+
+    public void clickOnSoilAnalysisDone() {
+        testStepsLog("Click on No Analysis");
+        generics.clickOn(chkNoAnalysis);
     }
 }

@@ -36,6 +36,7 @@ public interface Configurations {
     String FILE_PDF = FILE_LOCATION + File.separator + "QA_PDF.pdf";
     String FILE_10MB = FILE_LOCATION + File.separator + "QA_10MB.jpg";
     String FILE_EXTRA = FILE_LOCATION + File.separator + "QA_EXTRA.jpg";
+    String FILE_EXTRA_2 = FILE_LOCATION + File.separator + "QA_EXTRA_2.jpg";
 
     String BROWSER = getProperty("browser");
     String PROJECT_DIR = getProjectDir();

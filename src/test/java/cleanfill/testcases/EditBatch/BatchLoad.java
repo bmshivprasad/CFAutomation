@@ -38,6 +38,7 @@ public class BatchLoad extends BaseClass {
             failure("ERROR : Create New Batch screen not display");
         }
 
+        batch.clickOnPanel(BATCH_LOAD);
         batch.enterPanelOneInformation();
 
         batch.clickOnField(SAVE_BUTTON);
@@ -57,6 +58,7 @@ public class BatchLoad extends BaseClass {
         }
 
         batch.openBatch();
+        batch.clickOnPanel(BATCH_LOAD);
 
         if (verification.verifyPanelOneInformationDisplay()) {
             success("Verify Batch Load information display same as before saved.");
@@ -98,6 +100,7 @@ public class BatchLoad extends BaseClass {
             failure("ERROR : Create New Batch screen not display");
         }
 
+        batch.clickOnPanel(BATCH_LOAD);
         batch.enterPanelOneInformation();
 
         batch.clickOnField(SAVE_BUTTON);
@@ -110,6 +113,7 @@ public class BatchLoad extends BaseClass {
 
         batch.searchCreatedBatch();
         batch.openBatch();
+        batch.clickOnPanel(BATCH_LOAD);
 
         batch.removeText(BATCH_NAME);
         batch.clickOnField(BATCH_ID);
@@ -165,6 +169,7 @@ public class BatchLoad extends BaseClass {
             failure("ERROR : Create New Batch screen not display");
         }
 
+        batch.clickOnPanel(BATCH_LOAD);
         batch.enterPanelOneInformation();
 
         batch.clickOnField(SAVE_BUTTON);
@@ -177,6 +182,7 @@ public class BatchLoad extends BaseClass {
 
         batch.searchCreatedBatch();
         batch.openBatch();
+        batch.clickOnPanel(BATCH_LOAD);
 
         if (verification.verifyBatchIdGenerated()) {
             success("Batch ID should be generated automatically and of 7 digits.");
@@ -188,7 +194,7 @@ public class BatchLoad extends BaseClass {
 
     }
 
-    @Test
+    @Test(enabled = false)
     public void verify_measurement_settings_display_selected_after_opening_draft() {
 
         testCaseLog("Verify Measurement Settings display selected after opening draft.");
@@ -265,6 +271,7 @@ public class BatchLoad extends BaseClass {
             failure("ERROR : Create New Batch screen not display");
         }
 
+        batch.clickOnPanel(BATCH_LOAD);
         batch.enterPanelOneInformation();
 
         batch.clickOnField(SAVE_BUTTON);
@@ -277,6 +284,7 @@ public class BatchLoad extends BaseClass {
 
         batch.searchCreatedBatch();
         batch.openBatch();
+        batch.clickOnPanel(BATCH_LOAD);
 
         batch.removeText(ESTIMATED_LOADS);
 
@@ -343,6 +351,7 @@ public class BatchLoad extends BaseClass {
             failure("ERROR : Create New Batch screen not display");
         }
 
+        batch.clickOnPanel(BATCH_LOAD);
         batch.enterPanelOneInformation();
 
         batch.clickOnField(SAVE_BUTTON);
@@ -355,6 +364,7 @@ public class BatchLoad extends BaseClass {
 
         batch.searchCreatedBatch();
         batch.openBatch();
+        batch.clickOnPanel(BATCH_LOAD);
 
         batch.removeText(ESTIMATED_WEIGHT);
 
@@ -429,6 +439,7 @@ public class BatchLoad extends BaseClass {
             failure("ERROR : Create New Batch screen not display");
         }
 
+        batch.clickOnPanel(BATCH_LOAD);
         batch.enterPanelOneInformation();
 
         batch.clickOnField(SAVE_BUTTON);
@@ -441,6 +452,7 @@ public class BatchLoad extends BaseClass {
 
         batch.searchCreatedBatch();
         batch.openBatch();
+        batch.clickOnPanel(BATCH_LOAD);
 
         batch.removeText(ESTIMATED_VOLUME);
 

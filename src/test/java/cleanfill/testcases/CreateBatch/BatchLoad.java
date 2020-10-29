@@ -41,6 +41,8 @@ public class BatchLoad extends BaseClass {
             failure("ERROR : Create New Batch screen not display");
         }
 
+        batch.clickOnPanel(BATCH_LOAD);
+
         batch.clickOnField(ESTIMATED_START_DATE);
         batch.clickOnField(BATCH_NAME);
 
@@ -124,6 +126,8 @@ public class BatchLoad extends BaseClass {
             failure("ERROR : Create New Batch screen not display");
         }
 
+        batch.clickOnPanel(BATCH_LOAD);
+
         batch.clickOnField(BATCH_NAME);
         batch.clickOnField(BATCH_ID);
 
@@ -184,6 +188,8 @@ public class BatchLoad extends BaseClass {
             failure("ERROR : Create New Batch screen not display");
         }
 
+        batch.clickOnPanel(BATCH_LOAD);
+
         if (verification.verifyBatchIdGenerated()) {
             success("Batch ID should be generated automatically and of 7 digits.");
         } else {
@@ -194,7 +200,7 @@ public class BatchLoad extends BaseClass {
 
     }
 
-    @Test
+    @Test(enabled = false)
     public void verify_measurement_settings_validations_in_load_information() {
 
         testCaseLog("Verify Measurement Settings validations in the Load Information section.");
@@ -222,7 +228,7 @@ public class BatchLoad extends BaseClass {
         }
 
         batch.clickOnField(NEXT_STEP_1);
-        batch.clickOnPanel(1);
+        batch.clickOnPanel(BATCH_LOAD);
 
         if (verification.verifyFieldIsMandatory(MEASUREMENT_SETTING)) {
             success("Measurement Setting radios should be mandatory.");
@@ -261,7 +267,9 @@ public class BatchLoad extends BaseClass {
             failure("ERROR : Create New Batch screen not display");
         }
 
-        batch.selectAnyMeasurementSetting();
+        batch.clickOnPanel(BATCH_LOAD);
+
+        //  batch.selectAnyMeasurementSetting();
         batch.clickOnField(ESTIMATED_LOADS);
         batch.clickOnField(ESTIMATED_WEIGHT);
 
@@ -334,7 +342,9 @@ public class BatchLoad extends BaseClass {
             failure("ERROR : Create New Batch screen not display");
         }
 
-        batch.selectAnyMeasurementSetting();
+        batch.clickOnPanel(BATCH_LOAD);
+
+        //batch.selectAnyMeasurementSetting();
         batch.clickOnField(ESTIMATED_WEIGHT);
         batch.clickOnField(ESTIMATED_LOADS);
 
@@ -415,7 +425,9 @@ public class BatchLoad extends BaseClass {
             failure("ERROR : Create New Batch screen not display");
         }
 
-        batch.selectAnyMeasurementSetting();
+        batch.clickOnPanel(BATCH_LOAD);
+
+        // batch.selectAnyMeasurementSetting();
         batch.clickOnField(ESTIMATED_VOLUME);
         batch.clickOnField(ESTIMATED_LOADS);
 

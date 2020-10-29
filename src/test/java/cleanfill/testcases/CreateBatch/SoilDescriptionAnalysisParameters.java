@@ -38,8 +38,8 @@ public class SoilDescriptionAnalysisParameters extends BaseClass {
             failure("ERROR : Create New Batch screen not display");
         }
 
-        batch.enterPanelOneInformation();
         batch.enterPanelTwoInformation();
+        batch.enterPanelOneInformation();
 
         if (verification.verifyPanelThreeDisplay()) {
             success("User can see the Panel 3 Screen to enter Site Information.");
@@ -100,14 +100,18 @@ public class SoilDescriptionAnalysisParameters extends BaseClass {
             failure("ERROR : Create New Batch screen not display");
         }
 
-        batch.enterPanelOneInformation();
         batch.enterPanelTwoInformation();
+        batch.enterPanelOneInformation();
 
         if (verification.verifyPanelThreeDisplay()) {
             success("User can see the Panel 3 Screen to enter Site Information.");
         } else {
             failure("ERROR : User can see the Panel 3 Screen to enter Site Information.");
         }
+
+        batch.clickOnSoilAnalysisDone();
+        batch.clickOnSoilAnalysisDone();
+        batch.waitTillPageLoad();
 
         if (verification.verifyFieldIsMandatory(SOIL_QUALITY)) {
             success("Select a Soil Quality should be mandatory.");
@@ -162,8 +166,8 @@ public class SoilDescriptionAnalysisParameters extends BaseClass {
             failure("ERROR : Create New Batch screen not display");
         }
 
-        batch.enterPanelOneInformation();
         batch.enterPanelTwoInformation();
+        batch.enterPanelOneInformation();
 
         if (verification.verifyPanelThreeDisplay()) {
             success("User can see the Panel 3 Screen to enter Site Information.");
@@ -240,8 +244,8 @@ public class SoilDescriptionAnalysisParameters extends BaseClass {
             failure("ERROR : Create New Batch screen not display");
         }
 
-        batch.enterPanelOneInformation();
         batch.enterPanelTwoInformation();
+        batch.enterPanelOneInformation();
 
         if (verification.verifyPanelThreeDisplay()) {
             success("User can see the Panel 3 Screen to enter Site Information.");
