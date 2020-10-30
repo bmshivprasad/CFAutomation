@@ -74,10 +74,7 @@ public class BaseClass extends ExtentInitializer implements Configurations, Fiel
                 WebDriverManager.chromedriver().setup();
                 System.setProperty("webdriver.chrome.silentOutput", "true");
                 java.util.logging.Logger.getLogger("org.openqa.selenium").setLevel(Level.OFF);
-                ChromeOptions options = new ChromeOptions();
-                options.addArguments("--start-maximized");
-                options.addArguments("--enable-strict-powerful-feature-restrictions");
-                driver = new ChromeDriver(options);
+                driver = new ChromeDriver();
                 break;
         }
         driver.manage().timeouts().implicitlyWait(Integer.parseInt(IMPLICIT_WAIT), TimeUnit.SECONDS);

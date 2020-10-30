@@ -213,7 +213,6 @@ public class BatchVerification extends BaseClass implements Validations, FieldOR
     @FindBy(xpath = "//fill-site-input//button")
     public WebElement selectReceivingSite;
 
-
     public WebElement getFieldElement(String fieldName) {
         WebElement element = null;
         if (fieldName.equalsIgnoreCase(ESTIMATED_LOADS)) element = txtEstLoads;
@@ -550,6 +549,9 @@ public class BatchVerification extends BaseClass implements Validations, FieldOR
     }
 
     public boolean verifyPanelOneInformationDisplay() {
+        System.out.println(generics.getValue(txtEstLoads) + "   " + BatchPage._estLoads);
+        System.out.println(generics.getValue(txtEstWeight) + "   " + BatchPage._estWeight);
+        System.out.println(generics.getValue(txtEstVolume) + "   " + BatchPage._estVolume);
         return generics.getValue(txtEstDate).equalsIgnoreCase(BatchPage._estDate) &&
                 generics.getValue(txtBatchName).equalsIgnoreCase(BatchPage._batchName) &&
                 generics.getValue(txtBatchId).equalsIgnoreCase(BatchPage._batchId) &&

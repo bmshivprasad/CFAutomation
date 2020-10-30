@@ -69,6 +69,9 @@ public class SignupPage extends SignUp {
     @FindBy(xpath = "//mat-button-toggle//h2[text()='Source Site']")
     public WebElement btnSourceSite;
 
+    @FindBy(xpath = "//mat-button-toggle//h2[text()='Receiving Site']")
+    public WebElement btnReceivingSite;
+
     @FindBy(xpath = "//div[contains(@class,'businessType-next')]")
     public WebElement btnBusinessTypeNext;
 
@@ -116,9 +119,6 @@ public class SignupPage extends SignUp {
 
     @FindBy(xpath = "//mat-checkbox")
     public WebElement checkSameAsAbove;
-
-    @FindBy(xpath = "//registration-complete//button[2]")
-    public WebElement btnGoToHomepage;
 
     public void clickOnSignUpNowButton() {
         testStepsLog("Click on Sign up now button.");
@@ -235,6 +235,11 @@ public class SignupPage extends SignUp {
         generics.clickOn(btnSourceSite);
     }
 
+    public void selectReceivingSiteAsBusinessType() {
+        testStepsLog("Click on 'Receiving Site' button.");
+        generics.clickOn(btnReceivingSite);
+    }
+
     public void clickOnNextBusinessType() {
         testStepsLog("Click on Next button.");
         generics.clickOn(btnBusinessTypeNext);
@@ -249,7 +254,6 @@ public class SignupPage extends SignUp {
         testStepsLog("Click on Company Name.");
         generics.clickOn(txtCompanyName);
     }
-
 
     public void clickOnPanel(int count) {
         new BatchPage(localDriver).waitTillPageLoad();
@@ -274,7 +278,6 @@ public class SignupPage extends SignUp {
         generics.clickOn(comboAddress);
         generics.pause(3);
     }
-
 
     public void enterMoreCharactersFoMunicipality(int number) {
         String data = generics.getRandomCharacters(number + generics.getRandomBetween(1, 9));
@@ -404,13 +407,8 @@ public class SignupPage extends SignUp {
         generics.clickOn(checkSameAsAbove);
     }
 
-
     public boolean isBillingSameAsAbove() {
         return generics.getRandomBoolean();
     }
 
-    public void clickOnGoToHomepage() {
-        testStepsLog("Click on Go to homepage.");
-        generics.clickOn(btnGoToHomepage);
-    }
 }

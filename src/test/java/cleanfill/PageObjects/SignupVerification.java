@@ -65,8 +65,8 @@ public class SignupVerification extends BaseClass implements Validations, FieldO
     @FindBy(xpath = "//div[contains(@class,'businessType-next')]")
     public WebElement btnBusinessTypeNext;
 
-    @FindBy(xpath = "//panels//div[contains(@class,'panel-menu__option')]")
-    public List<WebElement> lstSourceSitePanels;
+    @FindBy(xpath = "//panels//div[contains(@class,'panel-menu__option')]/span")
+    public List<WebElement> lstSitePanels;
 
     @FindBy(xpath = "//input[@formcontrolname='name']")
     public List<WebElement> txtSiteName;
@@ -194,8 +194,16 @@ public class SignupVerification extends BaseClass implements Validations, FieldO
 
     public boolean verifySourceSitePanelDisplay() {
         batch.waitTillPageLoad();
-        return lstSourceSitePanels.size() == 4;
+        return generics.getText(lstSitePanels.get(2)).equalsIgnoreCase("Source Site") &&
+                lstSitePanels.size() == 4;
     }
+
+    public boolean verifyReceivingSitePanelDisplay() {
+        batch.waitTillPageLoad();
+        return generics.getText(lstSitePanels.get(2)).equalsIgnoreCase("Receiving Site") &&
+                lstSitePanels.size() == 4;
+    }
+
 
     public WebElement lblErrorMessage(String fieldName) {
         return localDriver.findElement(By.xpath("//h2[contains(text(),'" + fieldName + "')]" +
@@ -304,6 +312,5 @@ public class SignupVerification extends BaseClass implements Validations, FieldO
 
     public boolean verifySourceSiteUserNameDisplay() {
         return generics.getText(lblUsername).equalsIgnoreCase(SignupPage.givenName + " " + SignupPage.surName);
-
     }
 }

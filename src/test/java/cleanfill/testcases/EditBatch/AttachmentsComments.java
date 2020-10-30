@@ -175,7 +175,7 @@ public class AttachmentsComments extends BaseClass {
         batch.uploadFile(FieldOR.FILE_TYPE_DOC);
         batch.uploadFile(FieldOR.FILE_TYPE_PDF);
         batch.uploadFile(FieldOR.FILE_TYPE_EXTRA);
-        batch.uploadFile(FieldOR.FILE_TYPE_MAX);
+        batch.uploadFile(FieldOR.FILE_TYPE_EXTRA_2);
 
         if (verification.verifyMaxFileUploadValidation()) {
             success("Verify user can upload maximum 5 files for the batch.");
