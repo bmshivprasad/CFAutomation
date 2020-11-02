@@ -119,9 +119,6 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
     @FindBy(xpath = "//ng-dropdown-panel//div[contains(@class,'ng-option')]//span")
     public List<WebElement> lstDropdownValues;
 
-    @FindBy(xpath = "//div[@id='spinner']")
-    public WebElement spinner;
-
     @FindBy(xpath = "//input[@formcontrolname='sourceTypeOther']")
     public WebElement txtSourceTypeOther;
 
@@ -146,7 +143,7 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
     @FindBy(xpath = "//input[@formcontrolname='otherAnalysisParamNum']")
     public WebElement txtOtherAnalysis;
 
-    @FindBy(xpath = "//input[@formcontrolname='soilAnalysisNotDone']")
+    @FindBy(xpath = "//mat-checkbox[@formcontrolname='soilAnalysisNotDone']")
     public WebElement chkNoAnalysis;
 
     @FindBy(xpath = "//fill-site-input//button")
@@ -193,6 +190,12 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
 
     @FindBy(xpath = "//div[@class='sendContainer']//button")
     public WebElement btnSelectSite;
+
+    @FindBy(xpath = "//mat-calendar-header//button[3]")
+    public WebElement btnNextMonth;
+
+    @FindBy(xpath = "//button[@class='clost-btn']")
+    public WebElement btnClosePopup;
 
     public WebElement getPanel(int count) {
         return lstBatchPanels.get(count - 1);
@@ -339,9 +342,14 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
     public void selectDate() {
         clickOnField("Calender", 2);
         _estDate = LocalDate.now().plusDays(1).format(DateTimeFormatter.ofPattern("MMMM d, yyyy"));
-        WebElement btnTomorrowDate = localDriver.findElement(By.xpath("//td[@aria-label='" + _estDate + "']"));
         testStepsLog("Select Est Date - " + _estDate);
-        _estDate = LocalDate.now().plusDays(1).format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+        WebElement btnTomorrowDate;
+        try {
+            btnTomorrowDate = localDriver.findElement(By.xpath("//td[@aria-label='" + _estDate + "']"));
+        } catch (Exception e) {
+            generics.clickOn(btnNextMonth);
+            btnTomorrowDate = localDriver.findElement(By.xpath("//td[@aria-label='" + _estDate + "']"));
+        }
         generics.clickOn(btnTomorrowDate);
     }
 
@@ -521,13 +529,21 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
         selectAnOption();
         _soilDescription = _selectedValue;
         clickOnField(SOIL_QUALITY);
-        selectSoilQuality(3);
+        selectSoilQuality(1);
         clickOnPanel(SOIL_DESC_ANALYSIS_PARAM);
         _soilQuality = _selectedValue;
         System.out.println(_soilQuality);
         selectSoilAnalysis();
         clickOnField(RECEIVING_SITE);
         _analysisParams = _selectedValue;
+        while (isReceivingSiteNotAvailable()) {
+            closeReceivingSitePopup();
+            clickOnField(SOIL_QUALITY);
+            selectSoilQuality(1);
+            clickOnPanel(SOIL_DESC_ANALYSIS_PARAM);
+            _soilQuality = _selectedValue;
+            clickOnField(RECEIVING_SITE, 2);
+        }
         selectAnyReceivingSite();
         clickOnField(NEXT_STEP_1);
     }
@@ -734,12 +750,17 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
         enterValidValue(COMMENTS, generics.getRandomCharacters(100));
     }
 
-    public boolean isReceivingSiteAvailable() {
-        return !lstReceivingSiteName.isEmpty();
+    public boolean isReceivingSiteNotAvailable() {
+        return lstReceivingSiteName.isEmpty();
     }
 
     public void clickOnSoilAnalysisDone() {
         testStepsLog("Click on No Analysis");
         generics.clickOn(chkNoAnalysis);
+    }
+
+    public void closeReceivingSitePopup() {
+        testStepsLog("Click on Close button");
+        generics.clickOn(btnClosePopup);
     }
 }

@@ -8,6 +8,8 @@ public interface Validations {
 
     String ESTIMATED_WEIGHT_VOLUME_MANDATORY = "Value must be greater than 1";
 
+    String SOIL_QUALITY_MANDATORY = "Required if available. Or, select the no analysis option";
+
     String VALUE_MORE_THAN_1 = "Value must be greater than 1";
     String VALUE_MORE_THAN_50 = "No more than 50 characters are required";
 

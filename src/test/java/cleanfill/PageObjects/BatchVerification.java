@@ -208,7 +208,10 @@ public class BatchVerification extends BaseClass implements Validations, FieldOR
     public List<WebElement> lstReceivingSiteAddress;
 
     @FindBy(xpath = "//fill-site-input//h2")
-    public List<WebElement> lstReceivingSiteDetails;
+    public WebElement receivingSiteName;
+
+    @FindBy(xpath = "//fill-site-input//h3")
+    public WebElement receivingSiteAddress;
 
     @FindBy(xpath = "//fill-site-input//button")
     public WebElement selectReceivingSite;
@@ -249,6 +252,11 @@ public class BatchVerification extends BaseClass implements Validations, FieldOR
 
     public WebElement lblErrorMessage(String fieldName) {
         return localDriver.findElement(By.xpath("//h2[contains(text(),'" + fieldName + "')]" +
+                "//ancestor::mat-form-field//mat-error"));
+    }
+
+    public WebElement lblErrorMessage2(String fieldName) {
+        return localDriver.findElement(By.xpath("//h2[contains(text(),'" + fieldName + "')]" +
                 "//following-sibling::mat-form-field//mat-error"));
     }
 
@@ -276,22 +284,37 @@ public class BatchVerification extends BaseClass implements Validations, FieldOR
         try {
             testStepsLog(generics.getText(lblErrorMessage(fieldName)));
             return generics.getText(lblErrorMessage(fieldName)).equals(REQUIRED) ||
-                    generics.getText(lblErrorMessage(fieldName)).equals(ESTIMATED_WEIGHT_VOLUME_MANDATORY);
+                    generics.getText(lblErrorMessage(fieldName)).equals(ESTIMATED_WEIGHT_VOLUME_MANDATORY) ||
+                    generics.getText(lblErrorMessage(fieldName)).equals(SOIL_QUALITY_MANDATORY);
         } catch (Exception e) {
-            testStepsLog(generics.getText(getRadioErrorMessage(fieldName)));
-            return generics.getText(getRadioErrorMessage(fieldName)).equals(REQUIRED) ||
-                    generics.getText(lblErrorMessage(fieldName)).equals(ESTIMATED_WEIGHT_VOLUME_MANDATORY);
+            try {
+                testStepsLog(generics.getText(lblErrorMessage2(fieldName)));
+                return generics.getText(lblErrorMessage2(fieldName)).equals(REQUIRED) ||
+                        generics.getText(lblErrorMessage2(fieldName)).equals(ESTIMATED_WEIGHT_VOLUME_MANDATORY) ||
+                        generics.getText(lblErrorMessage2(fieldName)).equals(SOIL_QUALITY_MANDATORY);
+            } catch (Exception e2) {
+                testStepsLog(generics.getText(getRadioErrorMessage(fieldName)));
+                return generics.getText(getRadioErrorMessage(fieldName)).equals(REQUIRED) ||
+                        generics.getText(lblErrorMessage(fieldName)).equals(ESTIMATED_WEIGHT_VOLUME_MANDATORY);
+            }
         }
     }
 
+    public boolean verifyMandatoryFieldValidation(String fieldName) {
+        WebElement element = localDriver.findElement(By.xpath("//h2[contains(text(),'" +
+                fieldName + "')]//following-sibling::div//mat-error"));
+        testStepsLog(generics.getText(element));
+        return generics.getText(element).equals("Required if available. Or, select the no analysis option");
+    }
+
     public boolean verifyValidationMessageForPastDate(String fieldName) {
-        testStepsLog(generics.getText(lblErrorMessage(fieldName)));
-        return generics.getText(lblErrorMessage(fieldName)).equals(PAST_DATE);
+        testStepsLog(generics.getText(lblErrorMessage2(fieldName)));
+        return generics.getText(lblErrorMessage2(fieldName)).equals(PAST_DATE);
     }
 
     public boolean verifyValidationMessageForInvalidDate(String fieldName) {
-        testStepsLog(generics.getText(lblErrorMessage(fieldName)));
-        return generics.getText(lblErrorMessage(fieldName)).equals(INVALID_DATE);
+        testStepsLog(generics.getText(lblErrorMessage2(fieldName)));
+        return generics.getText(lblErrorMessage2(fieldName)).equals(INVALID_DATE);
     }
 
     public boolean verifyCalenderDisplay() {
@@ -306,6 +329,18 @@ public class BatchVerification extends BaseClass implements Validations, FieldOR
 
     public boolean verifyMaxCharacter(String fieldName, int number) {
         return generics.getValue(getFieldElement(fieldName)).length() == number;
+    }
+
+    public boolean verifyMaxCharacterValidationMessage(String fieldName, int number) {
+        testStepsLog(generics.getText(lblErrorMessage(fieldName)));
+        return generics.getText(lblErrorMessage(fieldName)).equalsIgnoreCase("No more than "
+                + number + " characters are required");
+    }
+
+    public boolean verifyMaxCharacterValidationMessage2(String fieldName, int number) {
+        testStepsLog(generics.getText(lblErrorMessage2(fieldName)));
+        return generics.getText(lblErrorMessage2(fieldName)).equalsIgnoreCase("No more than "
+                + number + " characters are required");
     }
 
     public boolean verifyValidationMessageForDuplicateBatchName(String fieldName) {
@@ -327,8 +362,8 @@ public class BatchVerification extends BaseClass implements Validations, FieldOR
 
     public boolean verifyValidationMessageForInvalidField(String fieldName) {
         if (!generics.getValue(getFieldElement(fieldName)).isEmpty()) {
-            testStepsLog(generics.getText(lblErrorMessage(fieldName)));
-            return generics.getText(lblErrorMessage(fieldName)).equals(VALUE_MORE_THAN_1);
+            testStepsLog(generics.getText(lblErrorMessage2(fieldName)));
+            return generics.getText(lblErrorMessage2(fieldName)).equals(VALUE_MORE_THAN_1);
         } else {
             return generics.getValue(getFieldElement(fieldName)).isEmpty();
         }
@@ -340,8 +375,8 @@ public class BatchVerification extends BaseClass implements Validations, FieldOR
     }
 
     public boolean verifyNegativeValueNotAccepted(String fieldName) {
-        testStepsLog(generics.getText(lblErrorMessage(fieldName)));
-        return generics.getText(lblErrorMessage(fieldName)).equals(ESTIMATED_WEIGHT_VOLUME_MANDATORY);
+        testStepsLog(generics.getText(lblErrorMessage2(fieldName)));
+        return generics.getText(lblErrorMessage2(fieldName)).equals(ESTIMATED_WEIGHT_VOLUME_MANDATORY);
     }
 
     public boolean verifyPanelTwoDisplay() {
@@ -593,16 +628,17 @@ public class BatchVerification extends BaseClass implements Validations, FieldOR
     }
 
     public boolean verifyReceivingSiteSelected() {
-        return lstReceivingSiteDetails.get(0).getText().equalsIgnoreCase(BatchPage._receivingSite) &&
-                lstReceivingSiteDetails.get(1).getText().equalsIgnoreCase(BatchPage._receivingSiteAddress);
+        return receivingSiteName.getText().equalsIgnoreCase(BatchPage._receivingSite) &&
+                receivingSiteAddress.getText().replace("location_on\n", "")
+                        .equalsIgnoreCase(BatchPage._receivingSiteAddress);
     }
 
     public boolean verifyPanelThreeInformationDisplay() {
         return generics.getText(lblSelectedSoilDescription).equalsIgnoreCase(BatchPage._soilDescription) &&
                 generics.getText(lblSelectedSoilQuality).equalsIgnoreCase(BatchPage._soilQuality) &&
                 generics.getValue(lblSoilAnalysisParameter).equalsIgnoreCase(BatchPage._analysisParams) &&
-                lstReceivingSiteDetails.get(0).getText().equalsIgnoreCase(BatchPage._receivingSite) &&
-                lstReceivingSiteDetails.get(1).getText().equalsIgnoreCase(BatchPage._receivingSiteAddress);
+                receivingSiteName.getText().equalsIgnoreCase(BatchPage._receivingSite) &&
+                receivingSiteAddress.getText().equalsIgnoreCase(BatchPage._receivingSiteAddress);
     }
 
 }

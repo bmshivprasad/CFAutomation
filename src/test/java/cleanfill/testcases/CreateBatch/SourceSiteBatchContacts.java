@@ -47,6 +47,9 @@ public class SourceSiteBatchContacts extends BaseClass {
             failure("ERROR : User can see the Panel 2 Screen to enter Site Information.");
         }
 
+        batch.clickOnPanel(2);
+        batch.clickOnPanel(1);
+
         if (verification.verifyFieldIsMandatory(SOURCE_SITE)) {
             success("Select a Source Site should be mandatory.");
         } else {
@@ -106,6 +109,9 @@ public class SourceSiteBatchContacts extends BaseClass {
             failure("ERROR : User can see the Panel 2 Screen to enter Site Information.");
         }
 
+        batch.clickOnPanel(2);
+        batch.clickOnPanel(1);
+
         if (verification.verifyFieldIsMandatory(SOURCE_TYPE)) {
             success("Select a Source Type should be mandatory.");
         } else {
@@ -130,7 +136,7 @@ public class SourceSiteBatchContacts extends BaseClass {
 
         batch.enterMoreCharactersThan(SOURCE_TYPE_OTHER, 25);
 
-        if (verification.verifyMaxCharacter(SOURCE_TYPE_OTHER, 25)) {
+        if (verification.verifyMaxCharacterValidationMessage("Other Source Type", 25)) {
             success("Other can have max 25 characters");
         } else {
             failure("ERROR : Other can have max 25 characters");
@@ -173,6 +179,9 @@ public class SourceSiteBatchContacts extends BaseClass {
             failure("ERROR : User can see the Panel 2 Screen to enter Site Information.");
         }
 
+        batch.clickOnPanel(2);
+        batch.clickOnPanel(1);
+
         if (verification.verifyFieldIsMandatory(SITE_HISTORY)) {
             success("Select a Site History should be mandatory.");
         } else {
@@ -197,7 +206,7 @@ public class SourceSiteBatchContacts extends BaseClass {
 
         batch.enterMoreCharactersThan(SITE_HISTORY_OTHER, 25);
 
-        if (verification.verifyMaxCharacter(SITE_HISTORY_OTHER, 25)) {
+        if (verification.verifyMaxCharacterValidationMessage("Other Source Site History", 25)) {
             success("Other can have max 25 characters");
         } else {
             failure("ERROR : Other can have max 25 characters");
@@ -240,6 +249,9 @@ public class SourceSiteBatchContacts extends BaseClass {
             failure("ERROR : User can see the Panel 2 Screen to enter Site Information.");
         }
 
+        batch.clickOnPanel(2);
+        batch.clickOnPanel(1);
+
         batch.clickOnField(PRESENT_USE);
         batch.clickOnPanel(SOURCE_SITE_BATCH_CONTACT);
 
@@ -251,7 +263,7 @@ public class SourceSiteBatchContacts extends BaseClass {
 
         batch.enterMoreCharactersThan(PRESENT_USE, 50);
 
-        if (verification.verifyValidationMessageForMoreChars(PRESENT_USE)) {
+        if (verification.verifyMaxCharacterValidationMessage2(PRESENT_USE, 50)) {
             success("Present Use can have max 50 characters");
         } else {
             failure("ERROR : Present Use can have max 50 characters");
@@ -293,6 +305,9 @@ public class SourceSiteBatchContacts extends BaseClass {
         } else {
             failure("ERROR : User can see the Panel 2 Screen to enter Site Information.");
         }
+
+        batch.clickOnPanel(2);
+        batch.clickOnPanel(1);
 
         if (verification.verifyFieldIsMandatory(PRIMARY_CONTACT)) {
             success("Select a Primary Contact should be mandatory.");
@@ -365,6 +380,9 @@ public class SourceSiteBatchContacts extends BaseClass {
         } else {
             failure("ERROR : User can see the Panel 2 Screen to enter Site Information.");
         }
+
+        batch.clickOnPanel(2);
+        batch.clickOnPanel(1);
 
         batch.clickOnField(QUALIFIED_PERSON);
 

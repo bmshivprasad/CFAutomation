@@ -113,7 +113,7 @@ public class SoilDescriptionAnalysisParameters extends BaseClass {
         batch.clickOnSoilAnalysisDone();
         batch.waitTillPageLoad();
 
-        if (verification.verifyFieldIsMandatory(SOIL_QUALITY)) {
+        if (verification.verifyMandatoryFieldValidation(SOIL_QUALITY)) {
             success("Select a Soil Quality should be mandatory.");
         } else {
             failure("ERROR : Select a Soil Quality should be mandatory.");
@@ -255,7 +255,16 @@ public class SoilDescriptionAnalysisParameters extends BaseClass {
 
         batch.clickOnField(SOIL_QUALITY);
         batch.selectSoilQuality(1);
+        batch.clickOnPanel(3);
         batch.clickOnField(RECEIVING_SITE, 2);
+
+        while (batch.isReceivingSiteNotAvailable()) {
+            batch.closeReceivingSitePopup();
+            batch.clickOnField(SOIL_QUALITY);
+            batch.selectSoilQuality(1);
+            batch.clickOnPanel(3);
+            batch.clickOnField(RECEIVING_SITE, 2);
+        }
 
         if (verification.verifyModelWindowOpens()) {
             success("Verify Model Window opens to select receiving site.");
@@ -263,31 +272,26 @@ public class SoilDescriptionAnalysisParameters extends BaseClass {
             failure("ERROR : Verify Model Window opens to select receiving site.");
         }
 
-        if (batch.isReceivingSiteAvailable()) {
-
-            if (verification.verifyReceivingSiteNameAndAddressDisplay()) {
-                success("Verify Source Site user can see the Receiving Site Name and Address.");
-            } else {
-                failure("ERROR : Verify Source Site user can see the Receiving Site Name and Address.");
-            }
-
-            batch.searchReceivingSite();
-
-            if (verification.verifyReceivingSiteSearchedSuccessfully()) {
-                success("Verify Receiving Site searched successfully.");
-            } else {
-                failure("ERROR : Verify Receiving Site searched successfully.");
-            }
-
-            batch.selectAnyReceivingSite();
-
-            if (verification.verifyReceivingSiteSelected()) {
-                success("Verify Receiving Site selected successfully.");
-            } else {
-                failure("ERROR : Verify Receiving Site selected successfully.");
-            }
+        if (verification.verifyReceivingSiteNameAndAddressDisplay()) {
+            success("Verify Source Site user can see the Receiving Site Name and Address.");
         } else {
-            testWarningLog("No Receiving Site display for the selected Site, please re run test to get list of receiving sites.");
+            failure("ERROR : Verify Source Site user can see the Receiving Site Name and Address.");
+        }
+
+        batch.searchReceivingSite();
+
+        if (verification.verifyReceivingSiteSearchedSuccessfully()) {
+            success("Verify Receiving Site searched successfully.");
+        } else {
+            failure("ERROR : Verify Receiving Site searched successfully.");
+        }
+
+        batch.selectAnyReceivingSite();
+
+        if (verification.verifyReceivingSiteSelected()) {
+            success("Verify Receiving Site selected successfully.");
+        } else {
+            failure("ERROR : Verify Receiving Site selected successfully.");
         }
 
         sa.assertAll();

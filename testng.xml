@@ -8,8 +8,6 @@
             <class name="cleanfill.testcases.CreateBatch.SourceSiteBatchContacts"/>
             <class name="cleanfill.testcases.CreateBatch.AttachmentsComments"/>
             <class name="cleanfill.testcases.CreateBatch.CreateBatchFlow"/>
-            <class name="cleanfill.testcases.EditBatch.BatchLoad"/>
-            <class name="cleanfill.testcases.EditBatch.SoilDescriptionAnalysisParameters"/>
         </classes>
     </test>
 </suite>
