@@ -132,6 +132,46 @@ public class SourceSiteSignup extends BaseClass {
             failure("ERROR : Verify Company Name is mandatory.");
         }
 
+        signup.enterPostalCode();
+
+        if (verification.verifyInvalidPostalCodeEntry()) {
+            success("Verify Postal Code display Invalid Entry.");
+        } else {
+            failure("ERROR : Verify Postal Code display Invalid Entry.");
+        }
+
+        signup.enterMaxPhoneNumber(0);
+
+        if (verification.verifyMaxCharacterPhoneNumber()) {
+            success("Verify Max character validation message for the Phone Number field.");
+        } else {
+            failure("ERROR : Verify Max character validation message for the Phone Number field.");
+        }
+
+        signup.enterPhoneNumber(0);
+
+        if (verification.verifyPhoneNumberFormat()) {
+            success("Verify Phone Number format field.");
+        } else {
+            failure("ERROR : Verify Phone Number format field.");
+        }
+
+        signup.enterInvalidExtension(0);
+
+        if (verification.verifyMaxCharacterExtension()) {
+            success("Verify Max character validation message for the Extension field.");
+        } else {
+            failure("ERROR : Verify Max character validation message for the Extension field.");
+        }
+
+        signup.enterExtension(0);
+
+        if (verification.verifyExtensionFormat()) {
+            success("Verify Extension format field.");
+        } else {
+            failure("ERROR : Verify Extension format field.");
+        }
+
         signup.enterCompanyName();
         signup.enterAddress();
         signup.enterPhoneNumber(0);

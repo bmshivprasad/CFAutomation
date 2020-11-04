@@ -77,7 +77,7 @@ public class BaseClass extends ExtentInitializer implements Configurations, Fiel
                 driver = new ChromeDriver();
                 break;
         }
-        driver.manage().timeouts().implicitlyWait(Integer.parseInt(IMPLICIT_WAIT), TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(IMPLICIT_WAIT, TimeUnit.SECONDS);
         driver.manage().window().maximize();
 
         return driver;

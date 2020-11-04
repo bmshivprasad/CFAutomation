@@ -7,6 +7,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 
@@ -20,6 +22,10 @@ public class SignupPage extends SignUp {
     public static String givenName = "";
     public static String surName = "";
     public static String sourceSiteName = "";
+    public static String receivingSiteName = "";
+    public static String receivingSiteRegNo = "";
+    public static String companyVisibility = "";
+    public static String thirdPartyVisibility = "";
     public static String addressCity = "";
     public static String addressState = "";
     public static String addressPostalCode = "";
@@ -120,6 +126,15 @@ public class SignupPage extends SignUp {
     @FindBy(xpath = "//mat-checkbox")
     public WebElement checkSameAsAbove;
 
+    @FindBy(xpath = "//input[@formcontrolname='registrationNumber']")
+    public WebElement txtReceivingSiteRegNumber;
+
+    @FindBy(xpath = "//mat-radio-group[@formcontrolname='visibilityToClients']//mat-radio-button//div[@class='company-visibility']/span[1]")
+    public List<WebElement> btnVisibility;
+
+    @FindBy(xpath = "//mat-radio-group[@formcontrolname='isTPQPApprovalRequired']//mat-radio-button//div[@class='mat-radio-label-content']")
+    public List<WebElement> btnThirdPartyReporting;
+
     public void clickOnSignUpNowButton() {
         testStepsLog("Click on Sign up now button.");
         generics.clickOn(btnSignUpNow);
@@ -211,6 +226,8 @@ public class SignupPage extends SignUp {
 
     public void clickOnTermsConditions() {
         generics.scrollToBottom();
+        new WebDriverWait(localDriver, WEBDRIVER_WAIT).
+                until(ExpectedConditions.elementToBeClickable(chkTerms));
         testStepsLog("Click on 'I agree with the Term & Conditions' checkbox.");
         generics.clickOn(chkTerms);
     }
@@ -231,11 +248,15 @@ public class SignupPage extends SignUp {
     }
 
     public void selectSourceSiteAsBusinessType() {
+        new WebDriverWait(localDriver, WEBDRIVER_WAIT).
+                until(ExpectedConditions.elementToBeClickable(btnSourceSite));
         testStepsLog("Click on 'Source Site' button.");
         generics.clickOn(btnSourceSite);
     }
 
     public void selectReceivingSiteAsBusinessType() {
+        new WebDriverWait(localDriver, WEBDRIVER_WAIT).
+                until(ExpectedConditions.elementToBeClickable(btnReceivingSite));
         testStepsLog("Click on 'Receiving Site' button.");
         generics.clickOn(btnReceivingSite);
     }
@@ -334,6 +355,12 @@ public class SignupPage extends SignUp {
         generics.type(txtSiteName.get(0), sourceSiteName);
     }
 
+    public void enterReceivingSiteName() {
+        receivingSiteName = generics.getRandomCharacters(12);
+        testStepsLog("Enter Receiving Site Name - " + receivingSiteName);
+        generics.type(txtSiteName.get(0), receivingSiteName);
+    }
+
     public void enterFullName(int index) {
         name = generics.getRandomCharacters(8) + " " + generics.getRandomCharacters(10);
         testStepsLog("Enter Full Name : " + name);
@@ -360,6 +387,11 @@ public class SignupPage extends SignUp {
 
     public void clickOnSourceSiteName(int index) {
         testStepsLog("Click on Source Site Name.");
+        generics.clickOn(txtSiteName.get(index));
+    }
+
+    public void clickOnReceivingSiteName(int index) {
+        testStepsLog("Click on Receiving Site Name.");
         generics.clickOn(txtSiteName.get(index));
     }
 
@@ -392,8 +424,14 @@ public class SignupPage extends SignUp {
 
     public void enterMoreCharactersForSourceSiteThan(int number, int index) {
         String data = generics.getRandomCharacters(number + generics.getRandomBetween(1, 9));
-        testStepsLog("Enter Source Site Name : " + data);
+        testStepsLog("Enter Site Name : " + data);
         generics.type(txtSiteName.get(index), data);
+    }
+
+    public void enterMoreCharactersForReceivingSiteRegNoThan(int number) {
+        String data = generics.getRandomCharacters(number + generics.getRandomBetween(1, 9));
+        testStepsLog("Enter Registration Number : " + data);
+        generics.type(txtReceivingSiteRegNumber, data);
     }
 
     public void enterMaxCharsForFullName(int index) {
@@ -409,6 +447,32 @@ public class SignupPage extends SignUp {
 
     public boolean isBillingSameAsAbove() {
         return generics.getRandomBoolean();
+    }
+
+    public void enterReceivingSiteRegNumber() {
+        receivingSiteRegNo = generics.getRandomCharacters(10).toUpperCase() + generics.getRandomBetween(10000, 99999);
+        testStepsLog("Enter Registration Number : " + receivingSiteRegNo);
+        generics.type(txtReceivingSiteRegNumber, receivingSiteRegNo);
+    }
+
+    public void enterPostalCode() {
+        addressPostalCode = String.valueOf(generics.getRandomBetween(10000, 99999));
+        testStepsLog("Enter Postal Code : " + addressPostalCode);
+        generics.type(txtPostalCode, addressPostalCode);
+    }
+
+    public void selectVisibility() {
+        int index = generics.getRandomBetween(0, 1);
+        generics.clickOn(btnVisibility.get(index));
+        companyVisibility = generics.getText(btnVisibility.get(index));
+        testStepsLog("Select 'Company’s Visibility To Clients' as : " + companyVisibility);
+    }
+
+    public void selectThirdPartyReporting() {
+        int index = generics.getRandomBetween(0, 1);
+        generics.clickOn(btnThirdPartyReporting.get(index));
+        thirdPartyVisibility = generics.getText(btnThirdPartyReporting.get(index));
+        testStepsLog("Select 'Does this site require 3rd party reporting?' as : " + thirdPartyVisibility);
     }
 
 }

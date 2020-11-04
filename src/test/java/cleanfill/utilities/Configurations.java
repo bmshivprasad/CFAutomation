@@ -41,8 +41,8 @@ public interface Configurations {
     String BROWSER = getProperty("browser");
     String PROJECT_DIR = getProjectDir();
 
-    String IMPLICIT_WAIT = getProperty("default_wait");
-    String WEBDRIVER_WAIT = getProperty("webdriver_wait");
+    int IMPLICIT_WAIT = Integer.parseInt(getProperty("default_wait"));
+    long WEBDRIVER_WAIT = Long.parseLong(getProperty("webdriver_wait"));
 
     static String getProjectDir() {
         return System.getProperty("user.dir");

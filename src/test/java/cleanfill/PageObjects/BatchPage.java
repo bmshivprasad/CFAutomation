@@ -300,7 +300,7 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
 
     public void waitTillPageLoad() {
         new FluentWait<>(localDriver)
-                .withTimeout(Duration.ofSeconds(20))
+                .withTimeout(Duration.ofSeconds(WEBDRIVER_WAIT))
                 .pollingEvery(Duration.ofMillis(500))
                 .ignoring(NoSuchElementException.class)
                 .until(driver -> driver.findElements(By.id("spinner")).isEmpty());

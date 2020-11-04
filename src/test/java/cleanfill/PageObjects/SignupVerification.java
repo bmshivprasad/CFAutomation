@@ -116,6 +116,15 @@ public class SignupVerification extends BaseClass implements Validations, FieldO
     @FindBy(xpath = "//dashboard//h4")
     public WebElement lblUsername;
 
+    @FindBy(xpath = "//input[@formcontrolname='registrationNumber']")
+    public WebElement txtReceivingSiteRegNumber;
+
+    @FindBy(xpath = "//mat-radio-group[@formcontrolname='visibilityToClients']//mat-radio-button[contains(@class,'mat-radio-checked')]//div[@class='company-visibility']/span[1]")
+    public WebElement btnVisibilitySelection;
+
+    @FindBy(xpath = "//mat-radio-group[@formcontrolname='isTPQPApprovalRequired']//mat-radio-button[contains(@class,'mat-radio-checked')]//div[@class='mat-radio-label-content']")
+    public WebElement btnThirdPartyReportingSelection;
+
     public boolean verifyEmailFieldIsMandatory() {
         return generics.getAttribute(txtEmail, "required").equals("true");
     }
@@ -221,8 +230,17 @@ public class SignupVerification extends BaseClass implements Validations, FieldO
                 generics.isPresent(txtPostalCode);
     }
 
+    public boolean verifyReceivingSiteDisplay() {
+        return generics.isPresent(txtSiteName.get(0)) && generics.isPresent(txtAddress) &&
+                generics.isPresent(txtPostalCode);
+    }
+
     public boolean tabNameSameAsSourceSiteName() {
         return generics.getText(tab).trim().equalsIgnoreCase(SignupPage.sourceSiteName);
+    }
+
+    public boolean tabNameSameAsReceivingSiteName() {
+        return generics.getText(tab).trim().equalsIgnoreCase(SignupPage.receivingSiteName);
     }
 
     public boolean verifyMaxCharacterSourceSiteThan(int number) {
@@ -312,5 +330,34 @@ public class SignupVerification extends BaseClass implements Validations, FieldO
 
     public boolean verifySourceSiteUserNameDisplay() {
         return generics.getText(lblUsername).equalsIgnoreCase(SignupPage.givenName + " " + SignupPage.surName);
+    }
+
+    public boolean verifyReceivingRegNumberIsOptional() {
+        return generics.getAttribute(txtReceivingSiteRegNumber,
+                "aria-required").equalsIgnoreCase("false");
+    }
+
+    public boolean verifyMaxCharactersInReceivingSiteRegNo() {
+        return generics.getAttribute(txtReceivingSiteRegNumber,
+                "aria-invalid").equalsIgnoreCase("true");
+    }
+
+    public boolean verifyRegistrationNoEntered() {
+        return generics.getValue(txtReceivingSiteRegNumber).equalsIgnoreCase(SignupPage.receivingSiteRegNo) &&
+                generics.getAttribute(txtReceivingSiteRegNumber,
+                        "aria-invalid").equalsIgnoreCase("false");
+    }
+
+    public boolean verifyInvalidPostalCodeEntry() {
+        testStepsLog(generics.getText(lblErrorMessage("Postal Code")));
+        return generics.getText(lblErrorMessage("Postal Code")).equals("Invalid entry");
+    }
+
+    public boolean verifyCompanyVisibilitySelected() {
+        return generics.isPresent(btnVisibilitySelection);
+    }
+
+    public boolean verifyThirdPartyReportingSelected() {
+        return generics.isPresent(btnThirdPartyReportingSelection);
     }
 }

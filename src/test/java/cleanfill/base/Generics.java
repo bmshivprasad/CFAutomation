@@ -14,7 +14,7 @@ public class Generics extends BaseClass {
 
     public Generics(WebDriver baseDriver) {
         this.generalDriver = baseDriver;
-        wait = new WebDriverWait(generalDriver, Integer.parseInt(WEBDRIVER_WAIT));
+        wait = new WebDriverWait(generalDriver, WEBDRIVER_WAIT);
         log4j = Logger.getLogger("Generics");
     }
 
