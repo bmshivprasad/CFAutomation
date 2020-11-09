@@ -522,7 +522,6 @@ public class SourceSiteSignup extends BaseClass {
 
     }
 
-    //TODO - Not able to add new site - Bug
     @Test
     public void verify_user_can_enter_multiple_source_site() {
 
@@ -569,6 +568,30 @@ public class SourceSiteSignup extends BaseClass {
         }
 
         signup.clickOnAddNewSite();
+        signup.clickOnNewSourceTab();
+
+        signup.enterSourceSiteName();
+        signup.enterAddress();
+        signup.enterMunicipality();
+
+        signup.enterFullName(1);
+        signup.enterEmailID(0);
+        signup.enterPhoneNumber(0);
+        signup.enterExtension(0);
+
+        batch.uploadFile(FILE_TYPE_JPEG);
+
+        if (batchVerification.verifyFileUploadedSuccessfully()) {
+            success("Verify uploaded file display on the Documents section.");
+        } else {
+            failure("ERROR : Verify uploaded file display on the Documents section.");
+        }
+
+        if (batchVerification.verifyTwoTabSelected()) {
+            success("Verify two source site added successfully.");
+        } else {
+            failure("ERROR : Verify two source site added successfully.");
+        }
 
         sa.assertAll();
 

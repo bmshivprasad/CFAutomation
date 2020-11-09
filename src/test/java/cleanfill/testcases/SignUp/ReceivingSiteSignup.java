@@ -1,8 +1,6 @@
 package cleanfill.testcases.SignUp;
 
-import cleanfill.PageObjects.BatchPage;
-import cleanfill.PageObjects.SignupPage;
-import cleanfill.PageObjects.SignupVerification;
+import cleanfill.PageObjects.*;
 import cleanfill.base.BaseClass;
 import org.apache.log4j.Logger;
 import org.testng.annotations.Test;
@@ -587,4 +585,626 @@ public class ReceivingSiteSignup extends BaseClass {
         sa.assertAll();
 
     }
+
+    @Test
+    public void verify_user_can_select_soil_classification_as_receiving_site() {
+
+        testCaseLog("Verify user can select soil classification as receiving site.");
+
+        SignupPage signup = new SignupPage(driver);
+        SignupVerification verification = new SignupVerification(driver);
+
+        signup.completeSignUp();
+        signup.clickOnTermsConditions();
+        signup.clickOnNextButton();
+        signup.selectReceivingSiteAsBusinessType();
+        signup.clickOnNextBusinessType();
+        signup.enterCompanyName();
+        signup.enterAddress();
+        signup.enterPhoneNumber(0);
+        signup.enterExtension(0);
+        signup.clickOnNextPanel();
+        new BatchPage(driver).waitTillPageLoad();
+
+        if (verification.verifyReceivingSitePanelDisplay()) {
+            success("Verify Receiving Site Panel is display.");
+        } else {
+            failure("ERROR : Verify Receiving Site Panel is display.");
+        }
+
+        if (verification.verifySoilClassificationDisplay()) {
+            success("Verify user can see the Soil Classification options in the screen.");
+        } else {
+            failure("ERROR : Verify user can see the Soil Classification options in the screen.");
+        }
+
+        signup.selectAnySoilClassification();
+
+        if (verification.verifySoilClassificationSelected()) {
+            success("Verify user can see the Soil Classification options in the screen.");
+        } else {
+            failure("ERROR : Verify user can see the Soil Classification options in the screen.");
+        }
+
+        signup.selectAnySoilClassification();
+
+        if (verification.verifySoilClassificationDeselected()) {
+            success("Verify user can deselect the Soil Classification options in the screen.");
+        } else {
+            failure("ERROR : Verify deselect can see the Soil Classification options in the screen.");
+        }
+
+        sa.assertAll();
+
+    }
+
+    @Test
+    public void verify_user_can_select_accepted_soil_types_as_receiving_site() {
+
+        testCaseLog("Verify user can select accepted soil types as receiving site.");
+
+        SignupPage signup = new SignupPage(driver);
+        SignupVerification verification = new SignupVerification(driver);
+
+        signup.completeSignUp();
+        signup.clickOnTermsConditions();
+        signup.clickOnNextButton();
+        signup.selectReceivingSiteAsBusinessType();
+        signup.clickOnNextBusinessType();
+        signup.enterCompanyName();
+        signup.enterAddress();
+        signup.enterPhoneNumber(0);
+        signup.enterExtension(0);
+        signup.clickOnNextPanel();
+        new BatchPage(driver).waitTillPageLoad();
+
+        if (verification.verifyReceivingSitePanelDisplay()) {
+            success("Verify Receiving Site Panel is display.");
+        } else {
+            failure("ERROR : Verify Receiving Site Panel is display.");
+        }
+
+        if (verification.verifySoilClassificationDisplay()) {
+            success("Verify user can see the Soil Classification options in the screen.");
+        } else {
+            failure("ERROR : Verify user can see the Soil Classification options in the screen.");
+        }
+        signup.enterReceivingSiteName();
+        signup.enterReceivingSiteRegNumber();
+        signup.enterAddress();
+        signup.enterMunicipality();
+
+        signup.enterFullName(1);
+        signup.enterEmailID(0);
+        signup.enterPhoneNumber(0);
+        signup.enterExtension(0);
+
+        signup.selectVisibility();
+        signup.selectThirdPartyReporting();
+
+        if (verification.verifyAcceptedSoilTypeIsMandatory()) {
+            success("Verify user can see the Accepted Soil Types options in the screen.");
+        } else {
+            failure("ERROR : Verify user can see the Accepted Soil Types options in the screen.");
+        }
+
+        if (verification.verifyAcceptedSoilTypesList()) {
+            success("Verify user can all valid accepted soil types.");
+        } else {
+            failure("ERROR : Verify user can all valid accepted soil types.");
+        }
+
+        signup.clickOnAllSoilType();
+
+        if (verification.verifyAllSoilTypesAreSelected()) {
+            success("Verify all soil types are selected automatically.");
+        } else {
+            failure("ERROR : Verify all soil types are selected automatically.");
+        }
+
+        signup.clickOnAllSoilType();
+
+        if (verification.verifyAllSoilTypesAreDeselected()) {
+            success("Verify all soil types are deselected automatically.");
+        } else {
+            failure("ERROR : Verify all soil types are deselected automatically.");
+        }
+
+        signup.selectAnySoilTypes();
+
+        if (verification.verifyAcceptedSoilTypesSelected()) {
+            success("Verify accepted soil types are selected automatically.");
+        } else {
+            failure("ERROR : Verify accepted soil types are selected automatically.");
+        }
+
+        sa.assertAll();
+
+    }
+
+    @Test
+    public void verify_user_can_upload_attachments_as_receiving_site() {
+
+        testCaseLog("Verify user can upload attachments as receiving site.");
+
+        SignupPage signup = new SignupPage(driver);
+        BatchPage batch = new BatchPage(driver);
+        SignupVerification verification = new SignupVerification(driver);
+        BatchVerification batchVerification = new BatchVerification(driver);
+
+        signup.completeSignUp();
+        signup.clickOnTermsConditions();
+        signup.clickOnNextButton();
+        signup.selectReceivingSiteAsBusinessType();
+        signup.clickOnNextBusinessType();
+        signup.enterCompanyName();
+        signup.enterAddress();
+        signup.enterPhoneNumber(0);
+        signup.enterExtension(0);
+        signup.clickOnNextPanel();
+        new BatchPage(driver).waitTillPageLoad();
+
+        if (verification.verifyReceivingSitePanelDisplay()) {
+            success("Verify Receiving Site Panel is display.");
+        } else {
+            failure("ERROR : Verify Receiving Site Panel is display.");
+        }
+
+        batch.uploadFile(FILE_TYPE_JPEG);
+
+        if (batchVerification.verifyFileUploadedSuccessfully()) {
+            success("Verify uploaded file display on the Documents section.");
+        } else {
+            failure("ERROR : Verify uploaded file display on the Documents section.");
+        }
+
+        batch.clickOnField(DELETE_FILE);
+
+        if (batchVerification.verifyDeleteActionButtons()) {
+            success("Verify confirmation pop up with action buttons display.");
+        } else {
+            failure("ERROR : Verify confirmation pop up with action buttons display");
+        }
+
+        batch.clickOnField(DELETE_NO);
+
+        if (batchVerification.verifyFileUploadedSuccessfully()) {
+            success("Verify file isn't deleted.");
+        } else {
+            failure("ERROR : Verify file isn't deleted");
+        }
+
+        batch.clickOnField(DELETE_FILE);
+        batch.clickOnField(DELETE_YES);
+
+        if (batchVerification.verifyFileDeleted()) {
+            success("Verify file deleted successfully.");
+        } else {
+            failure("ERROR : Verify file deleted successfully.");
+        }
+
+        batch.uploadFile(FieldOR.FILE_TYPE_MAX);
+
+        if (batchVerification.verifyMaxSizeFileValidation()) {
+            success("Verify user can upload file up to 10 MB of size.");
+        } else {
+            failure("ERROR : Verify user can upload file up to 10 MB of size.");
+        }
+
+        batch.uploadFile(FieldOR.FILE_TYPE_JPEG);
+        batch.uploadFile(FieldOR.FILE_TYPE_PNG);
+        batch.uploadFile(FieldOR.FILE_TYPE_DOC);
+        batch.uploadFile(FieldOR.FILE_TYPE_PDF);
+        batch.uploadFile(FieldOR.FILE_TYPE_EXTRA);
+        batch.uploadFile(FieldOR.FILE_TYPE_EXTRA_2);
+
+        if (batchVerification.verifyMaxFileUploadValidation()) {
+            success("Verify user can upload maximum 5 files for the batch.");
+        } else {
+            failure("ERROR : Verify user can upload maximum 5 files for the batch.");
+        }
+
+        sa.assertAll();
+
+    }
+
+    @Test
+    public void verify_user_can_add_multiple_receiving_site() {
+
+        testCaseLog("Verify user can add multiple receiving site.");
+
+        SignupPage signup = new SignupPage(driver);
+        BatchPage batch = new BatchPage(driver);
+        SignupVerification verification = new SignupVerification(driver);
+        BatchVerification batchVerification = new BatchVerification(driver);
+
+        signup.completeSignUp();
+        signup.clickOnTermsConditions();
+        signup.clickOnNextButton();
+        signup.selectReceivingSiteAsBusinessType();
+        signup.clickOnNextBusinessType();
+        signup.enterCompanyName();
+        signup.enterAddress();
+        signup.enterPhoneNumber(0);
+        signup.enterExtension(0);
+        signup.clickOnNextPanel();
+        new BatchPage(driver).waitTillPageLoad();
+
+        if (verification.verifyReceivingSitePanelDisplay()) {
+            success("Verify Receiving Site Panel is display.");
+        } else {
+            failure("ERROR : Verify Receiving Site Panel is display.");
+        }
+
+        signup.enterReceivingSiteName();
+        signup.enterReceivingSiteRegNumber();
+        signup.enterAddress();
+        signup.enterMunicipality();
+
+        signup.enterFullName(1);
+        signup.enterEmailID(0);
+        signup.enterPhoneNumber(0);
+        signup.enterExtension(0);
+
+        signup.selectVisibility();
+        signup.selectThirdPartyReporting();
+        signup.selectAnySoilClassification();
+
+        batch.uploadFile(FILE_TYPE_JPEG);
+
+        if (batchVerification.verifyFileUploadedSuccessfully()) {
+            success("Verify uploaded file display on the Documents section.");
+        } else {
+            failure("ERROR : Verify uploaded file display on the Documents section.");
+        }
+
+        signup.clickOnAddNewSite();
+        signup.clickOnNewReceivingTab();
+
+        signup.enterReceivingSiteName();
+        signup.enterReceivingSiteRegNumber();
+        signup.enterAddress();
+        signup.enterMunicipality();
+
+        signup.enterFullName(1);
+        signup.enterEmailID(0);
+        signup.enterPhoneNumber(0);
+        signup.enterExtension(0);
+
+        signup.selectVisibility();
+        signup.selectThirdPartyReporting();
+        signup.selectAnySoilClassification();
+
+        batch.uploadFile(FILE_TYPE_JPEG);
+
+        if (batchVerification.verifyFileUploadedSuccessfully()) {
+            success("Verify uploaded file display on the Documents section.");
+        } else {
+            failure("ERROR : Verify uploaded file display on the Documents section.");
+        }
+
+        if (batchVerification.verifyTwoTabSelected()) {
+            success("Verify two receiving site added successfully.");
+        } else {
+            failure("ERROR : Verify two receiving site added successfully.");
+        }
+
+        sa.assertAll();
+
+    }
+
+    @Test
+    public void verify_user_can_enter_personal_information() {
+
+        testCaseLog("Verify user can enter personal information.");
+
+        SignupPage signup = new SignupPage(driver);
+        SignupVerification verification = new SignupVerification(driver);
+        BatchPage batch = new BatchPage(driver);
+
+        signup.completeSignUp();
+        signup.clickOnTermsConditions();
+        signup.clickOnNextButton();
+        signup.selectReceivingSiteAsBusinessType();
+        signup.clickOnNextBusinessType();
+        signup.enterCompanyName();
+        signup.enterAddress();
+        signup.enterPhoneNumber(0);
+        signup.enterExtension(0);
+        signup.clickOnNextPanel();
+        new BatchPage(driver).waitTillPageLoad();
+
+        if (verification.verifyReceivingSitePanelDisplay()) {
+            success("Verify Receiving Site Panel is display.");
+        } else {
+            failure("ERROR : Verify Receiving Site Panel is display.");
+        }
+
+        signup.enterReceivingSiteName();
+        signup.enterReceivingSiteRegNumber();
+        signup.enterAddress();
+        signup.enterMunicipality();
+
+        signup.enterFullName(1);
+        signup.enterEmailID(0);
+        signup.enterPhoneNumber(0);
+        signup.enterExtension(0);
+
+        signup.selectVisibility();
+        signup.selectThirdPartyReporting();
+        signup.selectAnySoilClassification();
+
+        batch.uploadFile(FILE_TYPE_JPEG);
+
+        signup.clickOnNextPanelNavigation();
+
+        if (verification.verifyPersonalInformationPanelDisplay()) {
+            success("Verify Personal Information Panel is display.");
+        } else {
+            failure("ERROR : Verify Personal Information Panel is display.");
+        }
+
+        signup.clickOnReceivingSiteName(0);
+        signup.clickOnPanel(4);
+
+        if (verification.verifyFieldIsMandatory("Full Name")) {
+            success("Verify Full Name is mandatory.");
+        } else {
+            failure("ERROR : Verify Full Name is mandatory.");
+        }
+
+        signup.enterReceivingSiteName();
+        signup.clickOnEmail(0);
+        signup.clickOnPanel(4);
+
+        if (verification.verifyFieldIsMandatory("Email ID")) {
+            success("Verify Email ID is mandatory.");
+        } else {
+            failure("ERROR : Verify Email ID is mandatory.");
+        }
+
+        signup.enterEmailID(0);
+        signup.clickOnPhone(0);
+        signup.clickOnPanel(4);
+
+        if (verification.verifyFieldIsMandatory("Phone")) {
+            success("Verify Phone is mandatory.");
+        } else {
+            failure("ERROR : Verify Phone is mandatory.");
+        }
+
+        signup.enterMaxCharsForFullName(0);
+
+        if (verification.verifyMaxCharacterFullNameThan()) {
+            success("Verify Max character validation message for the Full Name field.");
+        } else {
+            failure("ERROR : Verify Max character validation message for the Full Name field.");
+        }
+
+        signup.enterMaxPhoneNumber(0);
+
+        if (verification.verifyMaxCharacterPhoneNumber()) {
+            success("Verify Max character validation message for the Phone Number field.");
+        } else {
+            failure("ERROR : Verify Max character validation message for the Phone Number field.");
+        }
+
+        signup.enterPhoneNumber(0);
+
+        if (verification.verifyPhoneNumberFormat()) {
+            success("Verify Phone Number format field.");
+        } else {
+            failure("ERROR : Verify Phone Number format field.");
+        }
+
+        signup.enterInvalidExtension(0);
+
+        if (verification.verifyMaxCharacterExtension()) {
+            success("Verify Max character validation message for the Extension field.");
+        } else {
+            failure("ERROR : Verify Max character validation message for the Extension field.");
+        }
+
+        signup.enterExtension(0);
+
+        if (verification.verifyExtensionFormat()) {
+            success("Verify Extension format field.");
+        } else {
+            failure("ERROR : Verify Extension format field.");
+        }
+
+        sa.assertAll();
+
+    }
+
+    @Test
+    public void verify_user_can_enter_billing_contact_information() {
+
+        testCaseLog("Verify user can enter Billing Contact information.");
+
+        SignupPage signup = new SignupPage(driver);
+        SignupVerification verification = new SignupVerification(driver);
+        BatchPage batch = new BatchPage(driver);
+
+        signup.completeSignUp();
+        signup.clickOnTermsConditions();
+        signup.clickOnNextButton();
+        signup.selectReceivingSiteAsBusinessType();
+        signup.clickOnNextBusinessType();
+        signup.enterCompanyName();
+        signup.enterAddress();
+        signup.enterPhoneNumber(0);
+        signup.enterExtension(0);
+        signup.clickOnNextPanel();
+        new BatchPage(driver).waitTillPageLoad();
+
+        if (verification.verifyReceivingSitePanelDisplay()) {
+            success("Verify Receiving Site Panel is display.");
+        } else {
+            failure("ERROR : Verify Receiving Site Panel is display.");
+        }
+
+        signup.enterReceivingSiteName();
+        signup.enterReceivingSiteRegNumber();
+        signup.enterAddress();
+        signup.enterMunicipality();
+
+        signup.enterFullName(1);
+        signup.enterEmailID(0);
+        signup.enterPhoneNumber(0);
+        signup.enterExtension(0);
+
+        signup.selectVisibility();
+        signup.selectThirdPartyReporting();
+        signup.selectAnySoilClassification();
+
+        batch.uploadFile(FILE_TYPE_JPEG);
+
+        signup.clickOnNextPanelNavigation();
+
+        signup.enterFullName(0);
+        signup.enterEmailID(0);
+        signup.enterPhoneNumber(0);
+        signup.enterExtension(0);
+
+        signup.clickOnFullName(1);
+        signup.clickOnPanel(4);
+
+        if (verification.verifyFieldIsMandatory("Full Name")) {
+            success("Verify Full Name is mandatory.");
+        } else {
+            failure("ERROR : Verify Full Name is mandatory.");
+        }
+
+        signup.clickOnEmail(1);
+        signup.clickOnPanel(4);
+
+        if (verification.verifyFieldIsMandatory("Email ID")) {
+            success("Verify Email ID is mandatory.");
+        } else {
+            failure("ERROR : Verify Email ID is mandatory.");
+        }
+
+        signup.clickOnPhone(1);
+        signup.clickOnPanel(4);
+
+        if (verification.verifyFieldIsMandatory("Phone")) {
+            success("Verify Phone is mandatory.");
+        } else {
+            failure("ERROR : Verify Phone is mandatory.");
+        }
+
+        signup.enterMaxCharsForFullName(1);
+
+        if (verification.verifyMaxCharacterFullNameThan()) {
+            success("Verify Max character validation message for the Full Name field.");
+        } else {
+            failure("ERROR : Verify Max character validation message for the Full Name field.");
+        }
+
+        signup.enterMaxPhoneNumber(1);
+
+        if (verification.verifyMaxCharacterPhoneNumber()) {
+            success("Verify Max character validation message for the Phone Number field.");
+        } else {
+            failure("ERROR : Verify Max character validation message for the Phone Number field.");
+        }
+
+        signup.enterInvalidExtension(1);
+
+        if (verification.verifyMaxCharacterExtension()) {
+            success("Verify Max character validation message for the Extension field.");
+        } else {
+            failure("ERROR : Verify Max character validation message for the Extension field.");
+        }
+
+        signup.checkOnSameAsAbove();
+
+        if (verification.verifyPersonalInformationCopiedToBillingInformation()) {
+            success("Verify Billing information updated with Personal Information.");
+        } else {
+            failure("ERROR : Verify Billing information updated with Personal Information.");
+        }
+
+        sa.assertAll();
+
+    }
+
+    @Test
+    public void verify_user_can_complete_receiving_site_registration() {
+
+        testCaseLog("Verify user can complete receiving site registration.");
+
+        SignupPage signup = new SignupPage(driver);
+        SignupVerification verification = new SignupVerification(driver);
+        BatchPage batch = new BatchPage(driver);
+
+        signup.completeSignUp();
+        signup.clickOnTermsConditions();
+        signup.clickOnNextButton();
+        signup.selectReceivingSiteAsBusinessType();
+        signup.clickOnNextBusinessType();
+        signup.enterCompanyName();
+        signup.enterAddress();
+        signup.enterPhoneNumber(0);
+        signup.enterExtension(0);
+        signup.clickOnNextPanel();
+        new BatchPage(driver).waitTillPageLoad();
+
+        if (verification.verifyReceivingSitePanelDisplay()) {
+            success("Verify Receiving Site Panel is display.");
+        } else {
+            failure("ERROR : Verify Receiving Site Panel is display.");
+        }
+
+        signup.enterReceivingSiteName();
+        signup.enterReceivingSiteRegNumber();
+        signup.enterAddress();
+        signup.enterMunicipality();
+
+        signup.enterFullName(1);
+        signup.enterEmailID(0);
+        signup.enterPhoneNumber(0);
+        signup.enterExtension(0);
+
+        signup.selectVisibility();
+        signup.selectThirdPartyReporting();
+        signup.selectAnySoilClassification();
+
+        batch.uploadFile(FILE_TYPE_JPEG);
+
+        signup.clickOnNextPanelNavigation();
+
+        signup.enterFullName(0);
+        signup.enterEmailID(0);
+        signup.enterPhoneNumber(0);
+        signup.enterExtension(0);
+
+        if (signup.isBillingSameAsAbove()) {
+            signup.checkOnSameAsAbove();
+        } else {
+            signup.enterFullName(1);
+            signup.enterEmailID(1);
+            signup.enterPhoneNumber(1);
+            signup.enterExtension(1);
+        }
+
+        signup.clickOnNextPanel();
+
+        if (verification.verifyReceivingSiteCreatedSuccessfully()) {
+            success("Verify Receiving Site Registration completed successfully.");
+        } else {
+            failure("ERROR : Verify Receiving Site Registration completed successfully.");
+        }
+
+        if (verification.verifyReceivingSiteUserNameDisplay()) {
+            success("Verify Receiving Site Name display on the Dashboard.");
+        } else {
+            failure("ERROR : Verify Receiving Site Name display on the Dashboard.");
+        }
+
+        sa.assertAll();
+
+    }
+
 }

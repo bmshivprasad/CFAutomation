@@ -148,12 +148,9 @@ public class Generics extends BaseClass {
     }
 
     public String getAttribute(WebElement element, String attribute) {
-        String value;
         wait.until(ExpectedConditions.visibilityOfAllElements(element));
-        value = element.getAttribute(attribute);
-        if (value == null)
-            value = "";
-        return value;
+        String value = element.getAttribute(attribute);
+        return value == null ? "" : value;
     }
 
     public String getOrdinal(int number) {

@@ -3,6 +3,7 @@ package cleanfill.PageObjects;
 import cleanfill.base.Generics;
 import cleanfill.testcases.SignUp.SignUp;
 import org.apache.log4j.Logger;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -16,6 +17,8 @@ public class SignupPage extends SignUp {
 
     WebDriver localDriver;
     Generics generics;
+
+    public static int index = 0;
 
     public static String email = "";
     public static String password = "";
@@ -33,6 +36,8 @@ public class SignupPage extends SignUp {
     public static String name = "";
     public static String phoneNumber = "";
     public static String extNumber = "";
+    public static String soilClassification = "";
+    public static String acceptedSoilType = "";
 
     public static final String SOURCE_SITE_ADDRESS = "90 Eglinton Avenue West, Suite 302";
     public static final String US_ADDRESS = "1819  Graystone Lakes Macon, GA, 31210";
@@ -135,6 +140,26 @@ public class SignupPage extends SignUp {
     @FindBy(xpath = "//mat-radio-group[@formcontrolname='isTPQPApprovalRequired']//mat-radio-button//div[@class='mat-radio-label-content']")
     public List<WebElement> btnThirdPartyReporting;
 
+    @FindBy(xpath = "//h2[text()='Soil Classification']//following-sibling::mat-chip-list//mat-basic-chip")
+    public List<WebElement> lblSoilClassification;
+
+    @FindBy(xpath = "//div[@role='tab']//div[text()=' New Source Site ']")
+    public WebElement btnNewSourceSiteTab;
+
+    @FindBy(xpath = "//div[@role='tab']//div[text()=' New Receiving Site ']")
+    public WebElement btnNewReceivingSiteTab;
+
+    @FindBy(xpath = "//div[contains(@class,'panel-navigation')]//button")
+    public List<WebElement> btnPanelNavigation;
+
+    @FindBy(xpath = "//h2[text()='Accepted Soil Types']//following-sibling::mat-chip-list//mat-basic-chip")
+    public List<WebElement> lblAcceptedSoilTypes;
+
+    public WebElement getAcceptedSoilTypeLocator(String type) {
+        return localDriver.findElement(By.xpath("//h2[text()='Accepted Soil Types']" +
+                "//following-sibling::mat-chip-list//mat-basic-chip[text()='" + type + "']"));
+    }
+
     public void clickOnSignUpNowButton() {
         testStepsLog("Click on Sign up now button.");
         generics.clickOn(btnSignUpNow);
@@ -146,7 +171,7 @@ public class SignupPage extends SignUp {
     }
 
     public void enterInvalidEmailAddress() {
-        String email = generics.getRandomCharacters(50) + "@mailinator.com";
+        String email = generics.getRandomCharacters(50) + "@grr.la";
         testStepsLog("Enter email address more than 50 characters - " + email);
         generics.type(txtEmail, email);
     }
@@ -271,6 +296,11 @@ public class SignupPage extends SignUp {
         generics.clickOn(txtNextPanelButton);
     }
 
+    public void clickOnNextPanelNavigation() {
+        testStepsLog("Click on Next button.");
+        generics.clickOn(btnPanelNavigation.get(0));
+    }
+
     public void clickOnCompanyName() {
         testStepsLog("Click on Company Name.");
         generics.clickOn(txtCompanyName);
@@ -287,6 +317,7 @@ public class SignupPage extends SignUp {
     }
 
     public void enterCompanyName() {
+        generics.pause(3);
         String companyName = generics.getRandomCharacters(8);
         testStepsLog("Enter Company Name - " + companyName);
         generics.type(txtCompanyName, companyName);
@@ -368,7 +399,7 @@ public class SignupPage extends SignUp {
     }
 
     public void enterEmailID(int index) {
-        email = generics.getRandomCharacters(8) + "@grr.la.com";
+        email = generics.getRandomCharacters(8) + "@grr.la";
         testStepsLog("Enter Email ID : " + email);
         generics.type(txtEmailID.get(index), email);
     }
@@ -475,4 +506,41 @@ public class SignupPage extends SignUp {
         testStepsLog("Select 'Does this site require 3rd party reporting?' as : " + thirdPartyVisibility);
     }
 
+    public void clickOnNewSourceTab() {
+        testStepsLog("Click on New Source Site Tab.");
+        generics.clickOn(btnNewSourceSiteTab);
+        new BatchPage(localDriver).waitTillPageLoad();
+    }
+
+    public void clickOnNewReceivingTab() {
+        testStepsLog("Click on New Receiving Site Tab.");
+        generics.clickOn(btnNewReceivingSiteTab);
+        new BatchPage(localDriver).waitTillPageLoad();
+    }
+
+    public void selectAnySoilClassification() {
+        index = generics.getRandomBetween(0, lblSoilClassification.size() - 1);
+        generics.clickOn(lblSoilClassification.get(index));
+        soilClassification = generics.getText(lblSoilClassification.get(index));
+        testStepsLog("Select Soil Classification as : " + soilClassification);
+    }
+
+    public void clickOnAllSoilType() {
+        generics.clickOn(getAcceptedSoilTypeLocator(SOIL_QTY_ALL_SOIL_TYPES_2));
+        acceptedSoilType = SOIL_QTY_ALL_SOIL_TYPES_2;
+        testStepsLog("Select Accepted Soil Type as : " + acceptedSoilType);
+    }
+
+    public void selectAnySoilTypes() {
+        int prevIndex = index;
+        for (int i = 0; i < 2; i++) {
+            while (prevIndex == index) {
+                index = generics.getRandomBetween(1, lblAcceptedSoilTypes.size() - 1);
+            }
+            generics.clickOn(lblAcceptedSoilTypes.get(index));
+            acceptedSoilType = acceptedSoilType.concat(", " + generics.getText(lblAcceptedSoilTypes.get(index)));
+            prevIndex = index;
+        }
+        testStepsLog("Select Accepted Soil Types as : " + acceptedSoilType);
+    }
 }

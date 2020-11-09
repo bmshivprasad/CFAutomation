@@ -80,6 +80,7 @@ public interface FieldOR {
     String SOIL_QTY_OREG406_T8_1 = "O.Reg 406 Table 8.1";
     String SOIL_QTY_OREG406_T9_1 = "O.Reg 406 Table 9.1";
     String SOIL_QTY_ALL_SOIL_TYPES = "All Soil Types";
+    String SOIL_QTY_ALL_SOIL_TYPES_2 = "All soil Types";
     String SOIL_TYPE_SELECTED = "Soil Type(s) Selected";
 
     String F1F4 = "F1F4";

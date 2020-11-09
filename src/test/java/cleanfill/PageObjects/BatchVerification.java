@@ -216,6 +216,9 @@ public class BatchVerification extends BaseClass implements Validations, FieldOR
     @FindBy(xpath = "//fill-site-input//button")
     public WebElement selectReceivingSite;
 
+    @FindBy(xpath = "//div[@role='tab' and @aria-disabled='false']")
+    public List<WebElement> lblSourceSiteTabs;
+
     public WebElement getFieldElement(String fieldName) {
         WebElement element = null;
         if (fieldName.equalsIgnoreCase(ESTIMATED_LOADS)) element = txtEstLoads;
@@ -641,4 +644,7 @@ public class BatchVerification extends BaseClass implements Validations, FieldOR
                 receivingSiteAddress.getText().equalsIgnoreCase(BatchPage._receivingSiteAddress);
     }
 
+    public boolean verifyTwoTabSelected() {
+        return lblSourceSiteTabs.size() == 2;
+    }
 }

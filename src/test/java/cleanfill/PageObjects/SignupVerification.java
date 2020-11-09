@@ -125,6 +125,16 @@ public class SignupVerification extends BaseClass implements Validations, FieldO
     @FindBy(xpath = "//mat-radio-group[@formcontrolname='isTPQPApprovalRequired']//mat-radio-button[contains(@class,'mat-radio-checked')]//div[@class='mat-radio-label-content']")
     public WebElement btnThirdPartyReportingSelection;
 
+    @FindBy(xpath = "//h2[text()='Soil Classification']//following-sibling::mat-chip-list//mat-basic-chip")
+    public List<WebElement> lblSoilClassification;
+
+    @FindBy(xpath = "//div[contains(@class,'panel-navigation')]//button")
+    public List<WebElement> btnPanelNavigation;
+
+    public String getAcceptedSoilTypeLocator(String type) {
+        return "//h2[text()='Accepted Soil Types']//following-sibling::mat-chip-list//mat-basic-chip[text()='" + type + "']";
+    }
+
     public boolean verifyEmailFieldIsMandatory() {
         return generics.getAttribute(txtEmail, "required").equals("true");
     }
@@ -332,6 +342,10 @@ public class SignupVerification extends BaseClass implements Validations, FieldO
         return generics.getText(lblUsername).equalsIgnoreCase(SignupPage.givenName + " " + SignupPage.surName);
     }
 
+    public boolean verifyReceivingSiteUserNameDisplay() {
+        return generics.getText(lblUsername).equalsIgnoreCase(SignupPage.givenName + " " + SignupPage.surName);
+    }
+
     public boolean verifyReceivingRegNumberIsOptional() {
         return generics.getAttribute(txtReceivingSiteRegNumber,
                 "aria-required").equalsIgnoreCase("false");
@@ -359,5 +373,73 @@ public class SignupVerification extends BaseClass implements Validations, FieldO
 
     public boolean verifyThirdPartyReportingSelected() {
         return generics.isPresent(btnThirdPartyReportingSelection);
+    }
+
+    public boolean verifySoilClassificationDisplay() {
+        return lblSoilClassification.size() == 4;
+    }
+
+    public boolean verifySoilClassificationSelected() {
+        return localDriver.findElement(By.xpath("//h2[text()='Soil Classification']//" +
+                "following-sibling::mat-chip-list//mat-basic-chip[text()=' " + SignupPage.soilClassification + " ']")).
+                getAttribute("class").contains("chip-list-chip--active");
+    }
+
+    public boolean verifySoilClassificationDeselected() {
+        return localDriver.findElements(By.xpath("//h2[text()='Soil Classification']//" +
+                "following-sibling::mat-chip-list//mat-basic-chip[contains(@class,'chip-list-chip--active')]")).
+                size() == 1;
+    }
+
+    public boolean verifyAcceptedSoilTypeIsMandatory() {
+        return generics.getAttribute(btnPanelNavigation.get(0), "disabled").equalsIgnoreCase("true") &&
+                generics.getAttribute(btnPanelNavigation.get(1), "disabled").equalsIgnoreCase("true");
+    }
+
+    public boolean verifyAcceptedSoilTypesList() {
+        return generics.isPresent(getAcceptedSoilTypeLocator(SOIL_QTY_ALL_SOIL_TYPES_2)) &&
+                generics.isPresent(getAcceptedSoilTypeLocator(SOIL_QTY_OREG153_T1)) &&
+                generics.isPresent(getAcceptedSoilTypeLocator(SOIL_QTY_OREG153_T2)) &&
+                generics.isPresent(getAcceptedSoilTypeLocator(SOIL_QTY_OREG153_T3)) &&
+                generics.isPresent(getAcceptedSoilTypeLocator(SOIL_QTY_OREG153_T4)) &&
+                generics.isPresent(getAcceptedSoilTypeLocator(SOIL_QTY_OREG153_T5)) &&
+                generics.isPresent(getAcceptedSoilTypeLocator(SOIL_QTY_OREG153_T6)) &&
+                generics.isPresent(getAcceptedSoilTypeLocator(SOIL_QTY_OREG153_T7)) &&
+                generics.isPresent(getAcceptedSoilTypeLocator(SOIL_QTY_OREG153_T8)) &&
+                generics.isPresent(getAcceptedSoilTypeLocator(SOIL_QTY_OREG153_T9)) &&
+                generics.isPresent(getAcceptedSoilTypeLocator(SOIL_QTY_OREG406_T1_1)) &&
+                generics.isPresent(getAcceptedSoilTypeLocator(SOIL_QTY_OREG406_T2_1)) &&
+                generics.isPresent(getAcceptedSoilTypeLocator(SOIL_QTY_OREG406_T3_1)) &&
+                generics.isPresent(getAcceptedSoilTypeLocator(SOIL_QTY_OREG406_T4_1)) &&
+                generics.isPresent(getAcceptedSoilTypeLocator(SOIL_QTY_OREG406_T5_1)) &&
+                generics.isPresent(getAcceptedSoilTypeLocator(SOIL_QTY_OREG406_T6_1)) &&
+                generics.isPresent(getAcceptedSoilTypeLocator(SOIL_QTY_OREG406_T7_1)) &&
+                generics.isPresent(getAcceptedSoilTypeLocator(SOIL_QTY_OREG406_T8_1)) &&
+                generics.isPresent(getAcceptedSoilTypeLocator(SOIL_QTY_OREG406_T9_1));
+    }
+
+    public boolean verifyAllSoilTypesAreSelected() {
+        return localDriver.findElements(By.xpath("//h2[text()='Accepted Soil Types']//" +
+                "following-sibling::mat-chip-list//mat-basic-chip[contains(@class,'chip-list-chip--active')]")).
+                size() == 19;
+    }
+
+    public boolean verifyAllSoilTypesAreDeselected() {
+        return localDriver.findElements(By.xpath("//h2[text()='Accepted Soil Types']//" +
+                "following-sibling::mat-chip-list//mat-basic-chip[contains(@class,'chip-list-chip--active')]")).
+                isEmpty();
+    }
+
+    public boolean verifyAcceptedSoilTypesSelected() {
+        return localDriver.findElements(By.xpath("//h2[text()='Accepted Soil Types']//" +
+                "following-sibling::mat-chip-list//mat-basic-chip[contains(@class,'chip-list-chip--active')]")).
+                size() == 2;
+    }
+
+    public boolean verifyReceivingSiteCreatedSuccessfully() {
+        testStepsLog(generics.getText(lblSuccessfulSubmitRegistration));
+        boolean bool = generics.getText(lblSuccessfulSubmitRegistration).equals("Registration Complete!");
+        generics.clickOn(btnGoToHomepage);
+        return bool;
     }
 }

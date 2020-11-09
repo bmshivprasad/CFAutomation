@@ -563,7 +563,7 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
         String fileLocation = getFileLocation(fileType);
         testStepsLog("Upload File from - " + fileLocation);
         getFieldElement(CHOOSE_FILE).sendKeys(fileLocation);
-        waitTillPageLoad();
+        generics.pause(5);
         _files.add(fileLocation.replace(FILE_LOCATION + File.separator, ""));
     }
 
