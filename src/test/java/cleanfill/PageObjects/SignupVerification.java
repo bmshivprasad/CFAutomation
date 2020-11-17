@@ -200,7 +200,7 @@ public class SignupVerification extends BaseClass implements Validations, FieldO
 
     public boolean verifyBusinessTypeListDisplay() {
         lstBusinessTypes.forEach(option -> testStepsLog(generics.getText(option)));
-        return lstBusinessTypes.size() == 4;
+        return lstBusinessTypes.size() == 3;
     }
 
     public boolean verifyBusinessTypeNextButtonDisabled() {
@@ -322,6 +322,11 @@ public class SignupVerification extends BaseClass implements Validations, FieldO
                 generics.isPresent(checkSameAsAbove);
     }
 
+    public boolean verifyPersonalInformationPanelAsQPDisplay() {
+        return txtEmailID.size() == 1 && txtPhoneNumber.size() == 1 &&
+                txtSiteName.size() == 1 && txtExtension.size() == 1;
+    }
+
     public boolean verifyPersonalInformationCopiedToBillingInformation() {
         List<String> contactDetails = new LinkedList<>();
         lstContact.forEach(option -> contactDetails.add(generics.getText(option)));
@@ -343,6 +348,10 @@ public class SignupVerification extends BaseClass implements Validations, FieldO
     }
 
     public boolean verifyReceivingSiteUserNameDisplay() {
+        return generics.getText(lblUsername).equalsIgnoreCase(SignupPage.givenName + " " + SignupPage.surName);
+    }
+
+    public boolean verifyQPUserNameDisplay() {
         return generics.getText(lblUsername).equalsIgnoreCase(SignupPage.givenName + " " + SignupPage.surName);
     }
 
@@ -437,6 +446,18 @@ public class SignupVerification extends BaseClass implements Validations, FieldO
     }
 
     public boolean verifyReceivingSiteCreatedSuccessfully() {
+        testStepsLog(generics.getText(lblSuccessfulSubmitRegistration));
+        boolean bool = generics.getText(lblSuccessfulSubmitRegistration).equals("Registration Complete!");
+        generics.clickOn(btnGoToHomepage);
+        return bool;
+    }
+
+    public boolean verifyQPPanelDisplay() {
+        batch.waitTillPageLoad();
+        return lstSitePanels.size() == 3;
+    }
+
+    public boolean verifyQPCreatedSuccessfully() {
         testStepsLog(generics.getText(lblSuccessfulSubmitRegistration));
         boolean bool = generics.getText(lblSuccessfulSubmitRegistration).equals("Registration Complete!");
         generics.clickOn(btnGoToHomepage);

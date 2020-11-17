@@ -17,8 +17,14 @@ public interface Configurations {
 
     String TEST_DATA_LOCATION = getProjectDir() + File.separator + "Resources";
     String TEST_DATA = "CFL_Data";
+
     String CREATE_BATCH = "Create Batch";
     String CREDENTIALS = "Credentials";
+    String SIGNUP = "Signup";
+    String SOURCE_SITE_SIGNUP = "Source Site Signup";
+    String RECEIVING_SITE_SIGNUP = "Receiving Site Signup";
+    String QP_SIGNUP = "QP Signup";
+
     String FILE_LOCATION = getProjectDir() + File.separator + "Resources" + File.separator + "Files";
     String CONFIGURATION_PATH = getProjectDir() + File.separator + "Configuration" + File.separator + "config.properties";
 

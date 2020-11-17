@@ -7,7 +7,6 @@ public interface FieldOR {
     int SOIL_DESC_ANALYSIS_PARAM = 3;
     int ADD_DOCS_COMMENTS = 4;
 
-
     String ESTIMATED_LOADS = "Estimated Loads";
     String ESTIMATED_WEIGHT = "Estimated Weight";
     String ESTIMATED_VOLUME = "Estimated Volume";

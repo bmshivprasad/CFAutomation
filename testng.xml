@@ -3,9 +3,19 @@
 <suite name="ClearFill Automation">
     <test name="ClearFill Automation">
         <classes>
+            <class name="cleanfill.testcases.CreateBatch.BatchLoad"/>
+            <class name="cleanfill.testcases.CreateBatch.SourceSiteBatchContacts"/>
+            <class name="cleanfill.testcases.CreateBatch.SoilDescriptionAnalysisParameters"/>
+            <class name="cleanfill.testcases.CreateBatch.AttachmentsComments"/>
+            <class name="cleanfill.testcases.CreateBatch.CreateBatchFlow"/>
+            <class name="cleanfill.testcases.EditBatch.BatchLoad"/>
+            <class name="cleanfill.testcases.EditBatch.SourceSiteBatchContacts"/>
+            <class name="cleanfill.testcases.EditBatch.SoilDescriptionAnalysisParameters"/>
+            <class name="cleanfill.testcases.EditBatch.AttachmentsComments"/>
             <class name="cleanfill.testcases.SignUp.SignUp"/>
             <class name="cleanfill.testcases.SignUp.SourceSiteSignup"/>
             <class name="cleanfill.testcases.SignUp.ReceivingSiteSignup"/>
+            <class name="cleanfill.testcases.SignUp.QPSignup"/>
         </classes>
     </test>
 </suite>

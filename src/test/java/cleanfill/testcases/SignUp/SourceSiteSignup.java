@@ -2,6 +2,7 @@ package cleanfill.testcases.SignUp;
 
 import cleanfill.PageObjects.*;
 import cleanfill.base.BaseClass;
+import cleanfill.utilities.ExcelColumns;
 import org.apache.log4j.Logger;
 import org.testng.annotations.Test;
 
@@ -833,56 +834,63 @@ public class SourceSiteSignup extends BaseClass {
         SignupVerification verification = new SignupVerification(driver);
         BatchPage batch = new BatchPage(driver);
 
-        signup.completeSignUp();
-        signup.clickOnTermsConditions();
-        signup.clickOnNextButton();
-        signup.selectSourceSiteAsBusinessType();
-        signup.clickOnNextBusinessType();
-        signup.enterCompanyName();
-        signup.enterAddress();
-        signup.enterPhoneNumber(0);
-        signup.enterExtension(0);
-        signup.clickOnNextPanel();
+        for (int count = 2; count <= signup.getLastRow(SOURCE_SITE_SIGNUP); count++) {
 
-        signup.enterSourceSiteName();
-        signup.enterAddress();
-        signup.enterMunicipality();
+            signup.completeSignUp(SOURCE_SITE_SIGNUP, count);
+            signup.clickOnTermsConditions();
+            signup.clickOnNextButton();
+            signup.selectSourceSiteAsBusinessType();
+            signup.clickOnNextBusinessType();
+            signup.enterCompanyName(ExcelColumns.SOURCE_COMPANY_NAME, SOURCE_SITE_SIGNUP, count);
+            signup.enterAddress(ExcelColumns.SOURCE_COMPANY_ADDRESS, SOURCE_SITE_SIGNUP, count);
+            signup.enterMunicipality(ExcelColumns.SOURCE_COMPANY_MUNICIPALITY, SOURCE_SITE_SIGNUP, count);
+            signup.enterPhoneNumber(0, ExcelColumns.SOURCE_PHONE_NUMBER, SOURCE_SITE_SIGNUP, count);
+            signup.enterExtension(0, ExcelColumns.SOURCE_EXTENSION, SOURCE_SITE_SIGNUP, count);
+            signup.clickOnNextPanel();
 
-        signup.enterFullName(1);
-        signup.enterEmailID(0);
-        signup.enterPhoneNumber(0);
-        signup.enterExtension(0);
+            signup.enterSourceSiteName(SOURCE_SITE_SIGNUP, count);
+            signup.enterAddress(ExcelColumns.SOURCE_SITE_ADDRESS, SOURCE_SITE_SIGNUP, count);
+            signup.enterMunicipality(ExcelColumns.SOURCE_SITE_MUNICIPALITY, SOURCE_SITE_SIGNUP, count);
 
-        batch.uploadFile(FILE_TYPE_JPEG);
+            signup.enterFullName(1, ExcelColumns.SOURCE_SITE_FULL_NAME, SOURCE_SITE_SIGNUP, count);
+            signup.enterEmailID(0, ExcelColumns.SOURCE_SITE_EMAIL_ID, SOURCE_SITE_SIGNUP, count);
+            signup.enterPhoneNumber(0, ExcelColumns.SOURCE_SITE_PHONE_NUMBER, SOURCE_SITE_SIGNUP, count);
+            signup.enterExtension(0, ExcelColumns.SOURCE_SITE_EXTENSION, SOURCE_SITE_SIGNUP, count);
 
-        signup.clickOnNextPanel();
+            batch.uploadFile(ExcelColumns.SOURCE_SITE_FILE_UPLOAD, SOURCE_SITE_SIGNUP, count);
 
-        signup.enterFullName(0);
-        signup.enterEmailID(0);
-        signup.enterPhoneNumber(0);
-        signup.enterExtension(0);
+            signup.clickOnNextPanel();
 
-        if (signup.isBillingSameAsAbove()) {
-            signup.checkOnSameAsAbove();
-        } else {
-            signup.enterFullName(1);
-            signup.enterEmailID(1);
-            signup.enterPhoneNumber(1);
-            signup.enterExtension(1);
-        }
+            signup.enterFullName(0, ExcelColumns.SOURCE_PERSONAL_FULL_NAME, SOURCE_SITE_SIGNUP, count);
+            signup.enterEmailID(0, ExcelColumns.SOURCE_PERSONAL_EMAIL_ID, SOURCE_SITE_SIGNUP, count);
+            signup.enterPhoneNumber(0, ExcelColumns.SOURCE_PERSONAL_PHONE_NUMBER, SOURCE_SITE_SIGNUP, count);
+            signup.enterExtension(0, ExcelColumns.SOURCE_PERSONAL_EXTENSION, SOURCE_SITE_SIGNUP, count);
 
-        signup.clickOnNextPanel();
+            if (signup.isBillingSameAsAbove(ExcelColumns.SOURCE_BILLING_SAME_AS_PERSONAL, SOURCE_SITE_SIGNUP, count)) {
+                signup.checkOnSameAsAbove();
+            } else {
+                signup.enterFullName(1, ExcelColumns.SOURCE_BILLING_FULL_NAME, SOURCE_SITE_SIGNUP, count);
+                signup.enterEmailID(1, ExcelColumns.SOURCE_BILLING_EMAIL_ID, SOURCE_SITE_SIGNUP, count);
+                signup.enterPhoneNumber(1, ExcelColumns.SOURCE_BILLING_PHONE_NUMBER, SOURCE_SITE_SIGNUP, count);
+                signup.enterExtension(1, ExcelColumns.SOURCE_BILLING_EXTENSION, SOURCE_SITE_SIGNUP, count);
+            }
 
-        if (verification.verifySourceSiteCreatedSuccessfully()) {
-            success("Verify Source Site Registration completed successfully.");
-        } else {
-            failure("ERROR : Verify Source Site Registration completed successfully.");
-        }
+            signup.clickOnNextPanel();
 
-        if (verification.verifySourceSiteUserNameDisplay()) {
-            success("Verify Source Site Name display on the Dashboard.");
-        } else {
-            failure("ERROR : Verify Source Site Name display on the Dashboard.");
+            if (verification.verifySourceSiteCreatedSuccessfully()) {
+                success("Verify Source Site Registration completed successfully.");
+            } else {
+                failure("ERROR : Verify Source Site Registration completed successfully.");
+            }
+
+            if (verification.verifySourceSiteUserNameDisplay()) {
+                success("Verify Source Site Name display on the Dashboard.");
+            } else {
+                failure("ERROR : Verify Source Site Name display on the Dashboard.");
+            }
+
+            signup.clickLogout();
+
         }
 
         sa.assertAll();

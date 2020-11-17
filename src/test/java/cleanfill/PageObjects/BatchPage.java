@@ -3,7 +3,6 @@ package cleanfill.PageObjects;
 import cleanfill.base.BaseClass;
 import cleanfill.base.Generics;
 import cleanfill.utilities.ExcelColumns;
-import cleanfill.utilities.ExcelUtils;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -25,7 +24,6 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
 
     WebDriver localDriver;
     Generics generics;
-    ExcelUtils excelUtils = new ExcelUtils();
 
     public static int _index;
 
@@ -566,6 +564,16 @@ public class BatchPage extends BaseClass implements Validations, FieldOR, ExcelC
         generics.pause(5);
         _files.add(fileLocation.replace(FILE_LOCATION + File.separator, ""));
     }
+
+    public void uploadFile(int uploadType, String type, int count) {
+        String fileName = excelUtils.getTestData(TEST_DATA, type, count, uploadType);
+        for (int file = 0; file < fileName.split(",").length; file++) {
+            testStepsLog("Enter File - " + fileName.split(",")[file].trim());
+            getFieldElement(CHOOSE_FILE).sendKeys(fileName.split(",")[file].trim());
+            generics.pause(5);
+        }
+    }
+
 
     private String getFileLocation(String fileType) {
         String temp = "";

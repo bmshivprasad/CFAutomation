@@ -2,6 +2,7 @@ package cleanfill.testcases.SignUp;
 
 import cleanfill.PageObjects.*;
 import cleanfill.base.BaseClass;
+import cleanfill.utilities.ExcelColumns;
 import org.apache.log4j.Logger;
 import org.testng.annotations.Test;
 
@@ -1139,70 +1140,68 @@ public class ReceivingSiteSignup extends BaseClass {
         SignupVerification verification = new SignupVerification(driver);
         BatchPage batch = new BatchPage(driver);
 
-        signup.completeSignUp();
-        signup.clickOnTermsConditions();
-        signup.clickOnNextButton();
-        signup.selectReceivingSiteAsBusinessType();
-        signup.clickOnNextBusinessType();
-        signup.enterCompanyName();
-        signup.enterAddress();
-        signup.enterPhoneNumber(0);
-        signup.enterExtension(0);
-        signup.clickOnNextPanel();
-        new BatchPage(driver).waitTillPageLoad();
+        for (int count = 2; count <= signup.getLastRow(RECEIVING_SITE_SIGNUP); count++) {
 
-        if (verification.verifyReceivingSitePanelDisplay()) {
-            success("Verify Receiving Site Panel is display.");
-        } else {
-            failure("ERROR : Verify Receiving Site Panel is display.");
+            signup.completeSignUp(RECEIVING_SITE_SIGNUP, count);
+            signup.clickOnTermsConditions();
+            signup.clickOnNextButton();
+            signup.selectReceivingSiteAsBusinessType();
+            signup.clickOnNextBusinessType();
+            signup.enterCompanyName(ExcelColumns.RECEIVING_COMPANY_NAME, RECEIVING_SITE_SIGNUP, count);
+            signup.enterAddress(ExcelColumns.RECEIVING_COMPANY_ADDRESS, RECEIVING_SITE_SIGNUP, count);
+            signup.enterMunicipality(ExcelColumns.RECEIVING_COMPANY_MUNICIPALITY, RECEIVING_SITE_SIGNUP, count);
+            signup.enterPhoneNumber(0, ExcelColumns.RECEIVING_PHONE_NUMBER, RECEIVING_SITE_SIGNUP, count);
+            signup.enterExtension(0, ExcelColumns.RECEIVING_EXTENSION, RECEIVING_SITE_SIGNUP, count);
+            signup.clickOnNextPanel();
+
+            signup.enterReceivingSiteName(RECEIVING_SITE_SIGNUP, count);
+            signup.enterReceivingSiteRegNumber(RECEIVING_SITE_SIGNUP, count);
+            signup.enterAddress(ExcelColumns.RECEIVING_SITE_ADDRESS, RECEIVING_SITE_SIGNUP, count);
+            signup.enterMunicipality(ExcelColumns.RECEIVING_SITE_MUNICIPALITY, RECEIVING_SITE_SIGNUP, count);
+
+            signup.enterFullName(1, ExcelColumns.RECEIVING_SITE_FULL_NAME, RECEIVING_SITE_SIGNUP, count);
+            signup.enterEmailID(0, ExcelColumns.RECEIVING_SITE_EMAIL_ID, RECEIVING_SITE_SIGNUP, count);
+            signup.enterPhoneNumber(0, ExcelColumns.RECEIVING_SITE_PHONE_NUMBER, RECEIVING_SITE_SIGNUP, count);
+            signup.enterExtension(0, ExcelColumns.RECEIVING_SITE_EXTENSION, RECEIVING_SITE_SIGNUP, count);
+
+            signup.selectVisibility(RECEIVING_SITE_SIGNUP, count);
+            signup.selectThirdPartyReporting(RECEIVING_SITE_SIGNUP, count);
+            signup.selectAnySoilClassification(RECEIVING_SITE_SIGNUP, count);
+
+            batch.uploadFile(ExcelColumns.RECEIVING_SITE_FILE_UPLOAD, RECEIVING_SITE_SIGNUP, count);
+
+            signup.clickOnNextPanelNavigation();
+
+            signup.enterFullName(0, ExcelColumns.RECEIVING_PERSONAL_FULL_NAME, RECEIVING_SITE_SIGNUP, count);
+            signup.enterEmailID(0, ExcelColumns.RECEIVING_PERSONAL_EMAIL_ID, RECEIVING_SITE_SIGNUP, count);
+            signup.enterPhoneNumber(0, ExcelColumns.RECEIVING_PERSONAL_PHONE_NUMBER, RECEIVING_SITE_SIGNUP, count);
+            signup.enterExtension(0, ExcelColumns.RECEIVING_PERSONAL_EXTENSION, RECEIVING_SITE_SIGNUP, count);
+
+            if (signup.isBillingSameAsAbove(ExcelColumns.RECEIVING_BILLING_SAME_AS_PERSONAL, RECEIVING_SITE_SIGNUP, count)) {
+                signup.checkOnSameAsAbove();
+            } else {
+                signup.enterFullName(1, ExcelColumns.RECEIVING_BILLING_FULL_NAME, RECEIVING_SITE_SIGNUP, count);
+                signup.enterEmailID(1, ExcelColumns.RECEIVING_BILLING_EMAIL_ID, RECEIVING_SITE_SIGNUP, count);
+                signup.enterPhoneNumber(1, ExcelColumns.RECEIVING_BILLING_PHONE_NUMBER, RECEIVING_SITE_SIGNUP, count);
+                signup.enterExtension(1, ExcelColumns.RECEIVING_BILLING_EXTENSION, RECEIVING_SITE_SIGNUP, count);
+            }
+
+            signup.clickOnNextPanel();
+
+            if (verification.verifyReceivingSiteCreatedSuccessfully()) {
+                success("Verify Receiving Site Registration completed successfully.");
+            } else {
+                failure("ERROR : Verify Receiving Site Registration completed successfully.");
+            }
+
+            if (verification.verifyReceivingSiteUserNameDisplay()) {
+                success("Verify Receiving Site Name display on the Dashboard.");
+            } else {
+                failure("ERROR : Verify Receiving Site Name display on the Dashboard.");
+            }
+
+            signup.clickLogout();
         }
-
-        signup.enterReceivingSiteName();
-        signup.enterReceivingSiteRegNumber();
-        signup.enterAddress();
-        signup.enterMunicipality();
-
-        signup.enterFullName(1);
-        signup.enterEmailID(0);
-        signup.enterPhoneNumber(0);
-        signup.enterExtension(0);
-
-        signup.selectVisibility();
-        signup.selectThirdPartyReporting();
-        signup.selectAnySoilClassification();
-
-        batch.uploadFile(FILE_TYPE_JPEG);
-
-        signup.clickOnNextPanelNavigation();
-
-        signup.enterFullName(0);
-        signup.enterEmailID(0);
-        signup.enterPhoneNumber(0);
-        signup.enterExtension(0);
-
-        if (signup.isBillingSameAsAbove()) {
-            signup.checkOnSameAsAbove();
-        } else {
-            signup.enterFullName(1);
-            signup.enterEmailID(1);
-            signup.enterPhoneNumber(1);
-            signup.enterExtension(1);
-        }
-
-        signup.clickOnNextPanel();
-
-        if (verification.verifyReceivingSiteCreatedSuccessfully()) {
-            success("Verify Receiving Site Registration completed successfully.");
-        } else {
-            failure("ERROR : Verify Receiving Site Registration completed successfully.");
-        }
-
-        if (verification.verifyReceivingSiteUserNameDisplay()) {
-            success("Verify Receiving Site Name display on the Dashboard.");
-        } else {
-            failure("ERROR : Verify Receiving Site Name display on the Dashboard.");
-        }
-
         sa.assertAll();
 
     }

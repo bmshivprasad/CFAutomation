@@ -190,35 +190,40 @@ public class SignUp extends BaseClass {
         SignupPage signup = new SignupPage(driver);
         SignupVerification verification = new SignupVerification(driver);
 
-        signup.clickOnSignUpNowButton();
-        signup.enterValidEmailAddress();
-        signup.enterValidPassword();
-        signup.enterValidConfirmPassword();
-        signup.enterValidGivenName();
-        signup.enterValidSurname();
+        for (int count = 1; count <= signup.getLastRow(SIGNUP); count++) {
 
-        signup.clickOnCreateButton();
+            signup.clickOnSignUpNowButton();
+            signup.enterValidEmailAddress(SIGNUP, count);
+            signup.enterValidPassword(SIGNUP, count);
+            signup.enterConfirmPassword(SIGNUP, count);
+            signup.enterValidGivenName(SIGNUP, count);
+            signup.enterValidSurname(SIGNUP, count);
 
-        if (verification.verifySignUpSuccess()) {
-            success("Verify Signup complete successfully.");
-        } else {
-            failure("ERROR : Verify Signup complete successfully.");
-        }
+            signup.clickOnCreateButton();
 
-        signup.clickOnTermsConditions();
+            if (verification.verifySignUpSuccess()) {
+                success("Verify Signup complete successfully.");
+            } else {
+                failure("ERROR : Verify Signup complete successfully.");
+            }
 
-        if (verification.verifyNextButtonEnabled()) {
-            success("Verify Next button enabled after checking terms and condition.");
-        } else {
-            failure("ERROR : Verify Next button enabled after checking terms and condition.");
-        }
+            signup.clickOnTermsConditions();
 
-        signup.clickOnNextButton();
+            if (verification.verifyNextButtonEnabled()) {
+                success("Verify Next button enabled after checking terms and condition.");
+            } else {
+                failure("ERROR : Verify Next button enabled after checking terms and condition.");
+            }
 
-        if (verification.verifyBusinessTypeListDisplay()) {
-            success("Verify list of business type display on the screen.");
-        } else {
-            failure("ERROR : Verify list of business type display on the screen.");
+            signup.clickOnNextButton();
+
+            if (verification.verifyBusinessTypeListDisplay()) {
+                success("Verify list of business type display on the screen.");
+            } else {
+                failure("ERROR : Verify list of business type display on the screen.");
+            }
+
+            signup.clickLogout();
         }
 
         sa.assertAll();
